@@ -1,7 +1,7 @@
 {
   "name": "template-01",
   "version": "0.1.0",
-  "homepage": "https://www7.pe.senac.br/gsilimpeza/",
+  "homepage": "https://www7.pe.senac.br/servicosgerais/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -12,6 +12,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "^4.5.3",
+    "moment": "^2.30.1",
     "react": "^16.13.1",
     "react-ace": "^10.1.0",
     "react-breakpoints": "^3.0.3",
