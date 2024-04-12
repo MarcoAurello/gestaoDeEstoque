@@ -301,7 +301,7 @@ const Home = (props) => {
 
     }
 
-    if (pesquisa.length > 5) {
+    if (pesquisa.length > 3) {
       pesquisar()
     }
 
@@ -535,17 +535,17 @@ const Home = (props) => {
                   boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.1)', // Adiciona sombreado
                   borderRadius: '10px', // Adiciona bordas arredondadas de 10px
                   width:'100%',
-                  backgroundColor: '#fbecc6',
+                  backgroundColor: '#080f00',
                  
                 }}
               >
                 <tbody>
-                  <tr style={{ wordBreak: "break-all", fontSize: '20px' }}>
+                  <tr style={{ wordBreak: "break-all", fontSize: '20px', color:'#fff' }}>
                     <td colSpan="5"><b>Pedido não retirados de  {pesquisa}</b></td>
 
 
                   </tr>
-                  <tr style={{ color: 'red' }}>
+                  <tr style={{  color:'#fff'}}>
                   <td>Funcionario</td>
                     <td>Produto</td>
                     
@@ -553,32 +553,32 @@ const Home = (props) => {
                   </tr>
 
                   {pedidosDoFuncionario.map((item, index) => (
-                    <tr key={index} style={{ border:'10px'}}>
+                    <tr key={index} style={{ border:'10px', color:'#fff'}}>
                        <td >{item.Usuario ? item.Usuario.nome : ''}<br></br>
                        <Button
-                          style={{ marginLeft: '5px' }}
+                          style={{ marginLeft: '5px' ,color:'red'}}
 
                           size="small"
                           onClick={() =>
                             carregarRelatorioFuncionario(item.Usuario.id, item.Usuario.nome)
                           }
                         >
-                          pedidos para esse funcionario
+                          veja todos pedidos do funcionario
                         </Button>
                        
                        </td>
                       <td >{item.Produto ? item.Produto.nome : ''}<Chip label= {'qtd: '+item.quantidadeRetirada} color="success" ></Chip></td>
-                      <td>{item.quantidadeRetirada}</td>
+                     
                       <td>{item.Local ? item.Local.nome : ''}<br></br>
                         <Button
-                          style={{ marginLeft: '5px' }}
+                          style={{ marginLeft: '5px' , color:'red'}}
 
                           size="small"
                           onClick={() =>
                             carregarRelatorioSetor(item.Local.id, item.Local.nome)
                           }
                         >
-                          pedidos para esse local
+                          veja todos pedidos desse local
                         </Button>
 
                       </td>
