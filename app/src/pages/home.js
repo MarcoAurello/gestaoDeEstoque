@@ -1,4 +1,4 @@
-import { CircularProgress, FormControl, InputLabel, MenuItem, Select, SpeedDial } from "@mui/material";
+import { CircularProgress, FormControl, InputLabel, MenuItem, Select, Chip } from "@mui/material";
 
 import EditIcon from '@mui/icons-material/Edit';
 import TaskFilter from '../components/task-filter'
@@ -25,9 +25,9 @@ const Home = (props) => {
   const [openMessageDialog, setOpenMessageDialog] = useState(false)
   const [message, setMessage] = useState('')
 
-  const [titulo, setTitulo] = useState('');
-  const [descricao, setDescricao] = useState('');
-  const [caminho, setCaminho] = useState('');
+  // const [titulo, setTitulo] = useState('');
+  // const [descricao, setDescricao] = useState('');
+  // const [caminho, setCaminho] = useState('');
   const [produtos, setProdutos] = useState([]);
   const [unidades, setUnidades] = useState([]);
   const [solicitar, setSolicitar] = useState(false)
@@ -55,6 +55,7 @@ const Home = (props) => {
   const [modalRelatorioLocal, setModalRelatorioLocal] = useState(false);
   const [localRelatorio, setLocalRelatorio] = useState('');
   const [filtroNome, setFiltroNome] = useState('');
+  const [estoqueAtual, setEstooqueAtual] = useState(null);
 
 
 
@@ -136,13 +137,52 @@ const Home = (props) => {
   }
 
 
+  function carregarRelatorioFuncionario(id, local) {
+    setLocalRelatorio(local)
+
+
+    // setOpenLoadingDialog(true)
+    const token = getCookie("_token_GSI");
+    const params = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    fetch(
+      `${process.env.REACT_APP_DOMAIN_API}/api/usuario/searchRelatorio?pesquisa=${id}`,
+      params
+    ).then((response) => {
+      const { status } = response;
+      response
+        .json()
+        .then((data) => {
+          setOpenLoadingDialog(false);
+          if (status === 401) {
+          } else if (status === 200) {
+            setRelatorioDoLocal(data.data);
+            setOpenLoadingDialog(false);
+            setModalRelatorioLocal(true)
+          }
+        })
+        .catch((err) => setOpenLoadingDialog(true));
+    });
+  }
+
+
+
+
 
   const produtosFiltrados = produtos.filter(item => item.nome.toLowerCase().includes(filtroNome.toLowerCase()));
 
 
   const onSave = () => {
     // alert('1')
-    setOpenLoadingDialog(true)
+
+
+    if(quantidade > estoqueAtual){
+      alert('O estoque do produto é de : '+ estoqueAtual +' você está solicitanto: '+ quantidade)
+    }else{
+      setOpenLoadingDialog(true)
     const token = getCookie("_token_GSI")
     const params = {
       method: 'POST',
@@ -179,6 +219,9 @@ const Home = (props) => {
           }
         }).catch(err => setOpenLoadingDialog(true))
       })
+
+    }
+    
   }
 
   function carregarProdutos() {
@@ -233,6 +276,8 @@ const Home = (props) => {
   }
 
   const handleInputChange = (event) => {
+
+    
     const value = event.target.value;
     // Verificar se o valor é numérico antes de atualizar o estado
     if (!isNaN(value)) {
@@ -304,7 +349,8 @@ const Home = (props) => {
 
 
   //  
-  const funcao = (id, nome) => {
+  const funcao = (id, nome, estoqueAtual) => {
+    setEstooqueAtual(estoqueAtual)
     setNomeProduto(nome)
     setFkProduto(id); // Defina o fkProduto com o id do item
     setSolicitar(true); // Abra o modal
@@ -468,7 +514,7 @@ const Home = (props) => {
               fullWidth
               id="filled-basic"
               // variant="filled"
-              label="Pedidos em aberto por funcionario"
+              label="Solicitações em aberto, informe o nome do funcionario"
               name="pesquisa"
               value={pesquisa}
 
@@ -485,29 +531,42 @@ const Home = (props) => {
               <table
                 className="table table-striped"
                 style={{
-                  fontFamily: "arial",
-                  fontSize: "12px",
-                  marginLeft: 10,
-                  marginRight: 10,
-                  width: "100%",
+                  border: '1px solid #ccc', // Adiciona uma borda de 5px sólida cinza
+                  boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.1)', // Adiciona sombreado
+                  borderRadius: '10px', // Adiciona bordas arredondadas de 10px
+                  width:'100%',
                   backgroundColor: '#fbecc6'
                 }}
               >
                 <tbody>
                   <tr style={{ wordBreak: "break-all", fontSize: '20px' }}>
-                    <td colSpan="4">Pedido não retirados de  {pesquisa}</td>
+                    <td colSpan="5">Pedido não retirados de  {pesquisa}</td>
 
 
                   </tr>
                   <tr style={{ color: 'red' }}>
+                  <td>Funcionario</td>
                     <td>Produto</td>
-                    <td>solicitado</td>
+                    
                     <td>Local</td>
                   </tr>
 
                   {pedidosDoFuncionario.map((item, index) => (
                     <tr key={index}>
-                      <td style={{ wordBreak: "break-all" }}>{item.Produto ? item.Produto.nome : ''}</td>
+                       <td >{item.Usuario ? item.Usuario.nome : ''}<br></br>
+                       <Button
+                          style={{ marginLeft: '5px' }}
+
+                          size="small"
+                          onClick={() =>
+                            carregarRelatorioFuncionario(item.Usuario.id, item.Usuario.nome)
+                          }
+                        >
+                          pedidos para esse funcionario
+                        </Button>
+                       
+                       </td>
+                      <td >{item.Produto ? item.Produto.nome : ''}<Chip label= {'qtd: '+item.quantidadeRetirada} color="success" ></Chip></td>
                       <td>{item.quantidadeRetirada}</td>
                       <td>{item.Local ? item.Local.nome : ''}<br></br>
                         <Button
@@ -614,8 +673,8 @@ const Home = (props) => {
                 }}>
 
                   <tr style={{ wordBreak: "break-all", fontSize: '20px' }}>
-                    <td colSpan="2">Estoque Limpeza GSI</td>
-                    <td colSpan="2">{minhas.length > 0 ?
+                    
+                    <td colSpan="3">{minhas.length > 0 ?
                       <Button
                         startIcon={<ShoppingCartIcon />}
                        color="success"
@@ -631,8 +690,8 @@ const Home = (props) => {
                     </Button>
                       : ''}</td>
                 </tr>
-                <tr style={{ backgroundColor: '#A0C3F1' }}>
-                  <td>Produto
+                <tr style={{ backgroundColor: '#A0C3F1', fontSize:'18px' }}>
+                  <td >Produto
 
                   </td>
                   <td>Estoque
@@ -643,8 +702,11 @@ const Home = (props) => {
 
                 {produtosFiltrados.map((item, index) => (
                   <tr key={index}>
-                    <td style={{ wordBreak: "break-all" }}>{item.nome}</td>
-                    <td>{item.qtdEstoque}</td>
+                    <td style={{ wordBreak: "break-all" }}><b>{item.nome }</b></td>
+                    {/* <td style={{ wordBreak: "break-all", color: item < 5 ? 'red' : 'inherit' }}><b>{item.qtdEstoque}</b></td> */}
+                    <td style={{ wordBreak: "break-all", color: parseInt(item.qtdEstoque) < 5 ? 'red' : 'inherit' }}><b>{item.qtdEstoque}</b></td>
+
+
                     <td>
                       {item.qtdEstoque === 0 ? (
                         <Button
@@ -659,7 +721,7 @@ const Home = (props) => {
                         <Button
                           variant="contained"
                           size="small"
-                          onClick={() => funcao(item.id, item.nome)}
+                          onClick={() => funcao(item.id, item.nome, item.qtdEstoque)}
                         >
                           solicitar
                         </Button>

@@ -187,7 +187,7 @@ const Cadastro = (props) => {
             })
     }
 
-    
+
     const onSaveProduto = () => {
 
         setOpenLoadingDialog(true)
@@ -531,75 +531,66 @@ const Cadastro = (props) => {
                     justifyContent: 'center',
                 }}>
 
+                    {logged && logged.Perfil && logged.Perfil.nome === 'Administrador' ?
 
-                    <a style={{ textDecoration: 'none', display: 'inline-block' }}>
-                        <div
-                            style={{
-                                width: '220px', // Definindo largura fixa
-                                height: '250px', // Definindo altura fixa
-                                textAlign: 'center',
-                                padding: '10px', // Adiciona um espaço interno para a borda
-                                border: '2px solid #ccc', // Aumenta a largura da borda
-                                borderRadius: '12px', // Bordas arredondadas
-                                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Sombra moderada
-                                cursor: 'pointer', // Altera o cursor ao passar o mouse
-                            }}
-                        >
-                            <b>Inserir Produto no Estoque</b><br />
-                            <img
-                                src={ImageLogo1}
-                                style={{ width: '180px', borderRadius: '8px' }} // Reduz a largura da imagem
-                                onClick={() => setAbrirEstoque(true)}
-                            />
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <a style={{ textDecoration: 'none' }}>
+                                <div
+                                    style={{
+                                        width: '220px', // Definindo largura fixa
+                                        height: '250px', // Definindo altura fixa
+                                        textAlign: 'center',
+                                        padding: '10px', // Adiciona um espaço interno para a borda
+                                        border: '2px solid #ccc', // Aumenta a largura da borda
+                                        borderRadius: '12px', // Bordas arredondadas
+                                        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Sombra moderada
+                                        cursor: 'pointer', // Altera o cursor ao passar o mouse
+                                    }}
+                                >
+                                    <b>Novo Produto</b><br />
+                                    <img src={ImageProd} style={{ width: '180px', borderRadius: '8px' }} onClick={() => setAbrirNovoProduto(true)} />
+                                </div>
+                            </a>
 
+                            <a style={{ textDecoration: 'none' }}>
+                                <div
+                                    style={{
+                                        width: '220px', // Definindo largura fixa
+                                        height: '250px', // Definindo altura fixa
+                                        textAlign: 'center',
+                                        padding: '10px', // Adiciona um espaço interno para a borda
+                                        border: '2px solid #ccc', // Aumenta a largura da borda
+                                        borderRadius: '12px', // Bordas arredondadas
+                                        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Sombra moderada
+                                        cursor: 'pointer', // Altera o cursor ao passar o mouse
+                                    }}
+                                >
+                                    <b>Novo Ambiente</b><br />
+                                    <img src={ImageAmbiente} style={{ width: '180px', borderRadius: '8px' }} onClick={() => setAbrirAmbiente(true)} />
+                                </div>
+                            </a>
+
+                            <a style={{ textDecoration: 'none' }}>
+                                <div
+                                    style={{
+                                        width: '220px', // Definindo largura fixa
+                                        height: '250px', // Definindo altura fixa
+                                        textAlign: 'center',
+                                        padding: '10px', // Adiciona um espaço interno para a borda
+                                        border: '2px solid #ccc', // Aumenta a largura da borda
+                                        borderRadius: '12px', // Bordas arredondadas
+                                        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Sombra moderada
+                                        cursor: 'pointer', // Altera o cursor ao passar o mouse
+                                    }}
+                                >
+                                    <b>Inserir Produto no Estoque</b><br />
+                                    <img src={ImageLogo1} style={{ width: '180px', borderRadius: '8px' }} onClick={() => setAbrirEstoque(true)} />
+                                </div>
+                            </a>
                         </div>
-                    </a>
 
 
-
-
-                    <a style={{ textDecoration: 'none', display: 'inline-block' }}>
-                        <div
-                            style={{
-                                width: '220px', // Definindo largura fixa
-                                height: '250px', // Definindo altura fixa
-                                textAlign: 'center',
-                                padding: '10px', // Adiciona um espaço interno para a borda
-                                border: '2px solid #ccc', // Aumenta a largura da borda
-                                borderRadius: '12px', // Bordas arredondadas
-                                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Sombra moderada
-                                cursor: 'pointer', // Altera o cursor ao passar o mouse
-                            }}
-                        >
-                            <b >Novo Ambiênte</b><br />
-                            <img src={ImageAmbiente} style={{ width: '200px' }}
-                                onClick={() => setAbrirAmbiente(true)} />
-
-                        </div>
-
-
-                    </a>
-
-                    <a style={{ textDecoration: 'none', display: 'inline-block' }}>
-                        <div
-                            style={{
-                                width: '220px', // Definindo largura fixa
-                                height: '250px', // Definindo altura fixa
-                                textAlign: 'center',
-                                padding: '10px', // Adiciona um espaço interno para a borda
-                                border: '2px solid #ccc', // Aumenta a largura da borda
-                                borderRadius: '12px', // Bordas arredondadas
-                                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Sombra moderada
-                                cursor: 'pointer', // Altera o cursor ao passar o mouse
-                            }}
-                        >
-                            <b >Novo Produto</b><br />
-                            <img src={ImageProd} style={{ width: '200px' }}
-                                onClick={() => setAbrirNovoProduto(true)} />
-
-                        </div>
-                    </a>
-
+                        : 'Você não está autorizado a entrar nessa página'}
 
 
 

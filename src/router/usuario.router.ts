@@ -31,10 +31,14 @@ class UsuarioRouter {
     this.router.get('/naovalidado/', controller.naoValidado)
     this.router.get('/equipe/', controller.equipe)
     this.router.get('/search/', controller.search)
+    this.router.get('/searchRelatorio/', controller.searchRelatorio)
+
+    
     this.router.get('/',  controller.all)
     this.router.post('/', controller.create)
     this.router.get('/:id',  controller.find)
     this.router.get("/checkFuncionario/:id", controller.checkFuncionario)
+    this.router.get("/recuperarFuncionario/:id", controller.recuperarFuncionario)
     this.router.post('/:id/edit', controller.update)
     this.router.post('/:id/validar', controller.validar)
     this.router.post('/edit/primeiroacesso/', controller.updatePrimeiroAcesso)

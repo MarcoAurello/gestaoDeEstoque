@@ -338,9 +338,7 @@ const Masterpage = (props) => {
 
 
           <List>
-            {logged && logged.Perfil && logged.Perfil.nome === 'Administrador' ?
-              <div>
-                <ListItem disablePadding>
+          <ListItem disablePadding>
                   <ListItemButton onClick={() => window.location.href = `${process.env.REACT_APP_DOMAIN}/home/`}>
                     <ListItemIcon>
                       <PlaylistAddCheckIcon />
@@ -348,6 +346,9 @@ const Masterpage = (props) => {
                     <ListItemText primary='Home' />
                   </ListItemButton>
                 </ListItem>
+            {logged && logged.Perfil && logged.Perfil.nome === 'Administrador' ?
+              <div>
+                
                 <ListItem disablePadding>
                   <ListItemButton onClick={() => window.location.href = `${process.env.REACT_APP_DOMAIN}/cadastro/`}>
                     <ListItemIcon>
@@ -356,7 +357,12 @@ const Masterpage = (props) => {
                     <ListItemText primary='Cadastrar' />
                   </ListItemButton>
                 </ListItem>
-                <ListItem disablePadding>
+                
+                
+
+              </div>
+              : ''}
+              <ListItem disablePadding>
                   <ListItemButton onClick={() => window.location.href = `${process.env.REACT_APP_DOMAIN}/relatorio/`}>
                     <ListItemIcon>
                       <FormatListNumberedIcon />
@@ -364,10 +370,6 @@ const Masterpage = (props) => {
                     <ListItemText primary='Relatórios' />
                   </ListItemButton>
                 </ListItem>
-                :
-
-              </div>
-              : ''}
             {
               logged && logged.validado && logged.Perfil.nome === PerfilUtils.Administrador ?
                 <>

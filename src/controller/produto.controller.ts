@@ -191,7 +191,9 @@ class ProdutoController implements IController {
         where: {
           fkProduto:  pesquisa 
           
-        }
+        },
+
+        order: [['dataRetirada', 'DESC']] // Ordena por dataRetirada em ordem decrescente
       })
 
       

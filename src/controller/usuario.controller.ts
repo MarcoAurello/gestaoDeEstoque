@@ -286,10 +286,10 @@ class UsuarioController implements IController {
         include: [Usuario, Produto, Local],
         where: {
           fkSolicitante: pesquisa
-
-        }
-      })
-
+        },
+        order: [['dataRetirada', 'DESC']] // Ordena por dataRetirada em ordem decrescente
+      });
+  
 
 
 
@@ -384,10 +384,10 @@ class UsuarioController implements IController {
       let cpf = id.replace(/\D/g, "");
   
       const [registros] = await Usuario.sequelize?.query(`
-        SELECT CHAPA, NOME, CPF
-        FROM TermoAceite.dbo.TOTVS
-        WHERE CPF = '${cpf}'`
-      );
+  SELECT TOP 1 CHAPA, NOME, CPF, SITUACAO
+  FROM TermoAceite.dbo.TOTVS
+  WHERE CPF = '${cpf}' AND SITUACAO = 'ativo'
+`);
   
       if (!registros || registros.length === 0) {
         return res.status(401).json({ message: 'Funcionário não encontrado. Entre em contato com a gerência.' });
@@ -398,6 +398,59 @@ class UsuarioController implements IController {
     } catch (err) {
       console.log(err);
       return res.status(401).json({ message: err.message });
+    }
+  }
+
+  async recuperarFuncionario(req: Request, res: Response, next: NextFunction): Promise<any> {
+    try {
+      const { id } = req.params;
+
+      const registros = await Usuario.findOne({ where: { chapa: id } })
+    
+      if (!registros) {
+        return res.status(401).json({ message: 'Funcionário não encontrado. Entre em contato com a gerência.' });
+      }
+  
+      console.log(registros);
+      return res.status(200).json({  message: 'Funcionário Localizado', data: registros });
+    } catch (err) {
+      console.log(err);
+      return res.status(401).json({ message: err.message });
+    }
+  }
+
+  async searchRelatorio(req: any, res: Response, next: NextFunction): Promise<any> {
+    try {
+      const { pesquisa } = req.query
+      // console.log(JSON.stringify('papai'+pesquisa))
+
+
+      // const local = await Local.findOne({
+      //   where: { nome: pesquisa },
+      // });
+
+      const registros = await Pedido.findAll({
+        include: [Produto, Local, Usuario],
+        where: {
+          fkSolicitante: pesquisa,
+          // status: 'Entregue'
+        },
+        order: [
+          ['dataRetirada', 'DESC'] // Ordena os registros em ordem decrescente de dataRetirada (da mais recente para a mais antiga)
+        ]
+      });
+      console.log(JSON.stringify(registros))
+
+      res.status(200).json({ data: registros })
+    } catch (err) {
+      console.log(err)
+      if (typeof err.errors !== 'undefined') {
+        res.status(401).json({ message: err.errors[0].message })
+      } else if (typeof err.message !== 'undefined') {
+        res.status(401).json({ message: err.message })
+      } else {
+        res.status(401).json({ message: 'Aconteceu um erro no processamento da requisição, por favor tente novamente.' })
+      }
     }
   }
 

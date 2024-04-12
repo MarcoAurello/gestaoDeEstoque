@@ -90,7 +90,7 @@ class LocalController implements IController {
   async searchRelatorio(req: any, res: Response, next: NextFunction): Promise<any> {
     try {
       const { pesquisa } = req.query
-      console.log(JSON.stringify('papai'+pesquisa))
+      // console.log(JSON.stringify('papai'+pesquisa))
 
 
       // const local = await Local.findOne({
@@ -134,7 +134,10 @@ class LocalController implements IController {
         where: {
           fkLocal:  pesquisa 
           
-        }
+        },
+        order: [
+          ['dataRetirada', 'DESC'] // Ordena os registros em ordem decrescente de dataRetirada (da mais recente para a mais antiga)
+        ]
       })
 
       

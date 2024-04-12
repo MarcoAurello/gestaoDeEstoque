@@ -30,6 +30,7 @@ const Login = () => {
   const [autenticated, setAutenticated] = useState(false);
   const [verified, setVerified] = useState(false);
   const [modalCadastro, setModalCadastro] = useState(false);
+  const [modalRecuperar, setModalRecuperar] = useState(false);
   const [nome, setNome] = useState('')
   const [chapa, setChapa] = useState('')
   const [senha, setSenha] = useState('')
@@ -125,9 +126,13 @@ const Login = () => {
   useEffect(() => {
     carregarPerfis()
 
+    // if(funcionarioChecado.length > 0){
+    //   alert(JSON.stringify(funcionarioChecado[0].NOME))
+    // }
 
 
-  }, [perfis]);
+
+  }, [perfis, funcionarioChecado]);
 
 
   const check = () => {
@@ -166,6 +171,24 @@ const Login = () => {
         })
       })
   }
+
+  useEffect(() => {
+
+
+    if (funcionarioChecado.length > 0) {
+      // alert( 'o')
+      setNome(funcionarioChecado[0].NOME);
+      setChapa(funcionarioChecado[0].CHAPA);
+
+      // setCep(alunoChecado[0][0].AlunoCepLogradouroPrincipal);
+
+    }
+
+
+
+
+
+  }, [funcionarioChecado, nome]);
 
   const checkCPF = () => {
 
@@ -336,6 +359,15 @@ const Login = () => {
                 Cadastrar Novo
               </Button>
 
+              <Button
+
+              style={{marginLeft:'25px'}}
+                sx={{ mt: 3, mb: 2 }}
+                onClick={() => setModalRecuperar(true)}
+              >
+                Recuperar Senha
+              </Button>
+
 
 
 
@@ -356,7 +388,7 @@ const Login = () => {
       </Grid>
 
       <Dialog open={openDialog}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: 120, height: 120 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: 200, height: 120 }}>
           <CircularProgress />
         </div>
       </Dialog>
@@ -407,7 +439,7 @@ const Login = () => {
                   type="text"
                   name="Nome"
                   fullWidth
-                  variant="standard"
+                  disabled
                   value={nome}
                   onChange={e => setNome(e.target.value)}
 
@@ -429,8 +461,7 @@ const Login = () => {
                   type="text"
                   name="Chapa"
                   fullWidth
-                  variant="standard"
-
+                  disabled
                   multiline
                   value={chapa}
                   onChange={e => setChapa(e.target.value)}
@@ -444,7 +475,147 @@ const Login = () => {
                 <Select
                   size="small"
                   fullWidth
+
+                  labelId="demo-select-small"
+                  id="demo-select-small"
+                  label="Perfil"
+                  value={fkPerfil}
+
+                >
+
+                  {perfis.map((item, index) => <MenuItem key={index} value={item.id} onClick={() => setFkPerfil(item.id)}>{item.nome}</MenuItem>)}
+                </Select>
+              </FormControl>
+
+              <p></p>
+
+              <FormControl fullWidth size="small">
+                <InputLabel id="demo-select-small">Senha</InputLabel>
+                <hr></hr>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="senha"
+                  type="password" // Alterado para "password" para ocultar os caracteres digitados
+                  name="Senha"
+                  fullWidth
                   variant="standard"
+                  multiline
+                  value={senha}
+                  onChange={e => setSenha(e.target.value)}
+                  error={senha.length < 4} // Define o campo como erro se a senha tiver menos de 4 caracteres
+                  helperText={senha.length < 4 ? "A senha deve ter pelo menos 4 caracteres" : ""} // Exibe mensagem de erro se a senha tiver menos de 4 caracteres
+                />
+              </FormControl>
+
+
+            </div>
+
+
+          }
+
+
+
+
+          <p></p>
+
+
+
+        </DialogContent>
+        {senha && fkPerfil && chapa && nome ?
+
+
+          <Button onClick={onSave}>Salvar</Button>
+
+          :
+          ''}
+
+        <Button onClick={() => setModalCadastro(false)}>Cancelar</Button>
+      </Dialog>
+
+      <Dialog open={modalCadastro} style={{ size: '350px' }} >
+        <DialogTitle>Novo Usuario</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+
+          </DialogContentText>
+
+
+
+          {funcionarioChecado.length === 0 ?
+
+            <div>
+              Informe o CPF
+              <TextField
+
+                autoFocus
+                margin="dense"
+                id="Nome"
+                // label="Titulo do chamado"
+                type="text"
+                name="Informe CPF"
+                fullWidth
+                variant="standard"
+                value={cpf}
+                onChange={e => setCpf(e.target.value)}
+
+              /><p></p>
+              <Button onClick={checkCPF}>Buscar</Button>
+
+            </div>
+
+            :
+            <div>
+
+              <FormControl fullWidth size="small">
+                <InputLabel id="demo-select-small">Nome</InputLabel>
+                <hr></hr>
+                <TextField
+
+                  autoFocus
+                  margin="dense"
+                  id="Nome"
+                  // label="Titulo do chamado"
+                  type="text"
+                  name="Nome"
+                  fullWidth
+                  disabled
+                  value={nome}
+                  onChange={e => setNome(e.target.value)}
+
+                />
+
+              </FormControl>
+
+
+              <p></p>
+
+              <FormControl fullWidth size="small">
+                <InputLabel id="demo-select-small">Chapa</InputLabel>
+                <hr></hr>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="chapa"
+                  // label="Descrição do chamado"
+                  type="text"
+                  name="Chapa"
+                  fullWidth
+                  disabled
+                  multiline
+                  value={chapa}
+                  onChange={e => setChapa(e.target.value)}
+
+                />
+
+              </FormControl>
+
+              <FormControl fullWidth>
+                <InputLabel htmlFor="demo-select-small">Perfil*</InputLabel>
+                <Select
+                  size="small"
+                  fullWidth
+
                   labelId="demo-select-small"
                   id="demo-select-small"
                   label="Perfil"
