@@ -688,7 +688,7 @@ const Home = (props) => {
                         setModalMeus(true)
                       }
                       >
-                      Seu Pedido
+                      Veja seu pedido 
                     </Button>
                       : ''}</td>
                 </tr>
