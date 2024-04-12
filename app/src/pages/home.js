@@ -301,7 +301,7 @@ const Home = (props) => {
 
     }
 
-    if (pesquisa.length > 4) {
+    if (pesquisa.length > 5) {
       pesquisar()
     }
 
@@ -535,12 +535,13 @@ const Home = (props) => {
                   boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.1)', // Adiciona sombreado
                   borderRadius: '10px', // Adiciona bordas arredondadas de 10px
                   width:'100%',
-                  backgroundColor: '#fbecc6'
+                  backgroundColor: '#fbecc6',
+                 
                 }}
               >
                 <tbody>
                   <tr style={{ wordBreak: "break-all", fontSize: '20px' }}>
-                    <td colSpan="5">Pedido não retirados de  {pesquisa}</td>
+                    <td colSpan="5"><b>Pedido não retirados de  {pesquisa}</b></td>
 
 
                   </tr>
@@ -552,7 +553,7 @@ const Home = (props) => {
                   </tr>
 
                   {pedidosDoFuncionario.map((item, index) => (
-                    <tr key={index}>
+                    <tr key={index} style={{ border:'10px'}}>
                        <td >{item.Usuario ? item.Usuario.nome : ''}<br></br>
                        <Button
                           style={{ marginLeft: '5px' }}
@@ -670,6 +671,7 @@ const Home = (props) => {
                   boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.1)', // Adiciona sombreado
                   borderRadius: '10px', // Adiciona bordas arredondadas de 10px
                   width:'100%'
+                  
                 }}>
 
                   <tr style={{ wordBreak: "break-all", fontSize: '20px' }}>
@@ -702,20 +704,22 @@ const Home = (props) => {
 
                 {produtosFiltrados.map((item, index) => (
                   <tr key={index}>
-                    <td style={{ wordBreak: "break-all" }}><b>{item.nome }</b></td>
+                    <td style={{ wordBreak: "break-all", fontSize:'18px' }}><b>{item.nome }</b></td>
                     {/* <td style={{ wordBreak: "break-all", color: item < 5 ? 'red' : 'inherit' }}><b>{item.qtdEstoque}</b></td> */}
-                    <td style={{ wordBreak: "break-all", color: parseInt(item.qtdEstoque) < 5 ? 'red' : 'inherit' }}><b>{item.qtdEstoque}</b></td>
+                    <td style={{ wordBreak: "break-all", fontSize:'18px', color: parseInt(item.qtdEstoque) < 5 ? 'red' : 'inherit' }}><b>{item.qtdEstoque}</b></td>
 
 
                     <td>
                       {item.qtdEstoque === 0 ? (
                         <Button
                           variant="contained"
+                          color='error'
+
                           size="small"
-                          disabled
-                          onClick={() => funcao(item.id, item.nome)}
+                          
+                          // onClick={() => funcao(item.id, item.nome)}
                         >
-                          solicitar
+                          esgotado
                         </Button>
                       ) : (
                         <Button
@@ -847,6 +851,7 @@ const Home = (props) => {
       </Dialog>
 
       <Dialog open={modalMeus}>
+      
 
         {minhas ? (
           <center>
@@ -863,15 +868,16 @@ const Home = (props) => {
               <tbody>
                 <tr style={{ wordBreak: "break-all", fontSize: '20px' }}>
 
-
+                <b>Para retirar no estoque </b>
                 </tr>
 
 
                 {minhas.map((item, index) => (
                   <tr key={index}>
-                    <td style={{ wordBreak: "break-all" }}>{item.nome}</td>
+                   <td>{item.Local ? item.Local.nome : ''}</td>
+                    <td >{item.nome}</td>
                     <td>{item.Produto ? item.Produto.nome : ''}</td>
-                    <td>{item.quantidadeRetirada}</td>
+                    <td>qtd: {item.quantidadeRetirada}</td>
                     <td> {item.status === 'não retirado' ?
                       <Button variant="contained" size="small" color="error" style={{ textTransform: 'none', fontSize: '12px' }}
                         onClick={() => [deletarSolicitacao(item.id)]}

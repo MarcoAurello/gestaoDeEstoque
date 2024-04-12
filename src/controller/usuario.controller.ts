@@ -60,7 +60,8 @@ class UsuarioController implements IController {
         nome,
         chapa,
         senha,
-        fkPerfil
+        fkPerfil,
+        cpf
       } = req.body
       console.log('qqqqqq' + senha)
 
@@ -81,11 +82,11 @@ class UsuarioController implements IController {
       } else {
         const registro = await Usuario.create({
           nome: nome,
-          email: nome,
+          
           chapa: chapa,
           validado: false,
           // perfil: fk?.nome,
-          cpf: '000000000',
+          cpf: cpf,
           password: senha,
           fkPerfil,
           passwordHash: await bcrypt.hash(senha, senha.length),
@@ -139,6 +140,7 @@ class UsuarioController implements IController {
         demandante,
         fkPerfil,
         fkUnidade,
+        senha,
 
         ativo,
         primeiroLogin
@@ -147,18 +149,12 @@ class UsuarioController implements IController {
       console.log(req.body)
 
       await Usuario.update({
-        nome,
-        telefone,
-        chapa,
-        demandante,
-        fkPerfil,
-        fkUnidade,
-
-        ativo,
-        primeiroLogin
+        password:senha
+      
       }, {
         where: {
-          id
+          chapa,
+          passwordHash: await bcrypt.hash(senha, senha.length),
         },
         individualHooks: false
       })
@@ -405,7 +401,7 @@ class UsuarioController implements IController {
     try {
       const { id } = req.params;
 
-      const registros = await Usuario.findOne({ where: { chapa: id } })
+      const registros = await Usuario.findOne({ where: { cpf: id } })
     
       if (!registros) {
         return res.status(401).json({ message: 'Funcionário não encontrado. Entre em contato com a gerência.' });

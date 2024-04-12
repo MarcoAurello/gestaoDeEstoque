@@ -40,6 +40,7 @@ const Relatorio = (props) => {
     const [fkUnidade, setFkUnidade] = useState('');
     const [setores, setSetores] = useState([]);
     const [minhas, setMinhas] = useState([]);
+    const [localRelatorio, setLocalRelatorio] = useState('');
 
 
 
@@ -57,10 +58,12 @@ const Relatorio = (props) => {
     const [fkFuncionaio, setFkFuncionario] = useState('');
     const [nomeProduto, setNomeProduto] = useState('');
     const [modalMeus, setModalMeus] = useState(false);
+    const [relatorioDoLocal, setRelatorioDoLocal] = useState([]);
     const [abrirProduto, setAbrirProduto] = useState(false);
     const [abrirEstoque, setAbrirEstoque] = useState(false);
     const [abrirAmbiente, setAbrirAmbiente] = useState(false);
     const [abrirNovoProduto, setAbrirNovoProduto] = useState(false);
+    const [modalRelatorioLocal, setModalRelatorioLocal] = useState(false);
 
     const [pesquisa, setPesquisa] = useState('');
     const [nomeAmbiente, setNomeAmbiente] = useState('');
@@ -107,136 +110,45 @@ const Relatorio = (props) => {
         });
     }
 
-
-
-
-    const onSaveEstoque = () => {
-
-        const usuario = logged.id
-
-        setOpenLoadingDialog(true)
-        const token = getCookie("_token_GSI")
+    function carregarRelatorioFuncionario(id, local) {
+        setLocalRelatorio(local)
+    
+    
+        // setOpenLoadingDialog(true)
+        const token = getCookie("_token_GSI");
         const params = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-
-                fkProduto,
-                quantidade,
-                usuario
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        fetch(
+          `${process.env.REACT_APP_DOMAIN_API}/api/usuario/searchRelatorio?pesquisa=${id}`,
+          params
+        ).then((response) => {
+          const { status } = response;
+          response
+            .json()
+            .then((data) => {
+              setOpenLoadingDialog(false);
+              if (status === 401) {
+              } else if (status === 200) {
+                setRelatorioDoLocal(data.data);
+                setOpenLoadingDialog(false);
+                setModalRelatorioLocal(true)
+              }
             })
-        }
-
-        fetch(`${process.env.REACT_APP_DOMAIN_API}/api/produto/${fkProduto}/editEstoque`, params)
-            .then(response => {
-                const { status } = response
-                response.json().then(data => {
-                    setOpenLoadingDialog(false)
-                    if (status === 401) {
-                        setMessage(data.message)
-                        setOpenMessageDialog(true)
-                        // window.location.pathname = "/login"
-                    } else if (status === 200) {
-                        // setOpen(false)
-                        // alert(JSON.stringify(data.data))
-                        setMessage(data.message)
-                        alert(data.message)
-                        setOpenMessageDialog(true)
-                        setSolicitar(false)
-                        window.location.reload();
-                        // setArea(data.data)
-                    }
-                }).catch(err => setOpenLoadingDialog(true))
-            })
-    }
+            .catch((err) => setOpenLoadingDialog(true));
+        });
+      }
+    
 
 
-    const onSaveAmbiente = () => {
+ 
 
-        setOpenLoadingDialog(true)
-        const token = getCookie("_token_GSI")
-        const params = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-
-                fkUnidade,
-                nomeAmbiente
-            })
-        }
-
-        fetch(`${process.env.REACT_APP_DOMAIN_API}/api/local/`, params)
-            .then(response => {
-                const { status } = response
-                response.json().then(data => {
-                    setOpenLoadingDialog(false)
-                    if (status === 401) {
-                        setMessage(data.message)
-                        setOpenMessageDialog(true)
-                        // window.location.pathname = "/login"
-                    } else if (status === 200) {
-                        // setOpen(false)
-                        // alert(JSON.stringify(data.data))
-
-                        alert(data.message)
-                        setOpenMessageDialog(true)
-
-                        window.location.reload();
-                        // setArea(data.data)
-                    }
-                }).catch(err => setOpenLoadingDialog(true))
-            })
-    }
+   
 
 
-    const onSaveProduto = () => {
-
-        setOpenLoadingDialog(true)
-        const token = getCookie("_token_GSI")
-        const params = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-
-                nomeProduto,
-                quantidade,
-                descricao
-            })
-        }
-
-        fetch(`${process.env.REACT_APP_DOMAIN_API}/api/produto/`, params)
-            .then(response => {
-                const { status } = response
-                response.json().then(data => {
-                    setOpenLoadingDialog(false)
-                    if (status === 401) {
-                        setMessage(data.message)
-                        setOpenMessageDialog(true)
-                        // window.location.pathname = "/login"
-                    } else if (status === 200) {
-                        // setOpen(false)
-                        // alert(JSON.stringify(data.data))
-
-                        alert(data.message)
-                        setOpenMessageDialog(true)
-
-                        window.location.reload();
-                        // setArea(data.data)
-                    }
-                }).catch(err => setOpenLoadingDialog(true))
-            })
-    }
-
-
+    
 
 
 
@@ -604,24 +516,24 @@ const Relatorio = (props) => {
                             </a>
 
                             <a style={{ textDecoration: 'none', display: 'inline-block' }}>
-                        <div
-                            style={{
-                                width: '220px', // Definindo largura fixa
-                                height: '250px', // Definindo altura fixa
-                                textAlign: 'center',
-                                padding: '10px', // Adiciona um espaço interno para a borda
-                                border: '2px solid #ccc', // Aumenta a largura da borda
-                                borderRadius: '12px', // Bordas arredondadas
-                                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Sombra moderada
-                                cursor: 'pointer', // Altera o cursor ao passar o mouse
-                            }}
-                        >
-                            <b >Relatório por produto</b><br />
-                            <img src={ImageProd} style={{ width: '200px' }}
-                                onClick={() => setAbrirNovoProduto(true)} />
+                                <div
+                                    style={{
+                                        width: '220px', // Definindo largura fixa
+                                        height: '250px', // Definindo altura fixa
+                                        textAlign: 'center',
+                                        padding: '10px', // Adiciona um espaço interno para a borda
+                                        border: '2px solid #ccc', // Aumenta a largura da borda
+                                        borderRadius: '12px', // Bordas arredondadas
+                                        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Sombra moderada
+                                        cursor: 'pointer', // Altera o cursor ao passar o mouse
+                                    }}
+                                >
+                                    <b >Relatório por produto</b><br />
+                                    <img src={ImageProd} style={{ width: '200px' }}
+                                        onClick={() => setAbrirNovoProduto(true)} />
 
-                        </div>
-                    </a>
+                                </div>
+                            </a>
 
                         </div>
                         : ''
@@ -650,7 +562,35 @@ const Relatorio = (props) => {
 
                     </a>
 
-                   
+                    {logged && logged.Perfil && logged.Perfil.nome === 'Usuario' ?
+
+                        <a style={{ textDecoration: 'none', display: 'inline-block' }}>
+                            <div
+                                style={{
+                                    width: '220px', // Definindo largura fixa
+                                    height: '250px', // Definindo altura fixa
+                                    textAlign: 'center',
+                                    padding: '10px', // Adiciona um espaço interno para a borda
+                                    border: '2px solid #ccc', // Aumenta a largura da borda
+                                    borderRadius: '12px', // Bordas arredondadas
+                                    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Sombra moderada
+                                    cursor: 'pointer', // Altera o cursor ao passar o mouse
+                                }}
+                            >
+                                <b >Seus Pedidos</b><br />
+                                <img src={ImageLogo1}  style={{ width: '180px', borderRadius: '8px' }}
+                                    onClick={() => carregarRelatorioFuncionario(logged.id, logged.nome)} />
+
+                            </div>
+
+
+                        </a>
+
+
+
+                        : ''}
+
+
 
 
 
@@ -879,6 +819,67 @@ const Relatorio = (props) => {
                 </DialogContent>
 
             </Dialog>
+
+            <Dialog
+        open={modalRelatorioLocal}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">
+          Pedidos para {localRelatorio}
+        </DialogTitle>
+        <DialogContent style={{ width: '100%', maxWidth: 600, overflowX: 'auto' }}>
+          {relatorioDoLocal ? (
+            <div style={{ overflowX: 'auto' }}>
+              <table
+                className="table table-striped"
+                style={{
+                  fontFamily: "Arial, sans-serif",
+                  fontSize: "12px",
+                  width: "100%",
+                  borderCollapse: "collapse",
+                  border: "1px solid #ddd",
+                }}
+              >
+                <thead>
+                  <tr style={{ wordBreak: "break-all", fontSize: '12px', backgroundColor: '#bbbbbb' }}>
+
+                    <th>Usuário</th>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Status</th>
+                    <th>Retirado</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  {relatorioDoLocal.map((item, index) => (
+                    <tr key={index}>
+
+                      <td>{item.Usuario ? item.Usuario.nome : ''}</td>
+                      <td>{item.Produto ? item.Produto.nome : ''}</td>
+                      <td>{item.quantidadeRetirada}</td>
+                      <td>{item.status}</td>
+                      {item.dataRetirada === null ? <td></td> :
+                        <td>{moment(item.dataRetirada).format("DD-MM-YYYY")}</td>
+                      }
+
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            ""
+          )}
+          <DialogActions>
+            <Button onClick={() => setModalRelatorioLocal(false)}>
+              sair
+            </Button>
+          </DialogActions>
+        </DialogContent>
+
+      </Dialog>
+
 
 
 

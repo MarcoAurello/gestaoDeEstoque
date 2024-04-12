@@ -107,7 +107,7 @@ class ProdutoController implements IController {
           }
         );
 
-        return res.status(200).json({ message: 'Estoque atualizado com sucesso.' });
+        return res.status(200).json({ message: 'Produto entrege e estoque atualizado com sucesso.' });
       }
     } catch (err) {
       console.log(err);

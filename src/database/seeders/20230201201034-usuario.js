@@ -30,7 +30,7 @@ module.exports = {
       {
         id: uuid(),
         nome: 'a',
-        email: 'a@pe.senac.br',
+        cpf: 'a@pe.senac.br',
         password: pass,
         passwordHash: await bcrypt.hash(pass, 8),
         validado: false,
@@ -44,7 +44,7 @@ module.exports = {
       {
         id: uuid(),
         nome: 'b',
-        email: 'b@pe.senac.br',
+        cpf: 'b@pe.senac.br',
         passwordHash: await bcrypt.hash('gti@2021', 8),
        
         chapa: '15385-F1',

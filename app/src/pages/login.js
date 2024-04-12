@@ -37,6 +37,7 @@ const Login = () => {
   const [fkPerfil, setFkPerfil] = useState('')
   const [cpf, setCpf] = useState('')
   const [perfis, setPerfis] = useState([])
+  const [funcionarioAlterado, setFuncionarioAlterado] = useState('')
 
   const [funcionarioChecado, setFuncionarioChecado] = useState([])
 
@@ -89,7 +90,8 @@ const Login = () => {
         nome,
         senha,
         chapa,
-        fkPerfil
+        fkPerfil,
+        cpf
       })
     }
 
@@ -108,7 +110,7 @@ const Login = () => {
             setMessage(data.message)
             alert('Usuario Cadastrado')
             setOpenMessageDialog(true)
-            window.location.pathname = "/home"
+            window.location.pathname = "/login"
             // setArea(data.data)
           }
         }).catch(err => setOpenLoadingDialog(true))
@@ -134,6 +136,50 @@ const Login = () => {
 
   }, [perfis, funcionarioChecado]);
 
+
+  const checkChapa = () => {
+
+    setOpenLoadingDialog(true)
+    const token = getCookie("_token_GSI")
+    const params = {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    }
+    fetch(`${process.env.REACT_APP_DOMAIN_API}/api/usuario/recuperarFuncionario/${cpf}`, params)
+      .then(response => {
+        const { status } = response
+        response.json().then(data => {
+          setOpenDialog(false)
+          if (status === 401) {
+
+            alert(data.message)
+            setOpenLoadingDialog(false)
+          } else if (status === 200) {
+            // alert(JSON.stringify(data.data))
+            // setChapa(data.data.chapa)
+
+            
+            if(data.data.password){
+
+              alert('Senha: ' + data.data.password)
+            }else{
+              alert('CPF não encontrado ')
+            }
+
+
+            // setNome(data.data.AlunoNome)
+            // salvardadosMigrados()
+
+
+
+
+            setOpenLoadingDialog(false)
+
+          }
+        })
+      })
+  }
 
   const check = () => {
 
@@ -188,7 +234,8 @@ const Login = () => {
 
 
 
-  }, [funcionarioChecado, nome]);
+
+  }, [funcionarioChecado, nome,funcionarioAlterado]);
 
   const checkCPF = () => {
 
@@ -237,6 +284,42 @@ const Login = () => {
 
     return false;
   }
+
+  const onAlterarSenha = () => {
+
+
+    const token = getCookie("_token_GSI")
+    const params = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            chapa,senha
+        })
+
+    }
+
+    fetch(`${process.env.REACT_APP_DOMAIN_API}/api/usuario/${chapa}/edit`, params)
+        .then(response => {
+
+            const { status } = response
+            response.json().then(data => {
+                setOpenLoadingDialog(false)
+                if (status === 401) {
+                  
+                    setOpenMessageDialog(true)
+                } else if (status === 200) {
+                  setFuncionarioAlterado(data.data)
+                    alert(data.message)
+                    window.location.pathname = "/login"
+                    
+                }
+                //  window.location.href = `${process.env.REACT_APP_DOMAIN}/homeSindicatos`
+            }).catch(err => setOpenLoadingDialog(true))
+        })
+}
 
 
 
@@ -365,7 +448,7 @@ const Login = () => {
                 sx={{ mt: 3, mb: 2 }}
                 onClick={() => setModalRecuperar(true)}
               >
-                Recuperar Senha
+                Esqueceu a Senha
               </Button>
 
 
@@ -392,6 +475,104 @@ const Login = () => {
           <CircularProgress />
         </div>
       </Dialog>
+
+
+      <Dialog open={modalRecuperar} style={{ size: '350px' }} >
+        <DialogTitle>Recuperar Senha</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+
+          </DialogContentText>
+
+
+
+          {funcionarioChecado.length <= 0?
+
+            <div>
+              Informe seu cpf
+              <TextField
+
+                autoFocus
+                margin="dense"
+                id="Nome"
+                // label="Titulo do chamado"
+                type="text"
+                name="Informe a Chapa"
+                fullWidth
+                variant="standard"
+                value={cpf}
+                onChange={e => setCpf(e.target.value)}
+
+              /><p></p>
+              <Button onClick={checkChapa}>Buscar</Button>
+
+            </div>
+
+            :
+            <div>
+
+
+              <p></p>
+
+              <FormControl fullWidth size="small">
+                <InputLabel id="demo-select-small">Chapa</InputLabel>
+                <hr></hr>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="chapa"
+                  // label="Descrição do chamado"
+                  type="text"
+                  name="Chapa"
+                  fullWidth
+                  disabled
+                  multiline
+                  value={chapa}
+                  onChange={e => setChapa(e.target.value)}
+
+                />
+
+              </FormControl>
+
+            
+              <p></p>
+
+              <FormControl fullWidth size="small">
+                <InputLabel id="demo-select-small">Nova Senha</InputLabel>
+                <hr></hr>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="senha"
+                  type="password" // Alterado para "password" para ocultar os caracteres digitados
+                  name="Senha"
+                  fullWidth
+                  variant="standard"
+                  multiline
+                  value={senha}
+                  onChange={e => setSenha(e.target.value)}
+                  error={senha.length < 4} // Define o campo como erro se a senha tiver menos de 4 caracteres
+                  helperText={senha.length < 4 ? "A senha deve ter pelo menos 4 caracteres" : ""} // Exibe mensagem de erro se a senha tiver menos de 4 caracteres
+                />
+              </FormControl>
+
+            </div>
+
+          }
+
+          <p></p>
+
+        </DialogContent>
+        { chapa && senha ?
+
+          <Button onClick={onAlterarSenha}>Salvar</Button>
+          :
+          ''}
+        <Button onClick={() => setModalRecuperar(false)}>Cancelar</Button>
+      </Dialog>
+
+
+
 
       <Dialog open={modalCadastro} style={{ size: '350px' }} >
         <DialogTitle>Novo Usuario</DialogTitle>
@@ -532,6 +713,9 @@ const Login = () => {
 
         <Button onClick={() => setModalCadastro(false)}>Cancelar</Button>
       </Dialog>
+
+
+
 
       <Dialog open={modalCadastro} style={{ size: '350px' }} >
         <DialogTitle>Novo Usuario</DialogTitle>

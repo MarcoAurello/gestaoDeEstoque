@@ -12,7 +12,7 @@ import Perfil from "./perfil.model"
 class Usuario extends Model {
     public id!: string
     public nome!: string
-    public email!: string
+    public cpf!: string
     public passwordHash!: string
     public chapa!: string
     public password!: string
@@ -50,7 +50,7 @@ Usuario.init({
         allowNull: false
     },
 
-    email: {
+    cpf: {
         type: DataTypes.TEXT,
         allowNull: false
     },
