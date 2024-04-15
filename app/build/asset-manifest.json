@@ -1,23 +1,22 @@
 {
   "files": {
-    "main.css": "/manualdereferencia/static/css/main.0f00bb68.chunk.css",
-    "main.js": "/manualdereferencia/static/js/main.b5e2543f.chunk.js",
-    "main.js.map": "/manualdereferencia/static/js/main.b5e2543f.chunk.js.map",
-    "runtime-main.js": "/manualdereferencia/static/js/runtime-main.4c79a982.js",
-    "runtime-main.js.map": "/manualdereferencia/static/js/runtime-main.4c79a982.js.map",
-    "static/js/2.121372ac.chunk.js": "/manualdereferencia/static/js/2.121372ac.chunk.js",
-    "static/js/2.121372ac.chunk.js.map": "/manualdereferencia/static/js/2.121372ac.chunk.js.map",
-    "index.html": "/manualdereferencia/index.html",
-    "precache-manifest.c1597d0a017902ba0ca4417278d7492b.js": "/manualdereferencia/precache-manifest.c1597d0a017902ba0ca4417278d7492b.js",
-    "service-worker.js": "/manualdereferencia/service-worker.js",
-    "static/css/main.0f00bb68.chunk.css.map": "/manualdereferencia/static/css/main.0f00bb68.chunk.css.map",
-    "static/js/2.121372ac.chunk.js.LICENSE.txt": "/manualdereferencia/static/js/2.121372ac.chunk.js.LICENSE.txt",
-    "static/media/login_background.jpg": "/manualdereferencia/static/media/login_background.99a97a82.jpg"
+    "main.js": "/servicosgerais/static/js/main.3cfc0b6a.chunk.js",
+    "main.js.map": "/servicosgerais/static/js/main.3cfc0b6a.chunk.js.map",
+    "runtime-main.js": "/servicosgerais/static/js/runtime-main.b76ee2f0.js",
+    "runtime-main.js.map": "/servicosgerais/static/js/runtime-main.b76ee2f0.js.map",
+    "static/js/2.792ab781.chunk.js": "/servicosgerais/static/js/2.792ab781.chunk.js",
+    "static/js/2.792ab781.chunk.js.map": "/servicosgerais/static/js/2.792ab781.chunk.js.map",
+    "index.html": "/servicosgerais/index.html",
+    "precache-manifest.02049658a87e030d1ce30985cd5d6547.js": "/servicosgerais/precache-manifest.02049658a87e030d1ce30985cd5d6547.js",
+    "service-worker.js": "/servicosgerais/service-worker.js",
+    "static/js/2.792ab781.chunk.js.LICENSE.txt": "/servicosgerais/static/js/2.792ab781.chunk.js.LICENSE.txt",
+    "static/media/bg-image.jpeg": "/servicosgerais/static/media/bg-image.4b56aae3.jpeg",
+    "static/media/fun.jpg": "/servicosgerais/static/media/fun.7cfd0303.jpg",
+    "static/media/inserirEstoque.jpg": "/servicosgerais/static/media/inserirEstoque.a7f42880.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.4c79a982.js",
-    "static/js/2.121372ac.chunk.js",
-    "static/css/main.0f00bb68.chunk.css",
-    "static/js/main.b5e2543f.chunk.js"
+    "static/js/runtime-main.b76ee2f0.js",
+    "static/js/2.792ab781.chunk.js",
+    "static/js/main.3cfc0b6a.chunk.js"
   ]
 }
