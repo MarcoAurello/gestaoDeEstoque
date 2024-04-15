@@ -31,7 +31,8 @@ class PedidoController implements IController {
         fkLocal,
         fkPoduto,
         fkUsuario,
-        quantidade
+        quantidade,
+        id
       } = req.body
       // console.log('qqqqqq'+senha)
 
@@ -45,8 +46,23 @@ class PedidoController implements IController {
 
       // });
 
-      
-        const registro = await Pedido.create({
+      let registro = []
+
+      if(id){
+        const user = await Usuario.findOne({ where: { cpf: id } })
+         
+        registro = await Pedido.create({
+          quantidadeRetirada : quantidade,
+          status:"não retirado",
+          fkSolicitante: user?.id,
+          fkLocal,
+          fkProduto:fkPoduto
+         
+        });
+
+      }else{
+
+         registro = await Pedido.create({
           quantidadeRetirada : quantidade,
           status:"não retirado",
           fkSolicitante: fkUsuario,
@@ -54,6 +70,12 @@ class PedidoController implements IController {
           fkProduto:fkPoduto
          
         });
+
+
+      }
+
+      
+       
   
         res.status(200).json({ data: registro, message: 'Produto solicitado.' })
 

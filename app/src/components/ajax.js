@@ -16,7 +16,7 @@ class Ajax extends Component {
   }
 
   send(method, url, params) {
-    const token = getCookie("_token_GSI");
+    const token = getCookie('_token_GSI');
     this.toggle(true);
 
     return new Promise((resolved, rejected) => {
@@ -52,7 +52,7 @@ class Ajax extends Component {
   }
 
   sendFile = (method, url, params) => {
-    const token = getCookie("_token_doacoes");
+    const token = getCookie('_token_GSI');
 
     return new Promise(function(resolve, reject) {
       let req = new XMLHttpRequest();

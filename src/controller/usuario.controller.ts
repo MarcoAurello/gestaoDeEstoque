@@ -450,6 +450,41 @@ class UsuarioController implements IController {
     }
   }
 
+  async searchCPF(req: any, res: Response, next: NextFunction): Promise<any> {
+    try {
+      const { pesquisa } = req.query
+    
+      const registros = await Usuario.findOne({
+       
+        where: {
+          cpf: pesquisa,
+         
+        },
+    
+      });
+
+      if(registros){
+        res.status(200).json({ message: 'usuario Localizado', data: registros})
+
+      }else{
+        res.status(200).json({ message: 'usuario não encontrado' })
+
+      }
+      console.log(JSON.stringify(registros))
+
+      
+    } catch (err) {
+      console.log(err)
+      if (typeof err.errors !== 'undefined') {
+        res.status(401).json({ message: err.errors[0].message })
+      } else if (typeof err.message !== 'undefined') {
+        res.status(401).json({ message: err.message })
+      } else {
+        res.status(401).json({ message: 'Aconteceu um erro no processamento da requisição, por favor tente novamente.' })
+      }
+    }
+  }
+
 
 }
 

@@ -2,7 +2,9 @@ const getCookie = require("./getCookie");
 
 module.exports = () => {
   return new Promise((resolved, rejected) => {
-    const token = getCookie("_token_GSI");  
+    const token = getCookie("_token_GSI");
+
+    
 
     let request = new XMLHttpRequest();
     request.open(
@@ -20,3 +22,5 @@ module.exports = () => {
     request.send();
   });
 };
+
+

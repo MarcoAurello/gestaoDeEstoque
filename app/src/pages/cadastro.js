@@ -1,8 +1,7 @@
 import { CircularProgress, FormControl, InputLabel, MenuItem, Select, SpeedDial } from "@mui/material";
 
 import EditIcon from '@mui/icons-material/Edit';
-import TaskFilter from '../components/task-filter'
-import TaskItem from '../components/task-item'
+
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import React, { useEffect, useState } from 'react';
@@ -20,10 +19,13 @@ const ImageLogo1 = require('../assets/inserirEstoque.jpg')
 const ImageAmbiente = require('../assets/ambiente.jpeg')
 const ImageProd = require('../assets/produto1.png')
 const getCookie = require('../utils/getCookie')
+const ImageLogo2 = require('../assets/fun.jpg')
+
 
 
 const Cadastro = (props) => {
     const { logged } = props;
+  
     const [openLoadingDialog, setOpenLoadingDialog] = useState(false)
     const [openMessageDialog, setOpenMessageDialog] = useState(false)
     const [message, setMessage] = useState('')
@@ -58,6 +60,7 @@ const Cadastro = (props) => {
     const [abrirEstoque, setAbrirEstoque] = useState(false);
     const [abrirAmbiente, setAbrirAmbiente] = useState(false);
     const [abrirNovoProduto, setAbrirNovoProduto] = useState(false);
+    const [abrirPedidoParaOutro, setAbrirPedidoParaoutro] = useState(false);
 
     const [pesquisa, setPesquisa] = useState('');
     const [nomeAmbiente, setNomeAmbiente] = useState('');
@@ -318,7 +321,7 @@ const Cadastro = (props) => {
     }, [fkUnidade, fkUnidade, logged, pesquisa])
 
     function pesquisar() {
-        const token = getCookie("_token_GSI");
+        const token = getCookie("_token_GSI")
         const params = {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -347,6 +350,52 @@ const Cadastro = (props) => {
                 })
                 .catch((err) => console.log(err));
         });
+    }
+
+    const checkCPF = () =>{
+        
+
+        const token = getCookie("_token_GSI")
+        const params = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        // fetch(`${process.env.REACT_APP_DOMAIN_API}/api/atividade${pesquisa?`/search?&pesquisa=${pesquisa}` : ''
+        fetch(
+            `${process.env.REACT_APP_DOMAIN_API}/api/usuario/searchCPF?pesquisa=${quantidade}`,
+            params
+        ).then((response) => {
+            const { status } = response;
+            response
+                .json()
+                .then((data) => {
+                    // setOpenLoadingDialog(false)
+
+                    if (status === 401) {
+                        // alert(status)
+                    } else if (status === 200) {
+                       
+                        if(data.message === 'usuario Localizado' ){
+                            alert(data.message +', fazer pedido para: '+ data.data.nome )
+                            
+                        window.location.href = `${process.env.REACT_APP_DOMAIN}/funcionario/${quantidade}`
+                        }else{
+                            alert(data.message)
+
+                        }
+
+                        // alert(pesquisa)
+                        // alert(JSON.stringify(data.data))
+                        setPedidosDoFuncionario(data.data);
+                        // alert(JSON.stringify(respostas))
+                        // filtrarUsuariosDemandados()
+                    }
+                })
+                .catch((err) => console.log(err));
+        });
+
+
     }
 
 
@@ -391,39 +440,7 @@ const Cadastro = (props) => {
 
     }, [fkUsuario])
 
-    function deletarSolicitacao(id) {
 
-        // alert(id)
-        setOpenLoadingDialog(true)
-        const token = getCookie("_token_GSI")
-        const params = {
-            method: 'POST',
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }
-        fetch(`${process.env.REACT_APP_DOMAIN_API}/api/pedido/${id}/delete`, params)
-            .then(response => {
-
-                const { status } = response
-
-                response.json().then(data => {
-
-                    if (status === 401) {
-                        // mensagens('Alteração falhou, tente novamente')
-
-
-                    } else if (status === 200) {
-                        alert(data.message)
-                        // setModalData(false)
-
-                        window.location.href = `${process.env.REACT_APP_DOMAIN}/home`;
-
-
-                    }
-                })
-            })
-    }
 
     let qtd = 0
     let idProduto = ''
@@ -587,6 +604,25 @@ const Cadastro = (props) => {
                                     <img src={ImageLogo1} style={{ width: '180px', borderRadius: '8px' }} onClick={() => setAbrirEstoque(true)} />
                                 </div>
                             </a>
+
+                            <a style={{ textDecoration: 'none' }}>
+                                <div
+                                    style={{
+                                        width: '220px', // Definindo largura fixa
+                                        height: '250px', // Definindo altura fixa
+                                        textAlign: 'center',
+                                        padding: '10px', // Adiciona um espaço interno para a borda
+                                        border: '2px solid #ccc', // Aumenta a largura da borda
+                                        borderRadius: '12px', // Bordas arredondadas
+                                        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Sombra moderada
+                                        cursor: 'pointer', // Altera o cursor ao passar o mouse
+                                    }}
+                                >
+                                    <b>Fazer pedido para outro funcionário</b><br />
+                                    <img src={ImageLogo2} style={{ width: '180px',  height:'180px',borderRadius: '8px' }} 
+                                    onClick={() => setAbrirPedidoParaoutro(true)} />
+                                </div>
+                            </a>
                         </div>
 
 
@@ -715,6 +751,44 @@ const Cadastro = (props) => {
                 <DialogActions >
 
                     <Button onClick={() => setAbrirNovoProduto(false)}>
+                        sair
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog
+                open={abrirPedidoParaOutro}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description">
+                <b style={{ marginLeft: '10px' }} >Informe o CPF
+                </b>
+                <DialogContent style={{ width: 400 }}>
+
+
+                 
+                    <FormControl fullWidth size="small">
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            label='CPF'
+                            value={quantidade}
+                            onChange={handleInputChange}
+                        />
+                    </FormControl>
+
+
+
+
+                </DialogContent>
+
+                {quantidade ?
+
+                    <Button onClick={checkCPF}>Fazer pedido</Button>
+
+                    : ""}
+                <DialogActions >
+
+                    <Button onClick={() => setAbrirPedidoParaoutro(false)}>
                         sair
                     </Button>
                 </DialogActions>

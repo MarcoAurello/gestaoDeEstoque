@@ -4,7 +4,7 @@ const Logout = () => {
   useEffect(() => {
     function logout() {
       document.cookie =
-        "_token_GSIr=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        "_token_GSI=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
       window.location = `${process.env.REACT_APP_DOMAIN}/login`;
     }
 

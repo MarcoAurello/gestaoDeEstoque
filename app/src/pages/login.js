@@ -18,6 +18,7 @@ const ImageBackground = require('../assets/bg-image.jpeg')
 const ImageLogo = require('../assets/senac_logo.png')
 
 
+
 const theme = createTheme()
 
 const Login = () => {
@@ -45,12 +46,22 @@ const Login = () => {
 
   const handleCloseMessageDialog = () => setOpenMessageDialog(false)
 
+  useEffect(() => {
+    isAutenticated().then((_) => {
+      setAutenticated(_.logged);
+      setVerified(true);
+    });
+  }, []);
+
   const btEntrar = () => {
     setOpenDialog(true)
+    const token = getCookie("_token_GSI")
+    
     const params = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
         password,
@@ -118,12 +129,7 @@ const Login = () => {
   }
 
 
-  useEffect(() => {
-    isAutenticated().then((_) => {
-      setAutenticated(_.logged);
-      setVerified(true);
-    });
-  }, []);
+ 
 
   useEffect(() => {
     carregarPerfis()

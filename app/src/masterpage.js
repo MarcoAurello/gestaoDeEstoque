@@ -6,6 +6,7 @@ import Content from "./components/content";
 import Home from './pages/home';
 import Cadastro from './pages/cadastro';
 import Usuario from './pages/usuario'
+import Funcionario from './pages/funcionario'
 import Relatorio from './pages/relatorio'
 
 import MenuIcon from '@mui/icons-material/Menu'
@@ -285,7 +286,7 @@ const Masterpage = (props) => {
       open={openAccountMenu}
       onClose={() => setOpenAccountMenu(false)}
     >
-      
+
       <MenuItem onClick={() => {
         setOpenAccountMenu(false)
         window.location.href = `${process.env.REACT_APP_DOMAIN}/logout`
@@ -338,17 +339,17 @@ const Masterpage = (props) => {
 
 
           <List>
-          <ListItem disablePadding>
-                  <ListItemButton onClick={() => window.location.href = `${process.env.REACT_APP_DOMAIN}/home/`}>
-                    <ListItemIcon>
-                      <PlaylistAddCheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary='Home' />
-                  </ListItemButton>
-                </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => window.location.href = `${process.env.REACT_APP_DOMAIN}/home/`}>
+                <ListItemIcon>
+                  <PlaylistAddCheckIcon />
+                </ListItemIcon>
+                <ListItemText primary='Home' />
+              </ListItemButton>
+            </ListItem>
             {logged && logged.Perfil && logged.Perfil.nome === 'Administrador' ?
               <div>
-                
+
                 <ListItem disablePadding>
                   <ListItemButton onClick={() => window.location.href = `${process.env.REACT_APP_DOMAIN}/cadastro/`}>
                     <ListItemIcon>
@@ -357,19 +358,19 @@ const Masterpage = (props) => {
                     <ListItemText primary='Cadastrar' />
                   </ListItemButton>
                 </ListItem>
-                
-                
+
+
 
               </div>
               : ''}
-              <ListItem disablePadding>
-                  <ListItemButton onClick={() => window.location.href = `${process.env.REACT_APP_DOMAIN}/relatorio/`}>
-                    <ListItemIcon>
-                      <FormatListNumberedIcon />
-                    </ListItemIcon>
-                    <ListItemText primary='Relatórios' />
-                  </ListItemButton>
-                </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => window.location.href = `${process.env.REACT_APP_DOMAIN}/relatorio/`}>
+                <ListItemIcon>
+                  <FormatListNumberedIcon />
+                </ListItemIcon>
+                <ListItemText primary='Relatórios' />
+              </ListItemButton>
+            </ListItem>
             {
               logged && logged.validado && logged.Perfil.nome === PerfilUtils.Administrador ?
                 <>
@@ -465,6 +466,12 @@ const Masterpage = (props) => {
             exact
             path="/area/:id/edit"
             render={(props) => <AreaForm {...props} logged={logged} />}
+          />
+
+          <Route
+            exact
+            path="/funcionario/:id"
+            render={(props) => <Funcionario{...props} logged={logged} />}
           />
 
           <Route

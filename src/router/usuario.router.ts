@@ -31,6 +31,7 @@ class UsuarioRouter {
     this.router.get('/naovalidado/', controller.naoValidado)
     this.router.get('/equipe/', controller.equipe)
     this.router.get('/search/', controller.search)
+    this.router.get('/searchCPF/', controller.searchCPF)
     this.router.get('/searchRelatorio/', controller.searchRelatorio)
 
     

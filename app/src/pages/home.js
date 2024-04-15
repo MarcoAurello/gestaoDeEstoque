@@ -1,8 +1,7 @@
 import { CircularProgress, FormControl, InputLabel, MenuItem, Select, Chip } from "@mui/material";
 
 import EditIcon from '@mui/icons-material/Edit';
-import TaskFilter from '../components/task-filter'
-import TaskItem from '../components/task-item'
+
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import moment from "moment";
 
@@ -73,6 +72,7 @@ const Home = (props) => {
 
       // setOpenLoadingDialog(true)
       const token = getCookie("_token_GSI");
+
       const params = {
         headers: {
           Authorization: `Bearer ${token}`,
