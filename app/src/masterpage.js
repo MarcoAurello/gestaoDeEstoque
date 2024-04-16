@@ -7,6 +7,7 @@ import Home from './pages/home';
 import Cadastro from './pages/cadastro';
 import Usuario from './pages/usuario'
 import Funcionario from './pages/funcionario'
+import Banheiro from './pages/banheiro'
 import Relatorio from './pages/relatorio'
 
 import MenuIcon from '@mui/icons-material/Menu'
@@ -371,6 +372,14 @@ const Masterpage = (props) => {
                 <ListItemText primary='Relatórios' />
               </ListItemButton>
             </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => window.location.href = `${process.env.REACT_APP_DOMAIN}/banheiro/`}>
+                <ListItemIcon>
+                  <FormatListNumberedIcon />
+                </ListItemIcon>
+                <ListItemText primary='Banheiro' />
+              </ListItemButton>
+            </ListItem>
             {
               logged && logged.validado && logged.Perfil.nome === PerfilUtils.Administrador ?
                 <>
@@ -434,6 +443,12 @@ const Masterpage = (props) => {
             exact
             path="/configuracao"
             render={(props) => <ConfiguracaoForm {...props} logged={logged} />}
+          />
+
+<Route
+            exact
+            path="/banheiro"
+            render={(props) => <Banheiro {...props} logged={logged} />}
           />
 
 

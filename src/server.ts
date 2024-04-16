@@ -8,6 +8,12 @@ import routerLocal from './router/local.router'
 import routerProduto from './router/produto.router'
 import routerEntrada from './router/entrada.router'
 import routerPedido from './router/pedido.router'
+import routerBanheiro from './router/banheiro.router'
+import routerLimpezaBanheiro from './router/limpezaBanheiro.router'
+import routerArquivo from './router/arquivo.router'
+
+
+
 import routerPerfil from './router/perfil.router'
 import routerConfiguracaoGlobal from './router/configuracaoGlobal.router'
 import protocolo from './utils/protocolo.utils'
@@ -37,8 +43,11 @@ class Server {
     this.application.use('/api/unidade/', routerUnidade)
     this.application.use('/api/local/', routerLocal)
     this.application.use('/api/produto/', routerProduto)
+    this.application.use('/api/arquivo/', routerArquivo)
     this.application.use('/api/entrada/', routerEntrada)
     this.application.use('/api/pedido/', routerPedido)
+    this.application.use('/api/banheiro/', routerBanheiro)
+    this.application.use('/api/limpezaBanheiro/', routerLimpezaBanheiro)
     this.application.use('/api/configuracao/', routerConfiguracaoGlobal)
     this.application.use(express.static(path.resolve('app', 'build')))
     this.application.get('/*', (req, res) =>
