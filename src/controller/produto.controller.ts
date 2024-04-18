@@ -6,6 +6,7 @@ import { DATE } from 'sequelize'
 import Entrada from '../model/entrada.model'
 import Usuario from '../model/usuario.model'
 import Local from '../model/local.model'
+const { Op } = require('sequelize');
 
 class ProdutoController implements IController {
   async all(req: Request, res: Response, next: NextFunction): Promise<any> {
@@ -183,24 +184,33 @@ class ProdutoController implements IController {
 
   async search (req: any, res: Response, next: NextFunction): Promise<any> {
     try {
-      const { pesquisa } = req.query
+      const { pesquisa, dataInicio, dataFim } = req.query
+      console.log('ttt'+dataInicio)
+
+      const dataFimFinal = new Date(dataFim);
+      dataFimFinal.setHours(23, 59, 59);
+
+      const dataInicial = new Date(dataInicio);
+      dataInicial.setHours(1, 0, 0);
     
 
       const registros = await Pedido.findAll({
-        include: [Usuario,Produto,Local],
+        include: [Usuario, Produto, Local],
         where: {
-          fkProduto:  pesquisa 
-          
+          dataRetirada: {
+            [Op.between]: [dataInicial, dataFimFinal],
+
+          },
+          fkProduto: pesquisa
         },
+        order: [
+          ['dataRetirada', 'DESC'] // Ordena os registros em ordem decrescente de dataRetirada (da mais recente para a mais antiga)
+        ]
+      });
 
-        order: [['dataRetirada', 'DESC']] // Ordena por dataRetirada em ordem decrescente
-      })
 
-      
 
-  
-
-      console.log('chii'+JSON.stringify(registros))
+      console.log('chii' + JSON.stringify(registros))
 
       res.status(200).json({ data: registros })
     } catch (err) {

@@ -16,6 +16,8 @@ import { CircularProgress, DialogActions, DialogContent, DialogContentText, Dial
 
 const ImageBackground = require('../assets/bg-image.jpeg')
 const ImageLogo = require('../assets/senac_logo.png')
+const getCookie = require('../utils/getCookie')
+
 
 
 
@@ -42,8 +44,7 @@ const Login = () => {
 
   const [funcionarioChecado, setFuncionarioChecado] = useState([])
 
-  const getCookie = require('../utils/getCookie')
-
+  
   const handleCloseMessageDialog = () => setOpenMessageDialog(false)
 
   useEffect(() => {
@@ -235,10 +236,6 @@ const Login = () => {
       // setCep(alunoChecado[0][0].AlunoCepLogradouroPrincipal);
 
     }
-
-
-
-
 
 
   }, [funcionarioChecado, nome,funcionarioAlterado]);

@@ -72,6 +72,9 @@ const Relatorio = (props) => {
     const [relatorioProdutos, setRelatorioProdutos] = useState([]);
     const [todasDoFuncionario, setTodasDoFuncionario] = useState([]);
     const [modalRelatorioFuncionario, setModalRelatorioFuncionario] = useState(false);
+    const [dataInicio, setDataInicio] = useState(null);
+    const [dataFim, setDataFim] = useState(null);
+  
 
 
 
@@ -251,9 +254,9 @@ const Relatorio = (props) => {
 
         }
 
-        if (pesquisa) {
-            pesquisar()
-        }
+        // if (pesquisa) {
+        //     pesquisar()
+        // }
 
 
 
@@ -262,7 +265,7 @@ const Relatorio = (props) => {
         //   alert(JSON.stringify(funcionarios))
         // }
 
-    }, [fkUnidade, fkUnidade, logged, pesquisa])
+    }, [fkUnidade, fkUnidade, logged, pesquisa, dataInicio,dataFim])
 
     function pesquisar() {
         const token = getCookie("_token_GSI");
@@ -369,7 +372,7 @@ const Relatorio = (props) => {
             },
         };
         fetch(
-            `${process.env.REACT_APP_DOMAIN_API}/api/usuario/search?pesquisa=${fkUsuarioPesquisa}`,
+            `${process.env.REACT_APP_DOMAIN_API}/api/usuario/search?pesquisa=${fkUsuarioPesquisa}&dataInicio=${dataInicio}&dataFim=${dataFim}`,
             params
         ).then((response) => {
             const { status } = response;
@@ -400,7 +403,7 @@ const Relatorio = (props) => {
             },
         };
         fetch(
-            `${process.env.REACT_APP_DOMAIN_API}/api/produto/search?pesquisa=${fkProduto}`,
+            `${process.env.REACT_APP_DOMAIN_API}/api/produto/search?pesquisa=${fkProduto}&dataInicio=${dataInicio}&dataFim=${dataFim}`,
             params
         ).then((response) => {
             const { status } = response;
@@ -434,7 +437,7 @@ const Relatorio = (props) => {
             },
         };
         fetch(
-            `${process.env.REACT_APP_DOMAIN_API}/api/local/searchPorLocal?pesquisa=${fkLocal}`,
+            `${process.env.REACT_APP_DOMAIN_API}/api/local/searchPorLocal?pesquisa=${fkLocal}&dataInicio=${dataInicio}&dataFim=${dataFim}`,
             params
         ).then((response) => {
             const { status } = response;
@@ -453,6 +456,24 @@ const Relatorio = (props) => {
                 .catch((err) => setOpenLoadingDialog(true));
         });
     }
+
+    const handleDataChangeNF = (event) => {
+
+        const selectedDate = event.target.value;
+        const currentDate = new Date();
+        const [year, month, day] = selectedDate.split('-');
+        const newDate = new Date(year, month - 1, day, currentDate.getHours(), currentDate.getMinutes(), currentDate.getSeconds());
+        setDataInicio(newDate.toISOString());
+    };
+    const handleDataChangeNF1 = (event) => {
+
+        const selectedDate = event.target.value;
+        const currentDate = new Date();
+        const [year, month, day] = selectedDate.split('-');
+        const newDate = new Date(year, month - 1, day, currentDate.getHours(), currentDate.getMinutes(), currentDate.getSeconds());
+        setDataFim(newDate.toISOString());
+    };
+
 
 
 
@@ -635,6 +656,33 @@ const Relatorio = (props) => {
                         <p></p>
                     </FormControl><p></p>
 
+                    <TextField
+                        id="date"
+                        label="Data Inicial"
+                        type="date"
+                        size="small"
+                        style={{ marginRight: '5px' }}
+                        defaultValue={new Date()}
+                        onChange={handleDataChangeNF}
+
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    /><p></p>
+                    <TextField
+                        id="date"
+                        label="Data Final"
+                        type="date"
+                        size="small"
+                        style={{ marginRight: '5px' }}
+                        defaultValue={new Date()}
+                        onChange={handleDataChangeNF1}
+
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        />
+
                     {/* <FormControl fullWidth size="small">
                         <TextField
                             fullWidth
@@ -688,6 +736,32 @@ const Relatorio = (props) => {
                         </Select>
                         <p></p>
                     </FormControl><p></p>
+                    <TextField
+                        id="date"
+                        label="Data Inicial"
+                        type="date"
+                        size="small"
+                        style={{ marginRight: '5px' }}
+                        defaultValue={new Date()}
+                        onChange={handleDataChangeNF}
+
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    /><p></p>
+                    <TextField
+                        id="date"
+                        label="Data Final"
+                        type="date"
+                        size="small"
+                        style={{ marginRight: '5px' }}
+                        defaultValue={new Date()}
+                        onChange={handleDataChangeNF1}
+
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        />
 
 
 
@@ -696,7 +770,7 @@ const Relatorio = (props) => {
 
                 </DialogContent>
 
-                {fkProduto ?
+                {fkProduto  && dataInicio && dataFim?
 
                     <Button onClick={() => porProduto()}>Buscar</Button>
 
@@ -737,15 +811,39 @@ const Relatorio = (props) => {
                         <p></p>
                     </FormControl><p></p>
 
+                    <TextField
+                        id="date"
+                        label="Data Inicial"
+                        type="date"
+                        size="small"
+                        style={{ marginRight: '5px' }}
+                        defaultValue={new Date()}
+                        onChange={handleDataChangeNF}
 
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    /><p></p>
+                    <TextField
+                        id="date"
+                        label="Data Final"
+                        type="date"
+                        size="small"
+                        style={{ marginRight: '5px' }}
+                        defaultValue={new Date()}
+                        onChange={handleDataChangeNF1}
 
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        />
 
 
 
 
                 </DialogContent>
 
-                {fkLocal ?
+                {fkLocal && dataInicio && dataFim ?
 
                     <Button onClick={() => porLocal()}>Buscar</Button>
 
@@ -763,7 +861,7 @@ const Relatorio = (props) => {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
                 <DialogTitle id="alert-dialog-title">
-                    Relatório
+                    Relatório de {moment(dataInicio).format("DD-MM-YYYY")} a {moment(dataFim).format("DD-MM-YYYY")}
                 </DialogTitle>
                 <DialogContent style={{ width: '100%', maxWidth: 900, overflowX: 'auto' }}>
                     {todasDoFuncionario ? (
@@ -807,6 +905,7 @@ const Relatorio = (props) => {
                                     ))}
                                 </tbody>
                             </table>
+                            <button onClick={() => window.print()}>Imprimir PDF</button>
                         </div>
                     ) : (
                         ""

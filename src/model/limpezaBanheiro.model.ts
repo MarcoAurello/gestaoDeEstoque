@@ -3,6 +3,7 @@ import { uuid } from "uuidv4"
 import connection from "./connection"
 
 import Usuario from "./usuario.model"
+import Local from "./banheiro.model"
 
 class LimpezaBanheiro extends Model {
   public id!: string
@@ -11,11 +12,14 @@ class LimpezaBanheiro extends Model {
 
   public observacao!: string
   public caminho!: string
+  public status!: string
   
   public fkUsuario!: string
+  public fkLocal!: string
  
 
   public Usuario!: Usuario
+  public Local!: Local
  
   public createdAt!: Date
   public updatedAt!: Date
@@ -36,15 +40,23 @@ LimpezaBanheiro.init({
     type: DataTypes.STRING,
     allowNull: true
   },
+  status: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
 
   caminho: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   },
 
 
 
   fkUsuario: {
+    type: DataTypes.UUID,
+    allowNull: false
+  },
+  fkLocal: {
     type: DataTypes.UUID,
     allowNull: false
   }
@@ -62,6 +74,10 @@ LimpezaBanheiro.init({
 
 LimpezaBanheiro.belongsTo(Usuario, { foreignKey: "fkUsuario" })
 Usuario.hasMany(LimpezaBanheiro, { foreignKey: 'fkUsuario' })
+
+LimpezaBanheiro.belongsTo(Local, { foreignKey: "fkLocal" })
+Local.hasMany(LimpezaBanheiro, { foreignKey: 'fkLocal' })
+
 
 
 

@@ -8,6 +8,7 @@ import { IController } from './controller.inteface'
 import Pedido from '../model/pedido.model'
 import Produto from '../model/produto.model'
 import Local from '../model/local.model'
+const { Op } = require('sequelize');
 
 class UsuarioController implements IController {
   // async all (req: any, res: Response, next: NextFunction): Promise<any> {
@@ -273,20 +274,31 @@ class UsuarioController implements IController {
     throw new Error('Method not implemented.')
   }
 
-  async search(req: any, res: Response, next: NextFunction): Promise<any> {
+  async search (req: any, res: Response, next: NextFunction): Promise<any> {
     try {
-      const { pesquisa } = req.query
+      const { pesquisa, dataInicio, dataFim } = req.query
+      console.log('ttt'+dataInicio)
 
+      const dataFimFinal = new Date(dataFim);
+      dataFimFinal.setHours(23, 59, 59);
+
+      const dataInicial = new Date(dataInicio);
+      dataInicial.setHours(1, 0, 0);
+    
 
       const registros = await Pedido.findAll({
         include: [Usuario, Produto, Local],
         where: {
+          dataRetirada: {
+            [Op.between]: [dataInicial, dataFimFinal],
+
+          },
           fkSolicitante: pesquisa
         },
-        order: [['dataRetirada', 'DESC']] // Ordena por dataRetirada em ordem decrescente
+        order: [
+          ['dataRetirada', 'DESC'] // Ordena os registros em ordem decrescente de dataRetirada (da mais recente para a mais antiga)
+        ]
       });
-  
-
 
 
 
@@ -304,6 +316,7 @@ class UsuarioController implements IController {
       }
     }
   }
+
 
   async equipe(req: any, res: Response, next: NextFunction): Promise<any> {
     try {

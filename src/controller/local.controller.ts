@@ -4,6 +4,7 @@ import Local from '../model/local.model'
 import Produto from '../model/produto.model'
 import Pedido from '../model/pedido.model'
 import Usuario from '../model/usuario.model'
+const { Op } = require('sequelize');
 
 class LocalController implements IController {
   async all(req: Request, res: Response, next: NextFunction): Promise<any> {
@@ -121,28 +122,40 @@ class LocalController implements IController {
       }
     }
   }
-  
+
 
   async searchPorLocal(req: any, res: Response, next: NextFunction): Promise<any> {
     try {
-      const { pesquisa } = req.query
+      const { pesquisa, dataInicio, dataFim } = req.query
 
     
+      const dataFimFinal = new Date(dataFim);
+      dataFimFinal.setHours(23, 59, 59);
+
+      const dataInicial = new Date(dataInicio);
+      dataInicial.setHours(1, 0, 0);
+
+
+
+
 
       const registros = await Pedido.findAll({
-        include: [Usuario,Produto,Local],
+        include: [Usuario, Produto, Local],
         where: {
-          fkLocal:  pesquisa 
-          
+          dataRetirada: {
+            [Op.between]: [dataInicial, dataFimFinal],
+
+          },
+          fkLocal: pesquisa
         },
         order: [
           ['dataRetirada', 'DESC'] // Ordena os registros em ordem decrescente de dataRetirada (da mais recente para a mais antiga)
         ]
-      })
+      });
 
-      
 
-      console.log('chii'+JSON.stringify(registros))
+
+      console.log('chii' + JSON.stringify(registros))
 
       res.status(200).json({ data: registros })
     } catch (err) {
@@ -156,7 +169,7 @@ class LocalController implements IController {
       }
     }
   }
-  
+
 }
 
 export default new LocalController()

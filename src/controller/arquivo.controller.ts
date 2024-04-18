@@ -34,13 +34,18 @@ class ArquivoController implements IController {
 
     async create(req: any, res: Response, next: NextFunction): Promise<any> {
         try {
+
+            console.log(req.files)
+           
+
             if (!req.files || Object.keys(req.files).length === 0) {
                 return res
                     .status(401)
                     .json({ message: 'Não há arquivo para guardar!' })
             }
 
-            const { arquivo } = req.files
+            const { arquivo} = req.files
+            const { fk } = req.body;
             const diretorioArquivos = './uploads/'
 
             console.log(arquivo.mimetype)
@@ -91,7 +96,8 @@ class ArquivoController implements IController {
                     const registro = await Arquivo.create({
                         nome: nomeArquivo,
                         nomeApresentacao: arquivo.name,
-                        caminho: diretorioArquivos + nomeArquivo
+                        caminho: diretorioArquivos + nomeArquivo,
+                        fkLimpezaBanheiro : fk
                     })
 
                     return res
@@ -283,9 +289,37 @@ class ArquivoController implements IController {
         throw new Error('Method not implemented.')
     }
 
-    async search(req: Request, res: Response, next: NextFunction): Promise<any> {
-        throw new Error('Method not implemented.')
-    }
+    async search (req: any, res: Response, next: NextFunction): Promise<any> {
+        try {
+          const { pesquisa } = req.query
+       
+    
+          const registros = await Arquivo.findAll({
+           
+            where: {
+              fkLimpezaBanheiro: pesquisa 
+              
+            }
+          })
+    
+          
+    
+      
+    
+          console.log(JSON.stringify(registros))
+    
+          res.status(200).json({ data: registros })
+        } catch (err) {
+          console.log(err)
+          if (typeof err.errors !== 'undefined') {
+            res.status(401).json({ message: err.errors[0].message })
+          } else if (typeof err.message !== 'undefined') {
+            res.status(401).json({ message: err.message })
+          } else {
+            res.status(401).json({ message: 'Aconteceu um erro no processamento da requisição, por favor tente novamente.' })
+          }
+        }
+      }
 }
 
 export default new ArquivoController()

@@ -27,7 +27,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      fkLimpezaBanheiro: {
+      fkLimpezaBanheiro : {
         type: Sequelize.UUID,
         allowNull: true
       },

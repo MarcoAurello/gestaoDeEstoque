@@ -18,6 +18,8 @@ import routerPerfil from './router/perfil.router'
 import routerConfiguracaoGlobal from './router/configuracaoGlobal.router'
 import protocolo from './utils/protocolo.utils'
 
+import fileUpload from 'express-fileupload';
+
 const path = require('path')
 
 class Server {
@@ -33,6 +35,11 @@ class Server {
   private middlewares () {
     this.application.use(json())
     this.application.use(cors())
+    this.application.use(
+      fileUpload({
+        limits: { fileSize: 50 * 1024 * 1024 },
+      })
+    );
   }
 
   private routers () {

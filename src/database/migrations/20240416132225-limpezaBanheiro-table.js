@@ -30,7 +30,16 @@ module.exports = {
         allowNull: true,
        
       },
+      status: {
+        type: Sequelize.STRING,
+        allowNull: false,
+       
+      },
       fkUsuario: {
+        type: Sequelize.UUID,
+        allowNull: false
+      },
+      fkLocal: {
         type: Sequelize.UUID,
         allowNull: false
       },
