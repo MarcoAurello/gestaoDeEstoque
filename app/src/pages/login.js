@@ -124,7 +124,7 @@ const Login = () => {
               setMessage(data.message)
               alert('Usuario Cadastrado')
               setOpenMessageDialog(true)
-              window.location.pathname = "/login"
+              window.location.href = `${process.env.REACT_APP_DOMAIN}/login`;
               // setArea(data.data)
             }
           }).catch(err => setOpenLoadingDialog(true))
