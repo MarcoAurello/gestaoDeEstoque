@@ -323,7 +323,7 @@ const Login = () => {
                 } else if (status === 200) {
                   setFuncionarioAlterado(data.data)
                     alert(data.message)
-                    window.location.pathname = "/login"
+                    window.location.reload()
                     
                 }
                 //  window.location.href = `${process.env.REACT_APP_DOMAIN}/homeSindicatos`
