@@ -9,7 +9,7 @@ require('dotenv').config({ path: process.env.DEVMODE?.trim() === 'test' ? '.env.
 // })
 
 const sequelize = new Sequelize('ServicosGerais', 'sa', 'local', {
-  host: '10.9.8.20',
+  host: '10.9.8.74',
   dialect: 'mssql',
   logging: false
 })
