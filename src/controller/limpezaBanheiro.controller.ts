@@ -93,8 +93,27 @@ class LimpezaBanheiroController implements IController {
   }
 
   async find (req: Request, res: Response, next: NextFunction): Promise<any> {
-    throw new Error('Method not implemented.')
+    try {
+      const { id } = req.params
+      console.log(id)
+    
+
+      const registro = await LimpezaBanheiro.findAll({ 
+        // include: [ Produto , Local],
+        where: { 
+          fkUsuario: id,
+         
+        },
+      
+      });
+      console.log(JSON.stringify('xx1'+JSON.stringify(registro)))
+
+      res.status(200).json({ data: registro })
+    } catch (err) {
+      res.status(401).json({ message: err.errors[0].message })
+    }
   }
+
 
   async update (req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
@@ -168,15 +187,6 @@ class LimpezaBanheiroController implements IController {
       }
 
 
-
-
-      
-
-      // let registro = await LimpezaBanheiro.findOne({ where: { id } })
-
-
-
-      
 
       res.status(200).json({  message: 'Alteração realizada com sucesso.' })
     } catch (err) {

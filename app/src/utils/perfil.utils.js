@@ -1,8 +1,9 @@
 const Perfil = {
   Administrador: "Administrador",
   Coordenador: "Coordenador",
-  Funcionário: "Funcionário",
-  Gerente: "Gerente"
+  Funcionário: "Usuario",
+  Usuario:'Usuario'
+
 }
 
 export default Perfil;

@@ -75,6 +75,16 @@ class UsuarioController implements IController {
 
 
       // });
+      let perf = []
+      if(fkPerfil === '2'  ){
+         perf = await Perfil.findOne({ where: { nome:'Usuario' } })
+
+      }
+
+      if(fkPerfil === '20' ){
+         perf = await Perfil.findOne({ where: { nome:'Administrador' } })
+
+      }
 
       const reg = await Usuario.findOne({ where: { chapa } })
 
@@ -89,7 +99,7 @@ class UsuarioController implements IController {
           // perfil: fk?.nome,
           cpf: cpf,
           password: senha,
-          fkPerfil,
+          fkPerfil: perf?.id,
           passwordHash: await bcrypt.hash(senha, senha.length),
           ativo: true,
           primeiroLogin: true,

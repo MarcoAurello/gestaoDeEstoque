@@ -1,6 +1,8 @@
 import { CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, SpeedDial } from "@mui/material";
 
+
 import EditIcon from '@mui/icons-material/Edit';
+import { Pagination } from '@mui/material';
 
 
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -82,10 +84,12 @@ const Banheiro = (props) => {
   const [fkLimpezaBanheiro, setFkLimpezaBanheiro] = useState('');
   const [fkLServico, setFkServico] = useState('');
   const [nomeBanheiro, setNomeBanheiro] = useState('');
+  const [aprovados, setAprovados] = useState(0);
+  const [reprovados, setReprovados] = useState(0);
   const [paraAnalizar, setParaAnalizar] = useState([])
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 2; // Número de itens por página
+  const itemsPerPage = 1; // Número de itens por página
 
   // Calcular os índices de início e fim para a página atual
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -103,6 +107,23 @@ const Banheiro = (props) => {
   const prevPage = () => {
     setCurrentPage(currentPage - 1);
   };
+  const [currentPageX, setCurrentPageX] = useState(1);
+  const imagesPerPageX = 1; // Número de imagens por página
+
+  const totalImagesX = fotos.length;
+  const totalPagesX = Math.ceil(totalImagesX / imagesPerPageX);
+
+  const handleChangePageX = (event, newPage) => {
+    setCurrentPageX(newPage);
+  };
+
+  const startIndexX = (currentPageX - 1) * imagesPerPageX;
+  const endIndexX = Math.min(startIndexX + imagesPerPageX, totalImagesX);
+  const paginatedImagesX = fotos.slice(startIndexX, endIndexX);
+
+
+
+
 
 
 
@@ -214,6 +235,12 @@ const Banheiro = (props) => {
       // Atualiza o estado fkLimpezaBanheiro com o ID do item
       setFkLimpezaBanheiro(idDoItem);
     }
+
+    if (logged) {
+      setFkUsuario(logged.id)
+      // alert(logged.Perfil.nome)
+
+    }
   }, [minhasLimpesas]);
 
 
@@ -310,11 +337,21 @@ const Banheiro = (props) => {
     }
 
 
+    // if (minhas) {
+    //   contagem(minhas)     
+    // }
 
 
 
 
-  }, [fkUnidade, fkUnidade, logged, pesquisa, fkLimpezaBanheiro])
+
+
+  }, [fkUnidade, fkUnidade, logged, pesquisa, fkLimpezaBanheiro, minhas])
+
+
+
+
+
 
   function pesquisar() {
     const token = getCookie("_token_GSI");
@@ -350,41 +387,40 @@ const Banheiro = (props) => {
 
 
 
-  //  
+  useEffect(() => {
 
+    function carregarMinhas() {
 
+      const token = getCookie("_token_GSI");
+      const params = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      fetch(
+        `${process.env.REACT_APP_DOMAIN_API}/api/limpezaBanheiro/${fkUsuario}`,
+        params
+      ).then((response) => {
+        const { status } = response;
+        response
+          .json()
+          .then((data) => {
+            setOpenLoadingDialog(false);
+            if (status === 401) {
+            } else if (status === 200) {
+              // alert(data.message)
+              setMinhas(data.data);
 
+              setOpenLoadingDialog(false);
+            }
+          })
+          .catch((err) => setOpenLoadingDialog(true));
+      });
+    }
 
+    carregarMinhas()
 
-
-
-
-
-
-  // const enviarArquivo = (e) => {
-  //   setArquivo(e)
-
-  //   // alert(JSON.stringify(e))
-  //   const form = new FormData()
-  //   form.append('arquivo', e)
-
-  //   sendFile("POST", `${process.env.REACT_APP_DOMAIN_API}/api/arquivo`, form)
-  //     .then(response => {
-  //       const { data } = response
-  //       setOpenLoadingDialog(true)
-
-  //       setListaDeArquivosEnviados([...listaDeArquivosEnviados, data])
-  //       setCaminho(data.caminho)
-  //       setOpenLoadingDialog(false)
-  //       // alert(JSON.stringify(listaDeArquivosEnviados))
-
-  //       // alert(JSON.stringify(response))
-  //     })
-  //     .catch(err => {
-  //       alert(JSON.stringify(err))
-  //     })
-  // }
-
+  }, [fkUsuario])
   const enviarArquivo = (e, fk) => {
 
 
@@ -558,10 +594,10 @@ const Banheiro = (props) => {
             window.location.reload();
             // setOpen(false)
             // alert(JSON.stringify(data.data))
-           
+
             alert(data.message)
             setOpenMessageDialog(true)
-            
+
             // setArea(data.data)
           }
         }).catch(err => setOpenLoadingDialog(true))
@@ -795,17 +831,24 @@ const Banheiro = (props) => {
 
                       <p style={{ marginBottom: '10px' }}><strong>Imagens:</strong></p>
                       {/* Iterar sobre os arquivos dentro do objeto item.Arquivos */}
-                      {item.Arquivos.map((arquivo, arquivoKey) => (
-                        <div key={arquivoKey} style={{ marginBottom: '5px' }}>
-                          <button
-                            style={{ color: 'blue', marginRight: '10px' }}
-                            onClick={() => window.location.href = `${process.env.REACT_APP_DOMAIN_API}/api/arquivo/${arquivo.id}`}
-                          >
-                            {arquivo.nomeApresentacao}
-                          </button><p></p>
-                          {/* Adicione aqui qualquer lógica adicional que você queira aplicar a cada arquivo */}
-                        </div>
-                      ))}
+                      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                        {item.Arquivos.map((arquivo, arquivoKey) => (
+                          <div key={arquivoKey} style={{ marginRight: '10px', marginBottom: '10px' }}>
+                            <img
+                              src={`${process.env.REACT_APP_DOMAIN_API}/api/arquivo/${arquivo.id}`}
+                              alt={item.nomeApresentacao}
+                              style={{ width: '300px', height: '300px' }}
+                            />
+                            <hr />
+                            <p></p>
+                            {/* Adicione aqui qualquer lógica adicional que você queira aplicar a cada arquivo */}
+                          </div>
+                        ))}
+                      </div>
+
+
+
+
                       <Button variant="contained" onClick={() => onSaveEditAdm(item.id, 'aprovado')}>
                         {'aprovar'}
                       </Button>
@@ -845,24 +888,16 @@ const Banheiro = (props) => {
 
           {logged && logged.Perfil && logged.Perfil.nome === 'Usuario' ?
 
-            <div>
+            <div >
+              <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '5px' }}>
+                <h4>Seus Serviços:</h4>
+                Em Analise: {minhas ? minhas.filter(item => item.status === 'Concluido').length : ''}<br></br><hr></hr>
+                Aprovado: {minhas ? minhas.filter(item => item.status === 'aprovado').length : ''}<br></br><hr></hr>
+                Reprovado: {minhas ? minhas.filter(item => item.status === 'reprovado').length : ''}<br></br>
 
+              </div><p></p>
 
-
-
-
-
-
-
-
-
-
-
-              <p></p>
-              <div
-
-
-              >
+              <div>
 
                 {
                   minhasLimpesas.length > 0 ?
@@ -919,7 +954,7 @@ const Banheiro = (props) => {
               <div
                 style={{
                   width: '100%', // Definindo largura fixa
-                  height: '450px', // Definindo altura fixa
+                  height: '100%', // Definindo altura fixa
                   textAlign: 'center',
                   padding: '10px', // Adiciona um espaço interno para a borda
                   border: '2px solid #ccc', // Aumenta a largura da borda
@@ -963,20 +998,33 @@ const Banheiro = (props) => {
 
 
 
+                <div>
+                  {paginatedImagesX.map((item, index) => (
+                    <div key={index}>
+                      <img
+                        src={`${process.env.REACT_APP_DOMAIN_API}/api/arquivo/${item.id}`}
+                        alt={item.nomeApresentacao}
+                        style={{ width: '250px', height: '300px' }}
+                      />
+                      <br />
+                    </div>
+                  ))}
+                  <center>
+                    <Pagination
+                      count={totalPagesX}
+                      page={currentPageX}
+                      onChange={handleChangePageX}
+                      variant="outlined"
+                      shape="rounded"
+                    />
+
+                  </center>
+
+                </div>
 
 
 
-                {fotos.map((item, key) => <b style={{ color: 'blue', fontSize: 11 }}>
-
-                  {
-
-                    <button
-                      style={{ color: 'blue' }}
-                      onClick={() => window.location.href = `${process.env.REACT_APP_DOMAIN_API}/api/arquivo/${item.id}`}>{item.nomeApresentacao}</button>}
-                  <br></br>
-
-
-                </b>)}<p></p>
+                <p></p>
 
                 {fotos.length > 2 ?
 

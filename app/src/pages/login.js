@@ -90,50 +90,57 @@ const Login = () => {
 
   const onSave = () => {
     // alert('1')
-    setOpenLoadingDialog(true)
-    const token = getCookie("_token_GSI")
-    const params = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        nome,
-        senha,
-        chapa,
-        fkPerfil,
-        cpf
-      })
-    }
 
-    fetch(`${process.env.REACT_APP_DOMAIN_API}/api/usuario/`, params)
-      .then(response => {
-        const { status } = response
-        response.json().then(data => {
-          setOpenLoadingDialog(false)
-          if (status === 401) {
-            setMessage(data.message)
-            setOpenMessageDialog(true)
-            // window.location.pathname = "/login"
-          } else if (status === 200) {
-            // setOpen(false)
-            // alert(JSON.stringify(data.data))
-            setMessage(data.message)
-            alert('Usuario Cadastrado')
-            setOpenMessageDialog(true)
-            window.location.pathname = "/login"
-            // setArea(data.data)
-          }
-        }).catch(err => setOpenLoadingDialog(true))
-      })
+    if(fkPerfil == '2' || fkPerfil ==='20'){
+      setOpenLoadingDialog(true)
+      const token = getCookie("_token_GSI")
+      const params = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          nome,
+          senha,
+          chapa,
+          fkPerfil,
+          cpf
+        })
+      }
+  
+      fetch(`${process.env.REACT_APP_DOMAIN_API}/api/usuario/`, params)
+        .then(response => {
+          const { status } = response
+          response.json().then(data => {
+            setOpenLoadingDialog(false)
+            if (status === 401) {
+              setMessage(data.message)
+              setOpenMessageDialog(true)
+              // window.location.pathname = "/login"
+            } else if (status === 200) {
+              // setOpen(false)
+              // alert(JSON.stringify(data.data))
+              setMessage(data.message)
+              alert('Usuario Cadastrado')
+              setOpenMessageDialog(true)
+              window.location.pathname = "/login"
+              // setArea(data.data)
+            }
+          }).catch(err => setOpenLoadingDialog(true))
+        })
+
+    }else{
+      alert('codico de perfil nao existe')
+    }
+   
   }
 
 
  
 
   useEffect(() => {
-    carregarPerfis()
+    // carregarPerfis()
 
     // if(funcionarioChecado.length > 0){
     //   alert(JSON.stringify(funcionarioChecado[0].NOME))
@@ -654,150 +661,28 @@ const Login = () => {
 
               </FormControl>
 
-              <FormControl fullWidth>
-                <InputLabel htmlFor="demo-select-small">Perfil*</InputLabel>
-                <Select
-                  size="small"
-                  fullWidth
-
-                  labelId="demo-select-small"
-                  id="demo-select-small"
-                  label="Perfil"
-                  value={fkPerfil}
-
-                >
-
-                  {perfis.map((item, index) => <MenuItem key={index} value={item.id} onClick={() => setFkPerfil(item.id)}>{item.nome}</MenuItem>)}
-                </Select>
-              </FormControl>
-
-              <p></p>
-
+              
               <FormControl fullWidth size="small">
-                <InputLabel id="demo-select-small">Senha</InputLabel>
+                <InputLabel id="demo-select-small">Codigo do perfil</InputLabel>
                 <hr></hr>
                 <TextField
                   autoFocus
                   margin="dense"
-                  id="senha"
-                  type="password" // Alterado para "password" para ocultar os caracteres digitados
-                  name="Senha"
-                  fullWidth
-                  variant="standard"
-                  multiline
-                  value={senha}
-                  onChange={e => setSenha(e.target.value)}
-                  error={senha.length < 4} // Define o campo como erro se a senha tiver menos de 4 caracteres
-                  helperText={senha.length < 4 ? "A senha deve ter pelo menos 4 caracteres" : ""} // Exibe mensagem de erro se a senha tiver menos de 4 caracteres
-                />
-              </FormControl>
-
-
-            </div>
-
-
-          }
-
-
-
-
-          <p></p>
-
-
-
-        </DialogContent>
-        {senha && fkPerfil && chapa && nome ?
-
-
-          <Button onClick={onSave}>Salvar</Button>
-
-          :
-          ''}
-
-        <Button onClick={() => setModalCadastro(false)}>Cancelar</Button>
-      </Dialog>
-
-
-
-
-      <Dialog open={modalCadastro} style={{ size: '350px' }} >
-        <DialogTitle>Novo Usuario</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-
-          </DialogContentText>
-
-
-
-          {funcionarioChecado.length === 0 ?
-
-            <div>
-              Informe o CPF
-              <TextField
-
-                autoFocus
-                margin="dense"
-                id="Nome"
-                // label="Titulo do chamado"
-                type="text"
-                name="Informe CPF"
-                fullWidth
-                variant="standard"
-                value={cpf}
-                onChange={e => setCpf(e.target.value)}
-
-              /><p></p>
-              <Button onClick={checkCPF}>Buscar</Button>
-
-            </div>
-
-            :
-            <div>
-
-              <FormControl fullWidth size="small">
-                <InputLabel id="demo-select-small">Nome</InputLabel>
-                <hr></hr>
-                <TextField
-
-                  autoFocus
-                  margin="dense"
-                  id="Nome"
-                  // label="Titulo do chamado"
-                  type="text"
-                  name="Nome"
-                  fullWidth
-                  disabled
-                  value={nome}
-                  onChange={e => setNome(e.target.value)}
-
-                />
-
-              </FormControl>
-
-
-              <p></p>
-
-              <FormControl fullWidth size="small">
-                <InputLabel id="demo-select-small">Chapa</InputLabel>
-                <hr></hr>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="chapa"
+                  id="Codigo do perfil"
                   // label="Descrição do chamado"
                   type="text"
-                  name="Chapa"
+                  name="Codigo do perfil"
                   fullWidth
-                  disabled
+                  
                   multiline
-                  value={chapa}
-                  onChange={e => setChapa(e.target.value)}
+                  value={fkPerfil}
+                  onChange={e => setFkPerfil(e.target.value)}
 
                 />
 
               </FormControl>
 
-              <FormControl fullWidth>
+              {/* <FormControl fullWidth>
                 <InputLabel htmlFor="demo-select-small">Perfil*</InputLabel>
                 <Select
                   size="small"
@@ -810,9 +695,10 @@ const Login = () => {
 
                 >
 
-                  {perfis.map((item, index) => <MenuItem key={index} value={item.id} onClick={() => setFkPerfil(item.id)}>{item.nome}</MenuItem>)}
+                  <MenuItem  value={'Usuario'} onClick={() => setFkPerfil('Usuario')}>Usuario</MenuItem>
+                  <MenuItem  value={'Usuario'} onClick={() => setFkPerfil('Usuario')}>Usuario</MenuItem>
                 </Select>
-              </FormControl>
+              </FormControl> */}
 
               <p></p>
 
@@ -859,6 +745,11 @@ const Login = () => {
 
         <Button onClick={() => setModalCadastro(false)}>Cancelar</Button>
       </Dialog>
+
+
+
+
+     
 
       <Dialog
         open={openMessageDialog}

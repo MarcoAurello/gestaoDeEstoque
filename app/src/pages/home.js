@@ -308,11 +308,11 @@ const Home = (props) => {
 
 
 
-    // if(minhas){
-    //   alert(JSON.stringify(minhas))
-    // }
+   
 
-  }, [logged, pesquisa])
+  }, [logged, pesquisa, minhas])
+
+
 
   function pesquisar() {
     const token = getCookie("_token_GSI");
