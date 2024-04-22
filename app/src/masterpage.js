@@ -372,14 +372,14 @@ const Masterpage = (props) => {
                 <ListItemText primary='Relatórios' />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
+            {/* <ListItem disablePadding>
               <ListItemButton onClick={() => window.location.href = `${process.env.REACT_APP_DOMAIN}/banheiro/`}>
                 <ListItemIcon>
                   <FormatListNumberedIcon />
                 </ListItemIcon>
                 <ListItemText primary='Banheiro' />
               </ListItemButton>
-            </ListItem>
+            </ListItem> */}
             {
               logged && logged.validado && logged.Perfil.nome === PerfilUtils.Administrador ?
                 <>

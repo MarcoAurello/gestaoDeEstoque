@@ -421,9 +421,10 @@ const Banheiro = (props) => {
     carregarMinhas()
 
   }, [fkUsuario])
+
+
+
   const enviarArquivo = (e, fk) => {
-
-
 
 
     setArquivo(e)
