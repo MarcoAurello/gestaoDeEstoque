@@ -512,51 +512,48 @@ const Relatorio = (props) => {
                 }}>
 
                     {logged && logged.Perfil && logged.Perfil.nome === 'Administrador' ?
-                        <div>
-                            <a style={{ textDecoration: 'none', display: 'inline-block' }}>
-                                <div
-                                    style={{
-                                        width: '220px', // Definindo largura fixa
-                                        height: '250px', // Definindo altura fixa
-                                        textAlign: 'center',
-                                        padding: '10px', // Adiciona um espaço interno para a borda
-                                        border: '2px solid #ccc', // Aumenta a largura da borda
-                                        borderRadius: '12px', // Bordas arredondadas
-                                        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Sombra moderada
-                                        cursor: 'pointer', // Altera o cursor ao passar o mouse
-                                    }}
-                                >
-                                    <b>Relatório por Funcionário</b><br />
-                                    <img
-                                        src={ImageLogo1}
-                                        style={{ width: '180px', borderRadius: '8px' }} // Reduz a largura da imagem
-                                        onClick={() => setAbrirEstoque(true)}
-                                    />
-
-                                </div>
-                            </a>
-
-                            <a style={{ textDecoration: 'none', display: 'inline-block' }}>
-                                <div
-                                    style={{
-                                        width: '220px', // Definindo largura fixa
-                                        height: '250px', // Definindo altura fixa
-                                        textAlign: 'center',
-                                        padding: '10px', // Adiciona um espaço interno para a borda
-                                        border: '2px solid #ccc', // Aumenta a largura da borda
-                                        borderRadius: '12px', // Bordas arredondadas
-                                        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Sombra moderada
-                                        cursor: 'pointer', // Altera o cursor ao passar o mouse
-                                    }}
-                                >
-                                    <b >Relatório por produto</b><br />
-                                    <img src={ImageProd} style={{ width: '200px' }}
-                                        onClick={() => setAbrirNovoProduto(true)} />
-
-                                </div>
-                            </a>
-
-                        </div>
+                       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                       <a style={{ textDecoration: 'none', display: 'inline-block' }}>
+                           <div
+                               style={{
+                                   width: '220px',
+                                   height: '250px',
+                                   textAlign: 'center',
+                                   padding: '10px',
+                                   border: '2px solid #ccc',
+                                   borderRadius: '12px',
+                                   boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                                   cursor: 'pointer',
+                               }}
+                           >
+                               <b>Relatório por Funcionário</b><br />
+                               <img
+                                   src={ImageLogo1}
+                                   style={{ width: '180px', borderRadius: '8px' }}
+                                   onClick={() => setAbrirEstoque(true)}
+                               />
+                           </div>
+                       </a>
+                   
+                       <a style={{ textDecoration: 'none', display: 'inline-block' }}>
+                           <div
+                               style={{
+                                   width: '220px',
+                                   height: '250px',
+                                   textAlign: 'center',
+                                   padding: '10px',
+                                   border: '2px solid #ccc',
+                                   borderRadius: '12px',
+                                   boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                                   cursor: 'pointer',
+                               }}
+                           >
+                               <b>Relatório por produto</b><br />
+                               <img src={ImageProd} style={{ width: '200px' }} onClick={() => setAbrirNovoProduto(true)} />
+                           </div>
+                       </a>
+                   </div>
+                   
                         : ''
                     }
 
@@ -705,7 +702,7 @@ const Relatorio = (props) => {
                     : ""}
                 <DialogActions >
 
-                    <Button onClick={() => setAbrirEstoque(false)}>
+                    <Button  style={{ color:'red'}} onClick={() => setAbrirEstoque(false)}>
                         sair
                     </Button>
                 </DialogActions>
@@ -777,7 +774,7 @@ const Relatorio = (props) => {
                     : ""}
                 <DialogActions >
 
-                    <Button onClick={() => setAbrirNovoProduto(false)}>
+                    <Button style={{ color:'red'}} onClick={() => setAbrirNovoProduto(false)}>
                         sair
                     </Button>
                 </DialogActions>
@@ -850,7 +847,7 @@ const Relatorio = (props) => {
                     : ""}
                 <DialogActions >
 
-                    <Button onClick={() => setAbrirAmbiente(false)}>
+                    <Button style={{ color:'red'}}  onClick={() => setAbrirAmbiente(false)}>
                         sair
                     </Button>
                 </DialogActions>
@@ -911,7 +908,7 @@ const Relatorio = (props) => {
                         ""
                     )}
                     <DialogActions>
-                        <Button onClick={() => setModalRelatorioFuncionario(false)}>
+                        <Button style={{ color:'red'}} onClick={() => setModalRelatorioFuncionario(false)}>
                             sair
                         </Button>
                     </DialogActions>
@@ -971,7 +968,7 @@ const Relatorio = (props) => {
             ""
           )}
           <DialogActions>
-            <Button onClick={() => setModalRelatorioLocal(false)}>
+            <Button style={{ color:'red'}}  onClick={() => setModalRelatorioLocal(false)}>
               sair
             </Button>
           </DialogActions>

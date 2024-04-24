@@ -294,7 +294,7 @@ const Masterpage = (props) => {
       }} disableRipple>
         <div style={{ width: 120, display: 'flex', flexDirection: 'row' }}>
           <LogoutIcon />
-          <div style={{ paddingLeft: 16 }}>Sair</div>
+          <div style={{ paddingLeft: 16, color:'red' }}>Sair</div>
         </div>
       </MenuItem>
     </Menu>

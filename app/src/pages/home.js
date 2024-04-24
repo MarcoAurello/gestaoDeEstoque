@@ -844,7 +844,7 @@ const Home = (props) => {
           : ""}
         <DialogActions >
 
-          <Button onClick={() => setSolicitar(false)}>
+          <Button style={{ color:'red'}} onClick={() => setSolicitar(false)}>
             sair
           </Button>
         </DialogActions>
@@ -901,7 +901,7 @@ const Home = (props) => {
         )}
         <DialogActions >
 
-          <Button onClick={() => setModalMeus(false)}>
+          <Button  style={{ color:'red'}} onClick={() => setModalMeus(false)}>
             sair
           </Button>
         </DialogActions>
@@ -964,7 +964,7 @@ const Home = (props) => {
             ""
           )}
           <DialogActions>
-            <Button onClick={() => setModalRelatorioLocal(false)}>
+            <Button style={{ color:'red'}} onClick={() => setModalRelatorioLocal(false)}>
               sair
             </Button>
           </DialogActions>
