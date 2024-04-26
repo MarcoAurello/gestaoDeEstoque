@@ -57,7 +57,14 @@ class ProdutoController implements IController {
 
   async update(req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
-      const { qtd, idProduto, idPed } = req.body;
+      const { qtd, idProduto, idPed, fkUsuario } = req.body;
+
+
+      const entregador = await Usuario.findOne({
+        where: { id: fkUsuario },
+      });
+
+
 
 
       // Converter qtd e idProduto em números
@@ -87,6 +94,7 @@ class ProdutoController implements IController {
         await Produto.update(
           {
             qtdEstoque: novoEstoque,
+            
           },
           {
             where: {
@@ -98,6 +106,7 @@ class ProdutoController implements IController {
         await Pedido.update(
           {
             status: 'Entregue',
+            entregePor: entregador?.nome,
             dataRetirada :  new Date()
 
           },

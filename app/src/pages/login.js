@@ -44,7 +44,7 @@ const Login = () => {
 
   const [funcionarioChecado, setFuncionarioChecado] = useState([])
 
-  
+
   const handleCloseMessageDialog = () => setOpenMessageDialog(false)
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const Login = () => {
   const btEntrar = () => {
     setOpenDialog(true)
     const token = getCookie("_token_GSI")
-    
+
     const params = {
       method: 'POST',
       headers: {
@@ -91,53 +91,59 @@ const Login = () => {
   const onSave = () => {
     // alert('1')
 
-    if(fkPerfil == '2' || fkPerfil ==='20'){
-      setOpenLoadingDialog(true)
-      const token = getCookie("_token_GSI")
-      const params = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          nome,
-          senha,
-          chapa,
-          fkPerfil,
-          cpf
-        })
-      }
-  
-      fetch(`${process.env.REACT_APP_DOMAIN_API}/api/usuario/`, params)
-        .then(response => {
-          const { status } = response
-          response.json().then(data => {
-            setOpenLoadingDialog(false)
-            if (status === 401) {
-              setMessage(data.message)
-              setOpenMessageDialog(true)
-              // window.location.pathname = "/login"
-            } else if (status === 200) {
-              // setOpen(false)
-              // alert(JSON.stringify(data.data))
-              setMessage(data.message)
-              alert('Usuario Cadastrado')
-              setOpenMessageDialog(true)
-              window.location.href = `${process.env.REACT_APP_DOMAIN}/login`;
-              // setArea(data.data)
-            }
-          }).catch(err => setOpenLoadingDialog(true))
-        })
 
-    }else{
+    if (fkPerfil == '2' || fkPerfil === '20') {
+      if (senha.length >= 4) {
+        setOpenLoadingDialog(true)
+        const token = getCookie("_token_GSI")
+        const params = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            nome,
+            senha,
+            chapa,
+            fkPerfil,
+            cpf
+          })
+        }
+
+        fetch(`${process.env.REACT_APP_DOMAIN_API}/api/usuario/`, params)
+          .then(response => {
+            const { status } = response
+            response.json().then(data => {
+              setOpenLoadingDialog(false)
+              if (status === 401) {
+                setMessage(data.message)
+                setOpenMessageDialog(true)
+                // window.location.pathname = "/login"
+              } else if (status === 200) {
+                // setOpen(false)
+                // alert(JSON.stringify(data.data))
+                setMessage(data.message)
+                alert('Usuario Cadastrado')
+                setOpenMessageDialog(true)
+                window.location.href = `${process.env.REACT_APP_DOMAIN}/login`;
+                // setArea(data.data)
+              }
+            }).catch(err => setOpenLoadingDialog(true))
+          })
+
+      } else {
+        alert('Senha deve ter no minimo 4 caracteres')
+      }
+
+    } else {
       alert('codico de perfil nao existe')
     }
-   
+
   }
 
 
- 
+
 
   useEffect(() => {
     // carregarPerfis()
@@ -173,11 +179,11 @@ const Login = () => {
             // alert(JSON.stringify(data.data))
             // setChapa(data.data.chapa)
 
-            
-            if(data.data.password){
+
+            if (data.data.password) {
 
               alert('Senha: ' + data.data.password)
-            }else{
+            } else {
               alert('CPF não encontrado ')
             }
 
@@ -238,14 +244,16 @@ const Login = () => {
     if (funcionarioChecado.length > 0) {
       // alert( 'o')
       setNome(funcionarioChecado[0].NOME);
-      setChapa(funcionarioChecado[0].CHAPA);
+      const chapaCompleta = funcionarioChecado[0].CHAPA;
+      const chapaSemIfem = chapaCompleta.split('-')[0];
+      setChapa(chapaSemIfem);
 
       // setCep(alunoChecado[0][0].AlunoCepLogradouroPrincipal);
 
     }
 
 
-  }, [funcionarioChecado, nome,funcionarioAlterado]);
+  }, [funcionarioChecado, nome, funcionarioAlterado]);
 
   const checkCPF = () => {
 
@@ -300,36 +308,36 @@ const Login = () => {
 
     const token = getCookie("_token_GSI")
     const params = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({
-            chapa,senha
-        })
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        chapa, senha
+      })
 
     }
 
     fetch(`${process.env.REACT_APP_DOMAIN_API}/api/usuario/${chapa}/edit`, params)
-        .then(response => {
+      .then(response => {
 
-            const { status } = response
-            response.json().then(data => {
-                setOpenLoadingDialog(false)
-                if (status === 401) {
-                  
-                    setOpenMessageDialog(true)
-                } else if (status === 200) {
-                  setFuncionarioAlterado(data.data)
-                    alert(data.message)
-                    window.location.reload()
-                    
-                }
-                //  window.location.href = `${process.env.REACT_APP_DOMAIN}/homeSindicatos`
-            }).catch(err => setOpenLoadingDialog(true))
-        })
-}
+        const { status } = response
+        response.json().then(data => {
+          setOpenLoadingDialog(false)
+          if (status === 401) {
+
+            setOpenMessageDialog(true)
+          } else if (status === 200) {
+            setFuncionarioAlterado(data.data)
+            alert(data.message)
+            window.location.reload()
+
+          }
+          //  window.location.href = `${process.env.REACT_APP_DOMAIN}/homeSindicatos`
+        }).catch(err => setOpenLoadingDialog(true))
+      })
+  }
 
 
 
@@ -454,7 +462,7 @@ const Login = () => {
 
               <Button
 
-              style={{marginLeft:'25px'}}
+                style={{ marginLeft: '25px' }}
                 sx={{ mt: 3, mb: 2 }}
                 onClick={() => setModalRecuperar(true)}
               >
@@ -496,7 +504,7 @@ const Login = () => {
 
 
 
-          {funcionarioChecado.length <= 0?
+          {funcionarioChecado.length <= 0 ?
 
             <div>
               Informe seu cpf
@@ -544,27 +552,23 @@ const Login = () => {
 
               </FormControl>
 
-            
+
               <p></p>
 
-              <FormControl fullWidth size="small">
-                <InputLabel id="demo-select-small">Nova Senha</InputLabel>
-                <hr></hr>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="senha"
-                  type="password" // Alterado para "password" para ocultar os caracteres digitados
-                  name="Senha"
-                  fullWidth
-                  variant="standard"
-                  multiline
-                  value={senha}
-                  onChange={e => setSenha(e.target.value)}
-                  error={senha.length < 4} // Define o campo como erro se a senha tiver menos de 4 caracteres
-                  helperText={senha.length < 4 ? "A senha deve ter pelo menos 4 caracteres" : ""} // Exibe mensagem de erro se a senha tiver menos de 4 caracteres
-                />
-              </FormControl>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="senha"
+                type="password" // Alterado para "password" para ocultar os caracteres digitados
+                name="Senha"
+                fullWidth
+                variant="standard"
+                multiline
+                value={senha}
+                onChange={e => setSenha(e.target.value)}
+                error={senha.length < 4} // Define o campo como erro se a senha tiver menos de 4 caracteres
+                helperText={senha.length < 4 ? "A senha deve ter pelo menos 4 caracteres" : ""} // Exibe mensagem de erro se a senha tiver menos de 4 caracteres
+              />
 
             </div>
 
@@ -573,7 +577,7 @@ const Login = () => {
           <p></p>
 
         </DialogContent>
-        { chapa && senha ?
+        {chapa && senha ?
 
           <Button onClick={onAlterarSenha}>Salvar</Button>
           :
@@ -661,7 +665,7 @@ const Login = () => {
 
               </FormControl>
 
-              
+
               <FormControl fullWidth size="small">
                 <InputLabel id="demo-select-small">Codigo do perfil</InputLabel>
                 <hr></hr>
@@ -673,7 +677,7 @@ const Login = () => {
                   type="text"
                   name="Codigo do perfil"
                   fullWidth
-                  
+
                   multiline
                   value={fkPerfil}
                   onChange={e => setFkPerfil(e.target.value)}
@@ -749,7 +753,7 @@ const Login = () => {
 
 
 
-     
+
 
       <Dialog
         open={openMessageDialog}

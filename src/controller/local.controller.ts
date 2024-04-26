@@ -72,6 +72,7 @@ class LocalController implements IController {
         where: {
           fkUnidade: pesquisa,
         },
+        order: [['nome', 'ASC']]
       });
       console.log(JSON.stringify(registros))
 

@@ -882,6 +882,7 @@ const Relatorio = (props) => {
                                         <th>Quantidade</th>
                                         <th>Status</th>
                                         <th>Retirado</th>
+                                        <th>Entregue por</th>
 
                                     </tr>
                                 </thead>
@@ -897,8 +898,10 @@ const Relatorio = (props) => {
                                             {item.dataRetirada === null ? <td></td> :
                                                 <td>{moment(item.dataRetirada).format("DD-MM-YYYY")}</td>
                                             }
+                                            <td>{item.entregePor}</td>
 
                                         </tr>
+                                        
                                     ))}
                                 </tbody>
                             </table>

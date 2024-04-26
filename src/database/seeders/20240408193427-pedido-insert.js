@@ -14,22 +14,22 @@ module.exports = {
      * }], {});
     */
 
-    const solicitante = await queryInterface.sequelize.query('select * from usuario  where nome = \'a\'')
-    const local = await queryInterface.sequelize.query('select * from local  where nome = \'2 andar faculdade\'')
-    const produto = await queryInterface.sequelize.query('select * from produto  where nome = \'Desinfetante Eliminador de Odores para Animais - 2 Litros\'')
+    // const solicitante = await queryInterface.sequelize.query('select * from usuario  where nome = \'a\'')
+    // const local = await queryInterface.sequelize.query('select * from local  where nome = \'2 andar faculdade\'')
+    // const produto = await queryInterface.sequelize.query('select * from produto  where nome = \'Desinfetante Eliminador de Odores para Animais - 2 Litros\'')
    
 
 
     await queryInterface.bulkInsert('pedido', [
-      { id: uuid(), 
-        dataRetirada :new Date(),
-        quantidadeRetirada: 2,
-        status:'não retirado',
-        fkSolicitante :  solicitante[0][0].id,
-        fkLocal:  local[0][0].id,
-        fkProduto: produto[0][0].id,
-         createdAt: new Date(),
-          updatedAt: new Date() },
+      // { id: uuid(), 
+      //   dataRetirada :new Date(),
+      //   quantidadeRetirada: 2,
+      //   status:'não retirado',
+      //   fkSolicitante :  solicitante[0][0].id,
+      //   fkLocal:  local[0][0].id,
+      //   fkProduto: produto[0][0].id,
+      //    createdAt: new Date(),
+      //     updatedAt: new Date() },
      ], {})
   },
 

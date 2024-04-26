@@ -450,7 +450,8 @@ const Home = (props) => {
       body: JSON.stringify({
         qtd,
         idProduto,
-        idPed
+        idPed,
+        fkUsuario
 
       })
 

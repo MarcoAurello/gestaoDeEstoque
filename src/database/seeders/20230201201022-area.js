@@ -15,27 +15,9 @@ module.exports = {
      * }], {});
     */
 
-    const unidades = await queryInterface.sequelize.query('select * from unidade where nome = \'CETTI\'')
+    // const unidades = await queryInterface.sequelize.query('select * from unidade where nome = \'UIP\'')
 
-    await queryInterface.bulkInsert('area', [{
-      id: uuid(),
-      nome: 'Sistemas - Desenvolvimento',
-      fkUnidade: unidades[0][0].id,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }, {
-      id: uuid(),
-      nome: 'Sistemas - Suporte',
-      fkUnidade: unidades[0][0].id,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }, {
-      id: uuid(),
-      nome: 'Infraestrutura',
-      fkUnidade: unidades[0][0].id,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }], {})
+    await queryInterface.bulkInsert('area', [], {})
   },
 
   async down (queryInterface, Sequelize) {

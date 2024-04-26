@@ -13,6 +13,7 @@ class Pedido extends Model {
     public dataRetirada!: Date
     public quantidadeRetirada!: Number
     public status!: string
+    public entregePor!: string
 
     public fkSolicitante!: string
     public fkLocal!: string
@@ -48,6 +49,11 @@ Pedido.init({
         type: DataTypes.TEXT,
         allowNull: false
     },
+    entregePor: {
+        type: DataTypes.TEXT,
+        allowNull: true
+    },
+
 
     
 

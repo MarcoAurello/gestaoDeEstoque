@@ -28,6 +28,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      entregePor: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
 
       fkSolicitante: {
         type: Sequelize.UUID,

@@ -18,16 +18,16 @@ module.exports = {
     [
       {
         id: uuid(),
-        nome: 'Álcool A 70%',
+        nome: 'ALCOOL PULVERIZADOR 500 ML - FRACIONADO',
         descricao: 'Álcool A 70%',
         validade: new Date(),
-        qtdEstoque: 0,
+        qtdEstoque: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         id: uuid(),
-        nome: 'Álcool Gel 5 Litros',
+        nome: 'Álcool Gel-Fracionado',
         descricao: 'Álcool Gel 5 Litros',
         validade: new Date(),
         qtdEstoque: 0,
@@ -54,7 +54,7 @@ module.exports = {
       },
       {
         id: uuid(),
-        nome: 'Bucha para Polimento Malha Branca C/1Kg',
+        nome: 'BUCHA PARA POLIMENTO PUNHADO',
         descricao: 'Bucha para Polimento Malha Branca C/1Kg',
         validade: new Date(),
         qtdEstoque: 0,
@@ -63,7 +63,7 @@ module.exports = {
       },
       {
         id: uuid(),
-        nome: 'Cera Líquida Incolor para Piso',
+        nome: 'CERA LIQUIDA 2.5 LITROS - FRACIONADO',
         descricao: 'Cera Líquida Incolor para Piso',
         validade: new Date(),
         qtdEstoque: 0,
@@ -99,7 +99,7 @@ module.exports = {
       },
       {
         id: uuid(),
-        nome: 'Desinfetante Concentrado para Uso Profissional',
+        nome: 'DESINFETANTE CONCENTRADO- 1 BOMBONA - DILUIDO',
         descricao: 'Desinfetante Concentrado para Uso Profissional',
         validade: new Date(),
         qtdEstoque: 0,
@@ -126,7 +126,7 @@ module.exports = {
       },
       {
         id: uuid(),
-        nome: 'Detergente Alcalino Clorado',
+        nome: 'DETERGENTE ALCALINO CLORADO 5 LITROS ',
         descricao: 'Detergente Alcalino Clorado',
         validade: new Date(),
         qtdEstoque: 0,
@@ -144,7 +144,7 @@ module.exports = {
       },
       {
         id: uuid(),
-        nome: 'Detergente Multiuso',
+        nome: 'DETERGENTE MULTIUSO PULVERIZADOR 500 ML - FRACIONADO',
         descricao: 'Detergente Multiuso',
         validade: new Date(),
         qtdEstoque: 0,
@@ -153,7 +153,7 @@ module.exports = {
       },
       {
         id: uuid(),
-        nome: 'Detergente Neutro Concentrado',
+        nome: 'DETERGENTE NEUTRO 500 ML - FRACIONADO',
         descricao: 'Detergente Neutro Concentrado',
         validade: new Date(),
         qtdEstoque: 0,
@@ -162,7 +162,7 @@ module.exports = {
       },
       {
         id: uuid(),
-        nome: 'Detergente Desengraxante e Desengordurante',
+        nome: 'DETERGENTE DESENGRAXANTE E DESENGORDURANTE LÍQUIDO 5 LITROS ',
         descricao: 'Detergente Desengraxante e Desengordurante',
         validade: new Date(),
         qtdEstoque: 0,
@@ -297,7 +297,7 @@ module.exports = {
       },
       {
         id: uuid(),
-        nome: 'Neutralizador de Odores Concentrado C/700 Ml',
+        nome: 'NEUTRALIZADOR DE ODORES CONCENTRADO 250 ML - FRACIONADO',
         descricao: 'Neutralizador de Odores Concentrado C/700 Ml',
         validade: new Date(),
         qtdEstoque: 0,
@@ -306,7 +306,7 @@ module.exports = {
       },
       {
         id: uuid(),
-        nome: 'Odorizante Líquido Uso Profissional C/ 5 Litros',
+        nome: 'ODORIZANTE LÍQUIDO USO PROFISSIONAL 500 ML - FRACIONADO',
         descricao: 'Odorizante Líquido Uso Profissional C/ 5 Litros',
         validade: new Date(),
         qtdEstoque: 0,
@@ -315,7 +315,7 @@ module.exports = {
       },
       {
         id: uuid(),
-        nome: 'Óleo Mineral',
+        nome: 'ÓLEO MINERAL 250 ML - FRACIONADO',
         descricao: 'Óleo Mineral',
         validade: new Date(),
         qtdEstoque: 0,
@@ -387,7 +387,7 @@ module.exports = {
       },
       {
         id: uuid(),
-        nome: 'Removedor de Cera de Piso',
+        nome: 'REMOVEDOR DE CERA DE PISO 2.5 LITROS - FRACIONADO',
         descricao: 'Removedor de Cera de Piso',
         validade: new Date(),
         qtdEstoque: 0,
