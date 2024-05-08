@@ -58,15 +58,9 @@ class ProdutoController implements IController {
   async update(req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
       const { qtd, idProduto, idPed, fkUsuario } = req.body;
-
-
       const entregador = await Usuario.findOne({
         where: { id: fkUsuario },
       });
-
-
-
-
       // Converter qtd e idProduto em números
       const quantidade = parseInt(qtd);
       const produtoId = idProduto;
@@ -75,9 +69,6 @@ class ProdutoController implements IController {
       if (isNaN(quantidade)) {
         return res.status(400).json({ message: 'A quantidade deve ser um número válido.' });
       }
-
-
-
       const prod = await Produto.findOne({
         where: { id: produtoId },
       });
@@ -103,19 +94,39 @@ class ProdutoController implements IController {
           }
         );
 
-        await Pedido.update(
-          {
-            status: 'Entregue',
-            entregePor: entregador?.nome,
-            dataRetirada :  new Date()
-
-          },
-          {
-            where: {
-              id: idPed,
+        if(entregador){
+          await Pedido.update(
+            {
+              status: 'Entregue',
+              entregePor: entregador?.nome,
+              dataRetirada :  new Date()
+  
             },
-          }
-        );
+            {
+              where: {
+                id: idPed,
+              },
+            }
+          );
+
+        }else{
+          await Pedido.update(
+            {
+              status: 'Entregue',
+              entregePor:'Administrtador',
+              dataRetirada :  new Date()
+  
+            },
+            {
+              where: {
+                id: idPed,
+              },
+            }
+          );
+
+        }
+
+       
 
         return res.status(200).json({ message: 'Produto entrege e estoque atualizado com sucesso.' });
       }
