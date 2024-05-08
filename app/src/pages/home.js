@@ -214,7 +214,7 @@ const Home = (props) => {
             alert(data.message)
             setOpenMessageDialog(true)
             setSolicitar(false)
-            window.location.reload();
+            // window.location.reload()
             // setArea(data.data)
           }
         }).catch(err => setOpenLoadingDialog(true))
