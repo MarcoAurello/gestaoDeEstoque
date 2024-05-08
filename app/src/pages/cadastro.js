@@ -25,7 +25,7 @@ const ImageLogo2 = require('../assets/fun.jpg')
 
 const Cadastro = (props) => {
     const { logged } = props;
-  
+
     const [openLoadingDialog, setOpenLoadingDialog] = useState(false)
     const [openMessageDialog, setOpenMessageDialog] = useState(false)
     const [message, setMessage] = useState('')
@@ -352,8 +352,8 @@ const Cadastro = (props) => {
         });
     }
 
-    const checkCPF = () =>{
-        
+    const checkCPF = () => {
+
 
         const token = getCookie("_token_GSI")
         const params = {
@@ -375,12 +375,12 @@ const Cadastro = (props) => {
                     if (status === 401) {
                         // alert(status)
                     } else if (status === 200) {
-                       
-                        if(data.message === 'usuario Localizado' ){
-                            alert(data.message +', fazer pedido para: '+ data.data.nome )
-                            
-                        window.location.href = `${process.env.REACT_APP_DOMAIN}/funcionario/${quantidade}`
-                        }else{
+
+                        if (data.message === 'usuario Localizado') {
+                            alert(data.message + ', fazer pedido para: ' + data.data.nome)
+
+                            window.location.href = `${process.env.REACT_APP_DOMAIN}/funcionario/${quantidade}`
+                        } else {
                             alert(data.message)
 
                         }
@@ -550,79 +550,84 @@ const Cadastro = (props) => {
 
                     {logged && logged.Perfil && logged.Perfil.nome === 'Administrador' ?
 
-<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-<a style={{ textDecoration: 'none', marginBottom: '20px' }}>
-    <div
-        style={{
-            width: '220px',
-            height: '250px',
-            textAlign: 'center',
-            padding: '10px',
-            border: '2px solid #ccc',
-            borderRadius: '12px',
-            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-            cursor: 'pointer',
-        }}
-    >
-        <b>Novo Produto</b><br />
-        <img src={ImageProd} style={{ width: '180px', borderRadius: '8px' }} onClick={() => setAbrirNovoProduto(true)} />
-    </div>
-</a>
+<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginRight: '20px' }}>
+    <a style={{ textDecoration: 'none', marginBottom: '20px' }}>
+        <div
+            style={{
+                width: '220px',
+                height: '250px',
+                textAlign: 'center',
+                padding: '10px',
+                border: '2px solid #ccc',
+                borderRadius: '12px',
+                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                cursor: 'pointer',
+            }}
+        >
+            <b>Novo Produto</b><br />
+            <img src={ImageProd} style={{ width: '180px', borderRadius: '8px' }} onClick={() => setAbrirNovoProduto(true)} />
+        </div>
+    </a>
 
-<a style={{ textDecoration: 'none', marginBottom: '20px' }}>
-    <div
-        style={{
-            width: '220px',
-            height: '250px',
-            textAlign: 'center',
-            padding: '10px',
-            border: '2px solid #ccc',
-            borderRadius: '12px',
-            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-            cursor: 'pointer',
-        }}
-    >
-        <b>Novo Ambiente</b><br />
-        <img src={ImageAmbiente} style={{ width: '180px', borderRadius: '8px' }} onClick={() => setAbrirAmbiente(true)} />
-    </div>
-</a>
-
-<a style={{ textDecoration: 'none', marginBottom: '20px' }}>
-    <div
-        style={{
-            width: '220px',
-            height: '250px',
-            textAlign: 'center',
-            padding: '10px',
-            border: '2px solid #ccc',
-            borderRadius: '12px',
-            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-            cursor: 'pointer',
-        }}
-    >
-        <b>Inserir Produto no Estoque</b><br />
-        <img src={ImageLogo1} style={{ width: '180px', borderRadius: '8px' }} onClick={() => setAbrirEstoque(true)} />
-    </div>
-</a>
-
-<a style={{ textDecoration: 'none', marginBottom: '20px' }}>
-    <div
-        style={{
-            width: '220px',
-            height: '250px',
-            textAlign: 'center',
-            padding: '10px',
-            border: '2px solid #ccc',
-            borderRadius: '12px',
-            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-            cursor: 'pointer',
-        }}
-    >
-        <b>Fazer pedido para outro funcionário</b><br />
-        <img src={ImageLogo2} style={{ width: '180px', height: '180px', borderRadius: '8px' }} onClick={() => setAbrirPedidoParaoutro(true)} />
-    </div>
-</a>
+    <a style={{ textDecoration: 'none', marginBottom: '20px' }}>
+        <div
+            style={{
+                width: '220px',
+                height: '250px',
+                textAlign: 'center',
+                padding: '10px',
+                border: '2px solid #ccc',
+                borderRadius: '12px',
+                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                cursor: 'pointer',
+            }}
+        >
+            <b>Novo Ambiente</b><br />
+            <img src={ImageAmbiente} style={{ width: '180px', borderRadius: '8px' }} onClick={() => setAbrirAmbiente(true)} />
+        </div>
+    </a>
 </div>
+
+<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <a style={{ textDecoration: 'none', marginBottom: '20px' }}>
+        <div
+            style={{
+                width: '220px',
+                height: '250px',
+                textAlign: 'center',
+                padding: '10px',
+                border: '2px solid #ccc',
+                borderRadius: '12px',
+                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                cursor: 'pointer',
+            }}
+        >
+            <b>Inserir Produto no Estoque</b><br />
+            <img src={ImageLogo1} style={{ width: '180px', borderRadius: '8px' }} onClick={() => setAbrirEstoque(true)} />
+        </div>
+    </a>
+
+    <a style={{ textDecoration: 'none', marginBottom: '20px' }}>
+        <div
+            style={{
+                width: '220px',
+                height: '250px',
+                textAlign: 'center',
+                padding: '10px',
+                border: '2px solid #ccc',
+                borderRadius: '12px',
+                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                cursor: 'pointer',
+            }}
+        >
+            <b>Fazer pedido para outro funcionário</b><br />
+            <img src={ImageLogo2} style={{ width: '180px', height: '180px', borderRadius: '8px' }} onClick={() => setAbrirPedidoParaoutro(true)} />
+        </div>
+    </a>
+</div>
+</div>
+
 
 
 
@@ -691,9 +696,9 @@ const Cadastro = (props) => {
 
                     : ""}
                 <DialogActions >
-                    
 
-                    <Button style={{ color:'red'}} onClick={() => setAbrirEstoque(false)}>
+
+                    <Button style={{ color: 'red' }} onClick={() => setAbrirEstoque(false)}>
                         sair
                     </Button>
                 </DialogActions>
@@ -751,7 +756,7 @@ const Cadastro = (props) => {
                     : ""}
                 <DialogActions >
 
-                    <Button style={{ color:'red'}} onClick={() => setAbrirNovoProduto(false)}>
+                    <Button style={{ color: 'red' }} onClick={() => setAbrirNovoProduto(false)}>
                         sair
                     </Button>
                 </DialogActions>
@@ -766,7 +771,7 @@ const Cadastro = (props) => {
                 <DialogContent style={{ width: 400 }}>
 
 
-                 
+
                     <FormControl fullWidth size="small">
                         <TextField
                             fullWidth
@@ -789,7 +794,7 @@ const Cadastro = (props) => {
                     : ""}
                 <DialogActions >
 
-                    <Button style={{ color:'red'}} onClick={() => setAbrirPedidoParaoutro(false)}>
+                    <Button style={{ color: 'red' }} onClick={() => setAbrirPedidoParaoutro(false)}>
                         sair
                     </Button>
                 </DialogActions>
@@ -844,7 +849,7 @@ const Cadastro = (props) => {
                     : ""}
                 <DialogActions >
 
-                    <Button style={{ color:'red'}} onClick={() => setAbrirAmbiente(false)}>
+                    <Button style={{ color: 'red' }} onClick={() => setAbrirAmbiente(false)}>
                         sair
                     </Button>
                 </DialogActions>
