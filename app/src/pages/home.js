@@ -310,7 +310,7 @@ const Home = (props) => {
 
    
 
-  }, [logged, pesquisa, minhas])
+  }, [logged, pesquisa, minhas, pedidosDoFuncionario])
 
 
 
@@ -474,7 +474,7 @@ const Home = (props) => {
             alert(data.message)
 
             // setModalEntrevista(false)
-            window.location.reload();
+           
 
 
           }
