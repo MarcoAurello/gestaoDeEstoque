@@ -230,6 +230,7 @@ const Banheiro = (props) => {
     carregarUnidades()
     // Verifica se minhasLimpesas tem pelo menos um item
     if (minhasLimpesas.length > 0) {
+      console.log('teste')
       // Obtém o ID do primeiro item em minhasLimpesas
       const idDoItem = minhasLimpesas[0].id;
       // Atualiza o estado fkLimpezaBanheiro com o ID do item
@@ -896,7 +897,8 @@ const Banheiro = (props) => {
                 Aprovado: {minhas ? minhas.filter(item => item.status === 'aprovado').length : ''}<br></br><hr></hr>
                 Reprovado: {minhas ? minhas.filter(item => item.status === 'reprovado').length : ''}<br></br>
 
-              </div><p></p>
+              </div>
+              <p></p>
 
               <div>
 

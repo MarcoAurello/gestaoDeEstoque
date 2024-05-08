@@ -469,7 +469,8 @@ const Funcionario = (props) => {
     let idProduto = ''
     let idPed = ''
 
-    const Entregar = (idProd, qtd, idPedido) => {
+    const Entregar = (idProd, qtd, idPedido, ) => {
+        alert(idProd +'ssssssssss'+ qtd +'ssssssssssssss'+ idPedido)
 
         setOpenLoadingDialog(true)
         // setModalEntrevista(false)
@@ -477,6 +478,7 @@ const Funcionario = (props) => {
         qtd = qtd
         idProduto = idProd
         idPed = idPedido
+        fkUsuario = logged.id
 
 
 
@@ -624,16 +626,17 @@ const Funcionario = (props) => {
                                             </td>
                                             <td>
                                                 {item.status === "não retirado" ?
-                                                    <Button
-                                                        style={{ marginLeft: '5px' }}
-                                                        variant="contained"
-                                                        size="small"
-                                                        onClick={() =>
-                                                            Entregar(item.Produto.id, item.quantidadeRetirada, item.id)
-                                                        }
-                                                    >
-                                                        Entregar
-                                                    </Button>
+                                                    // <Button
+                                                    //     style={{ marginLeft: '5px' }}
+                                                    //     variant="contained"
+                                                    //     size="small"
+                                                    //     onClick={() =>
+                                                    //         Entregar(item.Produto.id, item.quantidadeRetirada, item.id)
+                                                    //     }
+                                                    // >
+                                                    //     Entregar
+                                                    // </Button>
+                                                    'saida do produto pela pagina home'
 
                                                     :
                                                     <Button
