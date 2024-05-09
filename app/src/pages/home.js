@@ -212,6 +212,7 @@ const Home = (props) => {
             // alert(JSON.stringify(data.data))
             setMessage(data.message)
             alert(data.message)
+            setQuantidade('')
             setOpenMessageDialog(true)
             setSolicitar(false)
             // window.location.reload()
