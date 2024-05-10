@@ -93,6 +93,8 @@ const Funcionario = (props) => {
 
                         setFuncionario(data.data);
 
+                        setFkUsuario(funcionario.id);
+
                     }
                 })
                 .catch((err) => console.log(err));
@@ -232,7 +234,7 @@ const Funcionario = (props) => {
                     fkPoduto,
                     fkUsuario,
                     quantidade,
-                    
+
                 })
             }
 
@@ -324,6 +326,15 @@ const Funcionario = (props) => {
         }
     };
 
+    const handleInputChangeFun = (event) => {
+
+
+
+
+    };
+
+
+
 
 
 
@@ -334,11 +345,11 @@ const Funcionario = (props) => {
         carregarUnidades()
 
 
-        if (logged) {
-            setFkUsuario(logged.id)
-            // alert(logged.Perfil.nome)
+        // if (funcionario) {
+        //     setFkUsuario(funcionario.id)
+        //     // alert(logged.Perfil.nome)
 
-        }
+        // }
 
         if (pesquisa) {
             pesquisar()
@@ -353,7 +364,7 @@ const Funcionario = (props) => {
         //   alert(JSON.stringify(minhas))
         // }
 
-    }, [logged, pesquisa])
+    }, [logged, pesquisa,fkUsuario])
 
     function pesquisar() {
         const token = getCookie("_token_GSI");
@@ -470,8 +481,8 @@ const Funcionario = (props) => {
     let idProduto = ''
     let idPed = ''
 
-    const Entregar = (idProd, qtd, idPedido, ) => {
-        alert(idProd +'ssssssssss'+ qtd +'ssssssssssssss'+ idPedido)
+    const Entregar = (idProd, qtd, idPedido,) => {
+        alert(idProd + 'ssssssssss' + qtd + 'ssssssssssssss' + idPedido)
 
         setOpenLoadingDialog(true)
         // setModalEntrevista(false)
@@ -803,28 +814,20 @@ const Funcionario = (props) => {
                 </DialogTitle>
                 <DialogContent style={{ width: 400 }}>
 
-                    {/* <FormControl fullWidth>
-            <InputLabel htmlFor="demo-select-small">Quantidade*</InputLabel>
-            <Select
-              size="small"
-              fullWidth
-              labelId="demo-select-small"
-              id="demo-select-small"
-              label="Quantidade"
-              value={quantidade}
 
-            >
 
-              <MenuItem value={1} onClick={() => setQuantidade(1)}>1</MenuItem>
-              <MenuItem value={2} onClick={() => setQuantidade(2)}>2</MenuItem>
-              <MenuItem value={3} onClick={() => setQuantidade(3)}>3</MenuItem>
-              <MenuItem value={4} onClick={() => setQuantidade(4)}>4</MenuItem>
-              <MenuItem value={5} onClick={() => setQuantidade(5)}>5</MenuItem>
-              <MenuItem value={6} onClick={() => setQuantidade(6)}>6</MenuItem>
-              <MenuItem value={7} onClick={() => setQuantidade(7)}>7</MenuItem>
-            </Select>
-            <p></p>
-          </FormControl> */}
+
+                    <FormControl fullWidth size="small">
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            label='Funcionario'
+                            value={funcionario.nome}
+                            onChange={handleInputChangeFun}
+                        />
+                    </FormControl>
+                    <p></p>
+
 
                     <FormControl fullWidth size="small">
                         <TextField
@@ -871,6 +874,7 @@ const Funcionario = (props) => {
                             </Select>
                         </FormControl>
 
+
                         : ""}
                 </DialogContent>
 
@@ -881,7 +885,7 @@ const Funcionario = (props) => {
                     : ""}
                 <DialogActions >
 
-                    <Button  style={{ color:'red'}} onClick={() => setSolicitar(false)}>
+                    <Button style={{ color: 'red' }} onClick={() => setSolicitar(false)}>
                         sair
                     </Button>
                 </DialogActions>
@@ -938,7 +942,7 @@ const Funcionario = (props) => {
                 )}
                 <DialogActions >
 
-                    <Button style={{ color:'red'}} onClick={() => setModalMeus(false)}>
+                    <Button style={{ color: 'red' }} onClick={() => setModalMeus(false)}>
                         sair
                     </Button>
                 </DialogActions>
@@ -1001,7 +1005,7 @@ const Funcionario = (props) => {
                         ""
                     )}
                     <DialogActions>
-                        <Button style={{ color:'red'}} onClick={() => setModalRelatorioLocal(false)}>
+                        <Button style={{ color: 'red' }} onClick={() => setModalRelatorioLocal(false)}>
                             sair
                         </Button>
                     </DialogActions>

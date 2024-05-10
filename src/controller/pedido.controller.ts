@@ -107,13 +107,56 @@ class PedidoController implements IController {
     }
   }
 
-  async update (req: Request, res: Response, next: NextFunction): Promise<any> {
-    throw new Error('Method not implemented.')
+  async findAlter (req: Request, res: Response, next: NextFunction): Promise<any> {
+    try {
+      const { id } = req.params
+      console.log(id)
+    
+
+      const registro = await Pedido.findOne({ 
+        include: [ Produto , Local],
+        where: { 
+         id,
+          
+        },
+      
+      });
+      console.log(JSON.stringify('xx1'+JSON.stringify(registro)))
+
+      res.status(200).json({ data: registro })
+    } catch (err) {
+      res.status(401).json({ message: err.errors[0].message })
+    }
   }
 
+
+  async update (req: Request, res: Response, next: NextFunction): Promise<any> {
+    try {
+      const { id } = req.params;
+      const { quantidade } = req.body;
+  
+      await Pedido.update({
+        quantidade
+  
+      
+      }, {
+        where: {
+          id
+        },
+        individualHooks: false
+      })
+      
+  
+      res.status(200).json({ data: null, message: 'pedido Alterado.' });
+    } catch (err) {
+      res.status(401).json({ message: err.errors[0].message });
+    }
+  }
+  
   async delete(req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
       const { id } = req.params;
+      
       // console.log('2222')
 
       await Pedido.destroy({

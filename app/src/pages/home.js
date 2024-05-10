@@ -55,6 +55,10 @@ const Home = (props) => {
   const [localRelatorio, setLocalRelatorio] = useState('');
   const [filtroNome, setFiltroNome] = useState('');
   const [estoqueAtual, setEstooqueAtual] = useState(null);
+  const [modalPedido, setModalPedido] = useState(false);
+  const [pedidoAlterar, setPedidoAlterar] = useState([]);
+
+  
 
 
 
@@ -170,6 +174,47 @@ const Home = (props) => {
 
 
 
+  function editarPedido(id) {
+    setModalPedido(true)
+
+    setOpenLoadingDialog(true)
+    const token =  getCookie("_token_GSI")
+    const params = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
+    fetch(`${process.env.REACT_APP_DOMAIN_API}/api/pedido/alter/${id}`, params)
+        .then(response => {
+
+            const { status } = response
+
+            response.json().then(data => {
+                setOpenLoadingDialog(false)
+
+                //   alert(JSON.stringify(data))
+
+                //   setOpenLoadingDialog(false)
+                if (status === 401) {
+                    setOpenMessageDialog(true)
+
+                } else if (status === 200) {
+                    // alert("iii")
+                    setOpenLoadingDialog(false)
+                    setPedidoAlterar(data.data)
+
+                    // alert(JSON.stringify(entrevistas))
+
+
+                }
+            })
+        })
+    
+  }
+
+
+
+
 
 
   const produtosFiltrados = produtos.filter(item => item.nome.toLowerCase().includes(filtroNome.toLowerCase()));
@@ -224,6 +269,54 @@ const Home = (props) => {
     }
     
   }
+
+  // const onSaveEdit = (id) => {
+  //   // alert('1')
+
+
+  //   if(quantidade > estoqueAtual){
+  //     alert('O estoque do produto é de : '+ estoqueAtual +' você está solicitanto: '+ quantidade)
+  //   }else{
+  //     setOpenLoadingDialog(true)
+  //   const token = getCookie("_token_GSI")
+  //   const params = {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': `Bearer ${token}`
+  //     },
+  //     body: JSON.stringify({
+        
+  //       quantidade
+  //     })
+  //   }
+
+  //   fetch(`${process.env.REACT_APP_DOMAIN_API}/api/pedido/${id}/edit`, params)
+  //     .then(response => {
+  //       const { status } = response
+  //       response.json().then(data => {
+  //         setOpenLoadingDialog(false)
+  //         if (status === 401) {
+  //           setMessage(data.message)
+  //           setOpenMessageDialog(true)
+  //           // window.location.pathname = "/login"
+  //         } else if (status === 200) {
+  //           // setOpen(false)
+  //           // alert(JSON.stringify(data.data))
+  //           setMessage(data.message)
+  //           alert(data.message)
+            
+  //           setOpenMessageDialog(true)
+  //           setModalPedido(false)
+  //           // window.location.reload()
+  //           // setArea(data.data)
+  //         }
+  //       }).catch(err => setOpenLoadingDialog(true))
+  //     })
+
+  //   }
+    
+  // }
 
   function carregarProdutos() {
 
@@ -304,6 +397,10 @@ const Home = (props) => {
 
     if (pesquisa.length > 3) {
       pesquisar()
+    }
+
+    if(pedidoAlterar.length > 0){
+      alert(JSON.stringify(pedidoAlterar))
     }
 
 
@@ -569,7 +666,17 @@ const Home = (props) => {
                         </Button>
                        
                        </td>
-                      <td >{item.Produto ? item.Produto.nome : ''}<Chip label= {'qtd: '+item.quantidadeRetirada} color="success" ></Chip></td>
+                      <td >{item.Produto ? item.Produto.nome : ''}<Chip label= {'qtd: '+item.quantidadeRetirada} color="success" ></Chip>
+                      
+                      {/* <Button
+                         
+                          onClick={() =>
+                            editarPedido(item.id)
+                          }
+                        >
+                          &#9997;
+                        </Button> */}
+                      </td>
                      
                       <td>{item.Local ? item.Local.nome : ''}<br></br>
                         <Button
@@ -847,6 +954,47 @@ const Home = (props) => {
         <DialogActions >
 
           <Button style={{ color:'red'}} onClick={() => setSolicitar(false)}>
+            sair
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
+      <Dialog
+        open={modalPedido}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">
+          Alterar quantidade
+        </DialogTitle>
+        <DialogContent style={{ width: 400 }}>
+
+         
+          quantidade:{pedidoAlterar ?pedidoAlterar.quantidadeRetirada:''}
+          <FormControl fullWidth size="small">
+            
+            <TextField
+              fullWidth
+              label='Digite nova quantidade'
+              
+              value={quantidade}
+              onChange={handleInputChange}
+            />
+          </FormControl>
+          <p></p>
+
+          
+         
+        </DialogContent>
+
+      
+
+          {/* <Button onClick={onSaveEdit(pedidoAlterar.id)}>Alterar</Button> */}
+
+        
+        <DialogActions >
+
+          <Button style={{ color:'red'}} onClick={() => setModalPedido(false)}>
             sair
           </Button>
         </DialogActions>
