@@ -224,9 +224,7 @@ const Home = (props) => {
     // alert('1')
 
 
-    if(quantidade > estoqueAtual){
-      alert('O estoque do produto é de : '+ estoqueAtual +' você está solicitanto: '+ quantidade)
-    }else{
+    
       setOpenLoadingDialog(true)
     const token = getCookie("_token_GSI")
     const params = {
@@ -266,7 +264,7 @@ const Home = (props) => {
         }).catch(err => setOpenLoadingDialog(true))
       })
 
-    }
+    
     
   }
 
@@ -804,8 +802,7 @@ const Home = (props) => {
                 <tr style={{ backgroundColor: '#A0C3F1', fontSize:'18px' }}>
                   <td >Produto
 
-                  </td>
-                  <td>Estoque
+                  
 
                   </td>
                   <td></td>
@@ -815,8 +812,7 @@ const Home = (props) => {
                   <tr key={index}>
                     <td style={{ wordBreak: "break-all", fontSize:'18px' }}><b>{item.nome }</b></td>
                     {/* <td style={{ wordBreak: "break-all", color: item < 5 ? 'red' : 'inherit' }}><b>{item.qtdEstoque}</b></td> */}
-                    <td style={{ wordBreak: "break-all", fontSize:'18px', color: parseInt(item.qtdEstoque) < 5 ? 'red' : 'inherit' }}><b>{item.qtdEstoque}</b></td>
-
+                   
 
                     <td>
                       {item.qtdEstoque === 0 ? (
