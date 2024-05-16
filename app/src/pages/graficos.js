@@ -158,8 +158,8 @@ const Graficos = (props) => {
     const obterUsuarioUnicos = (pedidos) => {
         const usuariosUnicos = [];
         pedidos.forEach((pedido) => {
-            if (!usuariosUnicos.includes(pedido.Usuario?pedido.Usuario.nome:'')) {
-                usuariosUnicos.push(pedido.Usuario?pedido.Usuario.nome:'');
+            if (!usuariosUnicos.includes(pedido.Usuario.nome)) {
+                usuariosUnicos.push(pedido.Usuario.nome);
             }
         });
         return usuariosUnicos;
@@ -235,7 +235,7 @@ const Graficos = (props) => {
 
     const options = {
         title: 'Distribuição de Produtos',
-        fontSize: 8,
+        fontSize: 12,
         chartArea: { width: '50%' },
         hAxis: {
             title: 'Quantidade',
@@ -249,7 +249,7 @@ const Graficos = (props) => {
 
     const options1 = {
         title: 'Distribuição dos Funcionarios',
-        fontSize: 8,
+        fontSize: 12,
         chartArea: { width: '50%' },
         hAxis: {
             title: 'Quantidade',
@@ -263,7 +263,7 @@ const Graficos = (props) => {
 
     const options3 = {
         title: 'Distribuição dos Locais',
-        fontSize: 8,
+        fontSize: 12,
         chartArea: { width: '50%' },
         hAxis: {
             title: 'Quantidade',
