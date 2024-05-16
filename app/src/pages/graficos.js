@@ -158,7 +158,7 @@ const Graficos = (props) => {
     const obterUsuarioUnicos = (pedidos) => {
         const usuariosUnicos = [];
         pedidos.forEach((pedido) => {
-            if (!usuariosUnicos.includes(pedido.Usuario.nome)) {
+            if (!usuariosUnicos.includes(pedido.Usuario?pedido.Usuario.nome:'')) {
                 usuariosUnicos.push(pedido.Usuario.nome);
             }
         });
