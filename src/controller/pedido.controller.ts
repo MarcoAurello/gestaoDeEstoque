@@ -11,7 +11,7 @@ class PedidoController implements IController {
   async all (req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
       const registros = await Pedido.findAll(
-        {include: [ Produto , Local]
+        {include: [ Produto , Local, Usuario]
         }
       )
 

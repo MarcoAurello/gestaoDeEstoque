@@ -9,6 +9,7 @@ import Usuario from './pages/usuario'
 import Funcionario from './pages/funcionario'
 import Banheiro from './pages/banheiro'
 import Relatorio from './pages/relatorio'
+import Graficos from './pages/graficos'
 
 import MenuIcon from '@mui/icons-material/Menu'
 import NotificationsIcon from '@mui/icons-material/Notifications'
@@ -360,6 +361,15 @@ const Masterpage = (props) => {
                   </ListItemButton>
                 </ListItem>
 
+                <ListItem disablePadding>
+              <ListItemButton onClick={() => window.location.href = `${process.env.REACT_APP_DOMAIN}/graficos/`}>
+                <ListItemIcon>
+                  <FormatListNumberedIcon />
+                </ListItemIcon>
+                <ListItemText primary='Gráficos' />
+              </ListItemButton>
+            </ListItem>
+
 
 
               </div>
@@ -546,6 +556,12 @@ const Masterpage = (props) => {
             exact
             path="/relatorio"
             render={(props) => <Relatorio {...props} logged={logged} />}
+          />
+
+<Route
+            exact
+            path="/graficos"
+            render={(props) => <Graficos {...props} logged={logged} />}
           />
 
           <Route
