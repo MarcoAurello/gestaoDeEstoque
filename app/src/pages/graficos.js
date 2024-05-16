@@ -159,7 +159,7 @@ const Graficos = (props) => {
         const usuariosUnicos = [];
         pedidos.forEach((pedido) => {
             if (!usuariosUnicos.includes(pedido.Usuario?pedido.Usuario.nome:'')) {
-                usuariosUnicos.push(pedido.Usuario.nome);
+                usuariosUnicos.push(pedido.Usuario?pedido.Usuario.nome:'');
             }
         });
         return usuariosUnicos;
