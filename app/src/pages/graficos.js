@@ -82,9 +82,9 @@ const Graficos = (props) => {
     useEffect(() => {
         carregarPedidos()
 
-        // if (pedidos) {
-        //     alert(JSON.stringify(pedidos))
-        // }
+        if (pedidos) {
+        
+        }
     }, [])
 
 
@@ -175,11 +175,13 @@ const Graficos = (props) => {
         return localUnico;
     };
 
-
-
     const prod = obterProdutosUnicos(pedidos);
     const user = obterUsuarioUnicos(pedidos);
     const loc = obterLocalUnicos(pedidos);
+
+
+
+    
 
 
     const data3 = [
