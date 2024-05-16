@@ -452,40 +452,40 @@ const Home = (props) => {
     setSolicitar(true); // Abra o modal
   };
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    function carregarMinhas() {
+  //   function carregarMinhas() {
 
-      const token = getCookie("_token_GSI");
-      const params = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      fetch(
-        `${process.env.REACT_APP_DOMAIN_API}/api/pedido/${fkUsuario}`,
-        params
-      ).then((response) => {
-        const { status } = response;
-        response
-          .json()
-          .then((data) => {
-            setOpenLoadingDialog(false);
-            if (status === 401) {
-            } else if (status === 200) {
-              // alert(data.message)
-              setMinhas(data.data);
+  //     const token = getCookie("_token_GSI");
+  //     const params = {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     };
+  //     fetch(
+  //       `${process.env.REACT_APP_DOMAIN_API}/api/pedido/${fkUsuario}`,
+  //       params
+  //     ).then((response) => {
+  //       const { status } = response;
+  //       response
+  //         .json()
+  //         .then((data) => {
+  //           setOpenLoadingDialog(false);
+  //           if (status === 401) {
+  //           } else if (status === 200) {
+  //             // alert(data.message)
+  //             setMinhas(data.data);
 
-              setOpenLoadingDialog(false);
-            }
-          })
-          .catch((err) => setOpenLoadingDialog(true));
-      });
-    }
+  //             setOpenLoadingDialog(false);
+  //           }
+  //         })
+  //         .catch((err) => setOpenLoadingDialog(true));
+  //     });
+  //   }
 
-    carregarMinhas()
+  //   carregarMinhas()
 
-  }, [fkUsuario])
+  // }, [fkUsuario])
 
   function deletarSolicitacao(id) {
 
