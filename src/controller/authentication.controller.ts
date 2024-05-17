@@ -43,6 +43,8 @@ class AuthenticationController {
     }
   }
 
+  
+
   async logged (req: any, res: Response, next: NextFunction): Promise<any> {
     try {
       res.status(200).json({ data: req.usuario })

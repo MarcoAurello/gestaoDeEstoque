@@ -387,7 +387,7 @@ const Home = (props) => {
     carregarUnidades()
 
 
-    if (logged) {
+    if (logged && fkUsuario === null) {
       setFkUsuario(logged.id)
       // alert(logged.Perfil.nome)
 

@@ -338,7 +338,7 @@ const Banheiro = (props) => {
     }
 
 
-    // if (minhas) {
+    // if (minhas) {                                         
     //   contagem(minhas)     
     // }
 

@@ -1,16 +1,7 @@
 const getCookie = require("./getCookie");
 
 module.exports = () => {
-  return new Promise((resolve, reject) => {
-    const pathname = window.location.pathname;
-    const publicPages = ['/login']; // Adicione outras páginas públicas, se necessário
-
-    if (publicPages.includes(pathname)) {
-      // Retorna falso para páginas públicas
-      resolve({ logged: false, data: null });
-      return;
-    }
-
+  return new Promise((resolved, rejected) => {
     const token = getCookie("_token_GSI");
 
     let request = new XMLHttpRequest();
@@ -21,35 +12,12 @@ module.exports = () => {
     request.setRequestHeader("Authorization", "Bearer " + token);
     request.addEventListener("load", () => {
       if (request.status === 401) {
-        resolve({ logged: false, data: null });
+        resolved({ logged: false, data: null });
       } else if (request.status === 200) {
-        resolve({ logged: true, data: JSON.parse(request.responseText) });
+        resolved({ logged: true, data: JSON.parse(request.responseText) });
       }
     });
     request.send();
   });
 };
 
-
-// module.exports = () => {
-//   return new Promise((resolved, rejected) => {
-//     const token = getCookie("_token_GSI");
-
-    
-
-//     let request = new XMLHttpRequest();
-//     request.open(
-//       "get",
-//       `${process.env.REACT_APP_DOMAIN_API}/api/authentication/logged`
-//     );
-//     request.setRequestHeader("Authorization", "Bearer " + token);
-//     request.addEventListener("load", () => {
-//       if (request.status === 401) {
-//         resolved({ logged: false, data: null });
-//       } else if (request.status === 200) {
-//         resolved({ logged: true, data: JSON.parse(request.responseText) });
-//       }
-//     });
-//     request.send();
-//   });
-// };

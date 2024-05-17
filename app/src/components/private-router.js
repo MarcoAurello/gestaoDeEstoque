@@ -23,7 +23,7 @@ const PrivateRoute = ({ component: Component, role, ...rest }) => {
         setLogged(null);
       }
     });
-  });
+  }, []);
 
   if (!autenticated) {
     window.location.href = `${process.env.REACT_APP_DOMAIN}/login`;
