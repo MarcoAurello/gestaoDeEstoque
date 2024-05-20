@@ -393,21 +393,31 @@ const Home = (props) => {
 
     }
 
-    if (pesquisa.length > 3) {
-      pesquisar()
-    }
+    
 
     if(pedidoAlterar.length > 0){
       alert(JSON.stringify(pedidoAlterar))
     }
 
 
+  
+
+  }, [logged, minhas, pedidosDoFuncionario])
 
 
-   
+  useEffect(() => {
+    let timeoutId;
 
-  }, [logged, pesquisa, minhas, pedidosDoFuncionario])
+    if (pesquisa.length > 3) {
+      timeoutId = setTimeout(() => {
+        pesquisar();
+      }, 10); // Executa a cada 5 segundos
+    }
 
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [pesquisa]);
 
 
   function pesquisar() {
