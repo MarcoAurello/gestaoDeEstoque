@@ -578,6 +578,7 @@ const Home = (props) => {
           } else if (status === 200) {
             setOpenMessageDialog(false)
             alert(data.message)
+            pesquisar()
 
             // setModalEntrevista(false)
            

@@ -507,7 +507,7 @@ const Relatorio = (props) => {
                 <div style={{
                     display: 'flex',
                     flexDirection: 'row', // Por padrão, mostra em linha
-                    flexWrap: 'wrap', // Permite que os itens se movam para uma nova linha conforme necessário
+                    flexWrap: "wrap", // Permite que os itens se movam para uma nova linha conforme necessário
                     justifyContent: 'center',
                 }}>
 
@@ -551,7 +551,25 @@ const Relatorio = (props) => {
                                <b>Relatório por produto</b><br />
                                <img src={ImageProd} style={{ width: '200px' }} onClick={() => setAbrirNovoProduto(true)} />
                            </div>
-                       </a>
+                       </a><p></p>
+
+                       {/* <a style={{ textDecoration: 'none', display: 'inline-block' }}>
+                           <div
+                               style={{
+                                   width: '220px',
+                                   height: '250px',
+                                   textAlign: 'center',
+                                   padding: '10px',
+                                   border: '2px solid #ccc',
+                                   borderRadius: '12px',
+                                   boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                                   cursor: 'pointer',
+                               }}
+                           >
+                               <b>Gráficos</b><br />
+                               <img src={ImageProd} style={{ width: '200px' }} onClick={() => setAbrirNovoProduto(true)} />
+                           </div>
+                       </a> */}
                    </div>
                    
                         : ''
