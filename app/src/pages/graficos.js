@@ -83,7 +83,8 @@ const Graficos = (props) => {
         carregarPedidos()
 
         if (pedidos) {
-        
+
+
         }
     }, [])
 
@@ -181,51 +182,51 @@ const Graficos = (props) => {
 
 
 
-    
+
 
 
     const data3 = [
         ["Local", "Quantidade", { role: 'style' }, { role: 'annotation' }],
         ...loc.map((local, index) => {
-          const quantidade = pedidos.reduce((contador, item) => contador + (item.Local.nome === local && item.status === 'Entregue' ? 1 : 0), 0);
-          return [
-            local,
-            quantidade,
-            `color: ${getColor(index)}`, // Chamada para a função getColor para cores diferentes
-            quantidade.toString()
-          ];
+            const quantidade = pedidos.reduce((contador, item) => contador + (item.Local.nome === local && item.status === 'Entregue' ? 1 : 0), 0);
+            return [
+                local,
+                quantidade,
+                `color: ${getColor(index)}`, // Chamada para a função getColor para cores diferentes
+                quantidade.toString()
+            ];
         }).sort((a, b) => b[1] - a[1]) // Ordena do maior para o menor com base na quantidade
-      ];
-      
+    ];
 
 
-      const data = [
+
+    const data = [
         ["Produto", "Quantidade", { role: 'style' }, { role: 'annotation' }],
         ...prod.map((produto, index) => {
-          const quantidade = pedidos.reduce((contador, item) => contador + (item.Produto.nome === produto && item.status === 'Entregue' ? 1 : 0), 0);
-          return [
-            produto,
-            quantidade,
-            `color: ${getColor(index)}`, // Chamada para a função getColor para cores diferentes
-            quantidade.toString()
-          ];
+            const quantidade = pedidos.reduce((contador, item) => contador + (item.Produto.nome === produto && item.status === 'Entregue' ? 1 : 0), 0);
+            return [
+                produto,
+                quantidade,
+                `color: ${getColor(index)}`, // Chamada para a função getColor para cores diferentes
+                quantidade.toString()
+            ];
         }).sort((a, b) => b[1] - a[1]) // Ordena do maior para o menor com base na quantidade
-      ];
-      
+    ];
 
-      const data1 = [
+
+    const data1 = [
         ["Usuario", "Quantidade", { role: 'style' }, { role: 'annotation' }],
         ...user.map((usuario, index) => {
-          const quantidade = pedidos.reduce((contador, item) => contador + (item.Usuario.nome === usuario && item.status === 'Entregue' ? 1 : 0), 0);
-          return [
-            usuario,
-            quantidade,
-            `color: ${getColor(index)}`, // Chamada para a função getColor para cores diferentes
-            quantidade.toString()
-          ];
+            const quantidade = pedidos.reduce((contador, item) => contador + (item.Usuario.nome === usuario && item.status === 'Entregue' ? 1 : 0), 0);
+            return [
+                usuario,
+                quantidade,
+                `color: ${getColor(index)}`, // Chamada para a função getColor para cores diferentes
+                quantidade.toString()
+            ];
         }).sort((a, b) => b[1] - a[1]) // Ordena do maior para o menor com base na quantidade
-      ];
-      
+    ];
+
 
 
 
@@ -296,31 +297,39 @@ const Graficos = (props) => {
 
             <div>
                 <div >
+                    {pedidos ?
+                        <div>
 
-                    <Chart
-                        chartType="BarChart"
-                        width="100%"
-                        height="1500px"
-                        data={data}
-                        options={options}
-                    />
+                            <Chart
+                                chartType="BarChart"
+                                width="100%"
+                                height="1500px"
+                                data={data}
+                                options={options}
+                            />
 
-                    <Chart
-                        chartType="BarChart"
-                        width="100%"
-                        height="1500px"
-                        data={data1}
-                        options={options1}
-                    />
+                            <Chart
+                                chartType="BarChart"
+                                width="100%"
+                                height="1500px"
+                                data={data1}
+                                options={options1}
+                            />
 
-                    <Chart
-                        chartType="BarChart"
-                        width="100%"
-                        height="1500px"
-                        data={data3}
-                        options={options3}
-                    />
+                            <Chart
+                                chartType="BarChart"
+                                width="100%"
+                                height="1500px"
+                                data={data3}
+                                options={options3}
+                            />
 
+
+
+
+
+                        </div>
+                        : ''}
 
 
 
