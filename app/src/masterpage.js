@@ -361,14 +361,14 @@ const Masterpage = (props) => {
                   </ListItemButton>
                 </ListItem>
 
-                <ListItem disablePadding>
+                {/* <ListItem disablePadding>
               <ListItemButton onClick={() => window.location.href = `${process.env.REACT_APP_DOMAIN}/graficos/`}>
                 <ListItemIcon>
                   <FormatListNumberedIcon />
                 </ListItemIcon>
                 <ListItemText primary='Gráficos' />
               </ListItemButton>
-            </ListItem>
+            </ListItem> */}
 
 
 
