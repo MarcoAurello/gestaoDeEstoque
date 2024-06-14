@@ -5,25 +5,7 @@ import connection from "./connection"
 import Usuario from "./usuario.model"
 import Local from "./banheiro.model"
 
-class LimpezaBanheiro extends Model {
-  public id!: string
-
-  public avaliado!: Boolean
-
-  public observacao!: string
-  public caminho!: string
-  public status!: string
-  
-  public fkUsuario!: string
-  public fkLocal!: string
- 
-
-  public Usuario!: Usuario
-  public Local!: Local
- 
-  public createdAt!: Date
-  public updatedAt!: Date
-}
+class LimpezaBanheiro extends Model { }
 
 LimpezaBanheiro.init({
   id: {

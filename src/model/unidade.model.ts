@@ -2,13 +2,7 @@ import { Model, DataTypes } from 'sequelize'
 import { uuid } from 'uuidv4'
 import connection from './connection'
 
-class Unidade extends Model {
-  public id!: string
-  public nome!: string
-  public descricao!: string
-  public createdAt!: Date
-  public updatedAt!: Date
-}
+class Unidade extends Model { }
 
 Unidade.init({
   id: {

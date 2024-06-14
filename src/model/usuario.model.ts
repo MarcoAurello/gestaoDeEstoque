@@ -10,29 +10,6 @@ import Perfil from "./perfil.model"
 
 
 class Usuario extends Model {
-    public id!: string
-    public nome!: string
-    public cpf!: string
-    public passwordHash!: string
-    public chapa!: string
-    public password!: string
-    public fkPerfil!: string
-    public ativo!: Boolean
-    public primeiroLogin!: Boolean
-   
-   
-    public validado!: Boolean
-   
-   
-    public fkValidador!: string
-
-    public Validador!: Validador
-    public Perfil!: Perfil
-   
-
-    public createdAt!: Date
-    public updatedAt!: Date
-
     public generateToken() {
         return jwt.sign({ id: this.id }, "c43e4311194ab5795eaf4db533b8172d");
       }

@@ -4,14 +4,7 @@ import connection from './connection'
 import { uuid } from 'uuidv4'
 import Unidade from './unidade.model'
 
-class Area extends Model {
-  public id!: string
-  public nome!: string
-  public descricao!: string
-  public fkUnidade!: string
-  public createdAt!: Date
-  public updatedAt!: Date
-}
+class Area extends Model { }
 
 Area.init({
   id: {

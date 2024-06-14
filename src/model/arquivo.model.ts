@@ -4,16 +4,7 @@ import connection from './connection'
 import { uuid } from 'uuidv4'
 import LimpezaBanheiro from "./limpezaBanheiro.model"
 
-class Arquivo extends Model {
-  public id!: string
-  public nome!: string
-  public nomeApresentacao!: string
-  public caminho!: string
-  public fkLimpezaBanheiro!: string
-  public LimpezaBanheiro!: LimpezaBanheiro
-  public createdAt!: Date
-  public updatedAt!: Date
-}
+class Arquivo extends Model { }
 
 Arquivo.init({
   id: {
