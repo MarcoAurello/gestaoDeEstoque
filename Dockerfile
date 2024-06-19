@@ -14,4 +14,4 @@ ENV PM2_SECRET_KEY bezc75qfv3gmwad
 
 EXPOSE 4003
 
-CMD ["pm2-runtime", "app.js"]
+CMD ["pm2-runtime", "./dist/app.js"]
