@@ -1,7 +1,7 @@
 {
   "name": "template-01",
   "version": "0.1.0",
-  "homepage": "https://www7.pe.senac.br/servicosgerais/",
+  "homepage": "https://app1.pe.senac.br/servicosgerais/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -22,8 +22,8 @@
     "styled-components": "^5.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

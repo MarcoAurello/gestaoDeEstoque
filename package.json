@@ -16,6 +16,7 @@
     "react-google-charts": "^4.0.1",
     "sequelize": "^6.28.0",
     "sequelize-cli": "^6.6.0",
+    "sucrase": "^3.35.0",
     "tedious": "^11.0.8",
     "ts-node": "^10.9.1",
     "tsx": "^3.12.2",
@@ -51,8 +52,10 @@
     "resetdb": "set DEVMODE=dev && yarn sequelize db:migrate",
     "postresetdb": "set DEVMODE=dev && yarn sequelize db:seed:all",
     "dev": "concurrently \" tsx watch ./src/app.ts\" \"cd ./app && yarn run start\"",
-    "production": "tsx ./src/app.ts",
+    "production": "sucrase-node ./src/app.ts",
+    "start": "node ./dist/app.js",
     "build": "cd ./app && yarn run build",
-    "createDb": "set DEVMODE=dev && yarn sequelize db:create"
+    "createDb": "set DEVMODE=dev && yarn sequelize db:create",
+    "build:backend": "npx sucrase ./src -d ./dist --transforms typescript,imports"
   }
 }
