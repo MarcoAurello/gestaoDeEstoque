@@ -1,5 +1,6 @@
 import express, { json } from 'express'
 import cors from 'cors'
+import monitor from 'express-status-monitor';
 import routerStatusApplication from './router/statusapplicatoin.router'
 import routerAuthentication from './router/authentication.router'
 import routerUsuario from './router/usuario.router'
@@ -40,6 +41,7 @@ class Server {
         limits: { fileSize: 50 * 1024 * 1024 },
       })
     );
+    this.application.use(monitor());
   }
 
   private routers () {

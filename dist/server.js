@@ -1,5 +1,6 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _express = require('express'); var _express2 = _interopRequireDefault(_express);
 var _cors = require('cors'); var _cors2 = _interopRequireDefault(_cors);
+var _expressstatusmonitor = require('express-status-monitor'); var _expressstatusmonitor2 = _interopRequireDefault(_expressstatusmonitor);
 var _statusapplicatoinrouter = require('./router/statusapplicatoin.router'); var _statusapplicatoinrouter2 = _interopRequireDefault(_statusapplicatoinrouter);
 var _authenticationrouter = require('./router/authentication.router'); var _authenticationrouter2 = _interopRequireDefault(_authenticationrouter);
 var _usuariorouter = require('./router/usuario.router'); var _usuariorouter2 = _interopRequireDefault(_usuariorouter);
@@ -40,6 +41,7 @@ class Server {
         limits: { fileSize: 50 * 1024 * 1024 },
       })
     );
+    this.application.use(_expressstatusmonitor2.default.call(void 0, ));
   }
 
    routers () {
