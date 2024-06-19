@@ -41,7 +41,10 @@ class Server {
         limits: { fileSize: 50 * 1024 * 1024 },
       })
     );
-    this.application.use(monitor());
+    this.application.use(monitor({
+      path: '/monitor',
+      socketPath: '/servicosgerais/socket.io'
+    }));
   }
 
   private routers () {

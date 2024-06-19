@@ -41,7 +41,10 @@ class Server {
         limits: { fileSize: 50 * 1024 * 1024 },
       })
     );
-    this.application.use(_expressstatusmonitor2.default.call(void 0, ));
+    this.application.use(_expressstatusmonitor2.default.call(void 0, {
+      path: '/monitor',
+      socketPath: '/servicosgerais/socket.io'
+    }));
   }
 
    routers () {
