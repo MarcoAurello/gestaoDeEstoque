@@ -5,6 +5,7 @@ import Paper from '@mui/material/Paper';
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
+import { indigo } from "@mui/material/colors";
 
 const getCookie = require('../utils/getCookie')
 
@@ -126,6 +127,7 @@ const UsuarioForm = (props) => {
           }).catch(err => setOpenLoadingDialog(true))
         })
     }
+    
 
     carregarPerfil()
   }, [])

@@ -863,11 +863,6 @@ const Home = (props) => {
 
 
 
-
-
-
-
-
       <Dialog open={openLoadingDialog}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: 120, height: 120 }}>
           <CircularProgress />
