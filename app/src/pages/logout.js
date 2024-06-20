@@ -9,7 +9,7 @@ const Logout = () => {
     }
 
     logout();
-  });
+  }, []);
 
   return <div>Saindo...</div>;
 };

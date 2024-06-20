@@ -1,24 +1,7 @@
 import { Model, DataTypes } from 'sequelize'
 import connection from './connection'
 
-class ConfiguracaoGeral extends Model {
-  public id!: string
-  public autenticacaoAd!: boolean
-  public email!: string
-  public password!: string
-  public host!: string
-  public porta!: string
-  public ssl!: Boolean
-  public template!: string
-
-  public urlAd!: string
-  public baseDN!: string
-  public usernameAd!: string
-  public passwordAd!: string
-
-  public createdAt!: Date
-  public updatedAt!: Date
-}
+class ConfiguracaoGeral extends Model { }
 
 ConfiguracaoGeral.init({
   id: {

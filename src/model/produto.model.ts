@@ -4,16 +4,7 @@ import connection from "./connection"
 
 
 
-class Produto extends Model {
-    
-    public id!: string
-    public nome!: string
-    public descricao!: string
-    public validade!: Date
-    public qtdEstoque!: Number
-    public createdAt!: Date
-    public updatedAt!: Date
-}
+class Produto extends Model { }
 
 Produto.init({
     id: {

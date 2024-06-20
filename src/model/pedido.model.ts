@@ -8,26 +8,7 @@ import Solicitante from "./usuario.model"
 
 
 
-class Pedido extends Model {
-    public id!: string
-    public dataRetirada!: Date
-    public quantidadeRetirada!: Number
-    public status!: string
-    public entregePor!: string
-
-    public fkSolicitante!: string
-    public fkLocal!: string
-    public fkProduto!: string
-
-    public Produto!: Produto
-    public Local!: Local
-    public Solicitante!: Solicitante
-    
-   
-
-    public createdAt!: Date
-    public updatedAt!: Date
-}
+class Pedido extends Model { }
 
 Pedido.init({
     id: {

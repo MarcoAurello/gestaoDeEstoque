@@ -4,19 +4,7 @@ import connection from "./connection"
 
 import Unidade from "./unidade.model"
 
-class Local extends Model {
-  public id!: string
-
-  public nome!: string
-  
-  public fkUnidade!: string
- 
-
-  public Unidade!: Unidade
- 
-  public createdAt!: Date
-  public updatedAt!: Date
-}
+class Local extends Model { }
 
 Local.init({
   id: {

@@ -4,21 +4,7 @@ import connection from "./connection"
 
 import Local from "./local.model"
 
-class Banheiro extends Model {
-  public id!: string
-
-  public codigo!: string
-
-  public descricao!: string
-  
-  public fkLocal!: string
- 
-
-  public Local!: Local
- 
-  public createdAt!: Date
-  public updatedAt!: Date
-}
+class Banheiro extends Model { }
 
 Banheiro.init({
   id: {

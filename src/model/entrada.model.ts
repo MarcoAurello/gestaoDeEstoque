@@ -6,21 +6,7 @@ import Usuario from "./usuario.model"
 
 
 
-class Entrada extends Model {
-    public id!: string
-    public Data!: Date
-    public quantidade!: Number
-
-    public fkProduto!: string
-    public fkUsuario!: string
- 
-
-    public Produto!: Produto
-    public Usuario!: Usuario
-
-    public createdAt!: Date
-    public updatedAt!: Date
-}
+class Entrada extends Model { }
 
 Entrada.init({
     id: {

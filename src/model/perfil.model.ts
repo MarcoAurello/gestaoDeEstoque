@@ -2,15 +2,7 @@ import { Model, DataTypes } from 'sequelize'
 import { uuid } from 'uuidv4'
 import connection from './connection'
 
-class Perfil extends Model {
-
-
-  public id!: string
-  public nome!: string
-
-  public createdAt!: Date
-  public updatedAt!: Date
-}
+class Perfil extends Model { }
 
 Perfil.init({
   id: {

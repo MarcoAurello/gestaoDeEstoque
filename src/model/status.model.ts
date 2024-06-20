@@ -2,16 +2,7 @@ import { Model, DataTypes } from 'sequelize'
 import { uuid } from 'uuidv4'
 import connection from './connection'
 
-class Status extends Model {
-  public id!: string
-
-
-  public descricao!: string
-
-  public createdAt!: Date
-
-  public updatedAt!: Date
-}
+class Status extends Model { }
 
 Status.init({
   id: {

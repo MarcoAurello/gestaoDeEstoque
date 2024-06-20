@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  app:
+    build: .
+    command: "npm run start"
+    ports:
+      - "4003:4003"
+    volumes:
+      - .:/usr/app
+      - /usr/app/node_modules/
