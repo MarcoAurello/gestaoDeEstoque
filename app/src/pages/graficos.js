@@ -2,7 +2,8 @@ import { CircularProgress, FormControl, InputLabel, MenuItem, Select, SpeedDial 
 
 import EditIcon from '@mui/icons-material/Edit';
 import { Chart } from "react-google-charts";
-
+// import { Bar } from 'react-chartjs-2';
+import Grafico from '../components/pedidosGrafico';
 
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import moment from "moment";
@@ -30,63 +31,297 @@ const Graficos = (props) => {
     const [openMessageDialog, setOpenMessageDialog] = useState(false)
     const [message, setMessage] = useState('')
 
-    const [titulo, setTitulo] = useState('');
-    const [descricao, setDescricao] = useState('');
-    const [caminho, setCaminho] = useState('');
-    const [produtos, setProdutos] = useState([]);
-    const [unidades, setUnidades] = useState([]);
-    const [produtosA, setProdutosA] = useState([]);
-
-    const [solicitar, setSolicitar] = useState(false)
-    const [fkUnidade, setFkUnidade] = useState('');
-    const [setores, setSetores] = useState([]);
-    const [minhas, setMinhas] = useState([]);
-    const [localRelatorio, setLocalRelatorio] = useState('');
 
 
 
-    const [chamado, setChamado] = useState(null);
-
-    const [fkUsuario, setFkUsuario] = useState(null);
-    const [fkUsuarioPesquisa, setFkUsuarioPesquisa] = useState(null);
-    const [fkCham, setFkCham] = useState(null);
-    const [executor, setExecutor] = useState('');
-    const [obsDemandante, setObsDemandante] = useState('');
-    const [criticidadeChefe, setCriticidade] = useState(null)
-    const [fkLocal, setFkLocal] = useState('');
-    const [quantidade, setQuantidade] = useState('');
-    const [fkProduto, setFkProduto] = useState('');
-    const [fkFuncionaio, setFkFuncionario] = useState('');
-    const [nomeProduto, setNomeProduto] = useState('');
-    const [modalMeus, setModalMeus] = useState(false);
-    const [relatorioDoLocal, setRelatorioDoLocal] = useState([]);
-    const [abrirProduto, setAbrirProduto] = useState(false);
-    const [abrirEstoque, setAbrirEstoque] = useState(false);
-    const [abrirAmbiente, setAbrirAmbiente] = useState(false);
-    const [abrirNovoProduto, setAbrirNovoProduto] = useState(false);
-    const [modalRelatorioLocal, setModalRelatorioLocal] = useState(false);
-
-    const [pesquisa, setPesquisa] = useState('');
-    const [nomeAmbiente, setNomeAmbiente] = useState('');
-    const [pedidosDoFuncionario, setPedidosDoFuncionario] = useState([]);
-    const [funcionarios, setFuncionarios] = useState([]);
-    const [relatorioProdutos, setRelatorioProdutos] = useState([]);
     const [pedidos, setPedidos] = useState([]);
-    const [modalRelatorioFuncionario, setModalRelatorioFuncionario] = useState(false);
-    const [dataInicio, setDataInicio] = useState(null);
-    const [dataFim, setDataFim] = useState(null);
-    const [open, setOpen] = useState(false);
+    const [pedidos2, setPedidos2] = useState([]);
+    const [pedidos3, setPedidos3] = useState([]);
+    const [filtrados, setFiltrados] = useState([]);
 
+    const [open, setOpen] = useState(false);
+    const [mesesUnicos, setMesesUnicos] = useState([]);
+    const [mesSelecionado, setMesSelecionado] = useState('');
+
+    const dados = Array.isArray(pedidos) && pedidos.length > 0 ? pedidos[0] : [];
+    const dados2 = Array.isArray(pedidos2) && pedidos2.length > 0 ? pedidos2[0] : [];
+    const dados3 = Array.isArray(pedidos3) && pedidos3.length > 0 ? pedidos3[0] : [];
 
 
     useEffect(() => {
         carregarPedidos()
+        carregarPedidos2()
+        carregarPedidos3()
 
-        if (pedidos) {
 
 
-        }
+
     }, [])
+
+    useEffect(() => {
+        const meses = [...new Set(dados.map(pedido => pedido.mes))];
+        setMesesUnicos(meses);
+        setMesSelecionado(meses[0]); // Selecionar o primeiro mês por padrão
+    }, [dados, dados2, dados3]);
+
+
+    // Filtrar dados com base no mês selecionado
+    const dadosFiltrados = dados
+  .filter(pedido => pedido.mes === mesSelecionado)
+  .sort((a, b) => b.quantidade_pedidos - a.quantidade_pedidos);
+
+  const dadosFiltrados2 = dados2
+  .filter(pedido => pedido.mes === mesSelecionado)
+  .sort((a, b) => b.quantidade_pedidos - a.quantidade_pedidos);
+
+  const dadosFiltrados3 = dados3
+  .filter(pedido => pedido.mes === mesSelecionado)
+  .sort((a, b) => b.quantidade_pedidos - a.quantidade_pedidos);
+
+
+    // Transformar os dados para o formato do Google Charts
+    const data = [
+        ['Produto', 'Quantidade'],
+        ...dadosFiltrados.map(pedido => [pedido.nome, pedido.quantidade_pedidos]),
+    ];
+
+    const data2 = [
+        ['Produto', 'Quantidade'],
+        ...dadosFiltrados2.map(pedido => [pedido.nome, pedido.quantidade_pedidos]),
+    ];
+
+    const data3 = [
+        ['Produto', 'Quantidade'],
+        ...dadosFiltrados3.map(pedido => [pedido.nome, pedido.quantidade_pedidos]),
+    ];
+
+
+    const options = {
+        title: `Pedidos de Produtos em ${mesSelecionado}`,
+        titleTextStyle: {
+          fontSize: 18,
+          bold: true,
+          color: '#333',
+        },
+        fontSize: 14,
+        chartArea: {
+          width: '70%',
+          height: '70%',
+        },
+        hAxis: {
+          title: 'Quantidade',
+          minValue: 0,
+          titleTextStyle: {
+            fontSize: 16,
+            bold: true,
+            color: '#666',
+          },
+          textStyle: {
+            fontSize: 9,
+            color: '#444',
+          },
+          gridlines: {
+            color: '#e0e0e0',
+          },
+          slantedText: true, // Permite inclinar o texto
+          slantedTextAngle: 45, // Ângulo para as etiquetas
+        },
+        vAxis: {
+          title: 'Produtos',
+          titleTextStyle: {
+            fontSize: 16,
+            bold: true,
+            color: '#666',
+          },
+          textStyle: {
+            fontSize: 9,
+            color: '#444',
+          },
+          gridlines: {
+            color: '#e0e0e0',
+          },
+          textPosition: 'out', // Posiciona o texto fora do eixo
+        },
+        legend: {
+          position: 'none',
+        },
+        colors: ['#FF6F61', '#6B5B95', '#88B04B', '#F7CAC9', '#92A8D1'], // Cores modernas para as barras
+        bar: {
+          groupWidth: '75%',
+        },
+        animation: {
+          duration: 1000,
+          easing: 'out',
+        },
+        annotations: {
+          alwaysOutside: true,
+          textStyle: {
+            fontSize: 12,
+            color: '#555',
+            auraColor: 'none',
+          },
+        },
+      };
+      
+      
+
+    const options2 = {
+        title: `Pedidos por Funcionários em ${mesSelecionado}`,
+        titleTextStyle: {
+          fontSize: 18,
+          bold: true,
+          color: '#333',
+        },
+        fontSize: 14,
+        chartArea: {
+          width: '70%',
+          height: '70%',
+        },
+        hAxis: {
+          title: 'Quantidade',
+          minValue: 0,
+          titleTextStyle: {
+            fontSize: 16,
+            bold: true,
+            color: '#666',
+          },
+          textStyle: {
+            fontSize: 12,
+            color: '#444',
+          },
+          gridlines: {
+            color: '#e0e0e0',
+          },
+        },
+        vAxis: {
+          title: 'Produtos',
+          titleTextStyle: {
+            fontSize: 16,
+            bold: true,
+            color: '#666',
+          },
+          textStyle: {
+            fontSize: 9,
+            color: '#444',
+          },
+          gridlines: {
+            color: '#e0e0e0',
+          },
+        },
+        legend: {
+          position: 'none',
+        },
+        colors: ['#FF6F61', '#6B5B95', '#88B04B', '#F7CAC9', '#92A8D1'], // Cores modernas para as barras
+        bar: {
+          groupWidth: '75%',
+        },
+        animation: {
+          duration: 1000,
+          easing: 'out',
+        },
+        annotations: {
+          alwaysOutside: true,
+          textStyle: {
+            fontSize: 12,
+            color: '#555',
+            auraColor: 'none',
+          },
+        },
+      };
+      
+    const options3 = {
+        title: `Pedidos por Ambiente em ${mesSelecionado}`,
+        titleTextStyle: {
+          fontSize: 18,
+          bold: true,
+          color: '#333',
+        },
+        fontSize: 14,
+        chartArea: {
+          width: '70%',
+          height: '70%',
+        },
+        hAxis: {
+          title: 'Quantidade',
+          minValue: 0,
+          titleTextStyle: {
+            fontSize: 16,
+            bold: true,
+            color: '#666',
+          },
+          textStyle: {
+            fontSize: 12,
+            color: '#444',
+          },
+          gridlines: {
+            color: '#e0e0e0',
+          },
+        },
+        vAxis: {
+          title: 'Produtos',
+          titleTextStyle: {
+            fontSize: 16,
+            bold: true,
+            color: '#666',
+          },
+          textStyle: {
+            fontSize: 9,
+            color: '#444',
+          },
+          gridlines: {
+            color: '#e0e0e0',
+          },
+        },
+        legend: {
+          position: 'none',
+        },
+        colors: ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#FF33A0'], // Cores modernas para as barras
+        bar: {
+          groupWidth: '75%',
+        },
+        animation: {
+          duration: 1000,
+          easing: 'out',
+        },
+        annotations: {
+          alwaysOutside: true,
+          textStyle: {
+            fontSize: 12,
+            color: '#555',
+            auraColor: 'none',
+          },
+        },
+      };
+      
+      
+
+    // function gerar1(){
+
+    //     data = {
+    //         labels: nomesProdutos,
+    //         datasets: [
+    //           {
+    //             label: 'Quantidade de Pedidos',
+    //             data: quantidadesPedidos,
+    //             backgroundColor: 'rgba(75, 192, 192, 0.6)',
+    //             borderColor: 'rgba(75, 192, 192, 1)',
+    //             borderWidth: 1,
+    //           },
+    //         ],
+    //       };
+
+    //        options = {
+    //         scales: {
+    //           y: {
+    //             beginAtZero: true,
+    //           },
+    //         },
+    //       };
+
+    //     //   return <Bar data={data} options={options} />
+
+
+    // }
 
 
 
@@ -98,7 +333,7 @@ const Graficos = (props) => {
             }
         }
 
-        fetch(`${process.env.REACT_APP_DOMAIN_API}/api/pedido/`, params)
+        fetch(`${process.env.REACT_APP_DOMAIN_API}/api/pedido/porProduto`, params)
             .then(response => {
                 const { status } = response
                 response.json().then(data => {
@@ -116,175 +351,56 @@ const Graficos = (props) => {
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    const handleDataChangeNF = (event) => {
-
-        const selectedDate = event.target.value;
-        const currentDate = new Date();
-        const [year, month, day] = selectedDate.split('-');
-        const newDate = new Date(year, month - 1, day, currentDate.getHours(), currentDate.getMinutes(), currentDate.getSeconds());
-        setDataInicio(newDate.toISOString());
-    };
-    const handleDataChangeNF1 = (event) => {
-
-        const selectedDate = event.target.value;
-        const currentDate = new Date();
-        const [year, month, day] = selectedDate.split('-');
-        const newDate = new Date(year, month - 1, day, currentDate.getHours(), currentDate.getMinutes(), currentDate.getSeconds());
-        setDataFim(newDate.toISOString());
-    };
-
-
-    const obterProdutosUnicos = (pedidos) => {
-        const produtosUnicos = [];
-        pedidos.forEach((pedido) => {
-            if (!produtosUnicos.includes(pedido.Produto.nome)) {
-                produtosUnicos.push(pedido.Produto.nome);
+    function carregarPedidos2() {
+        const token = getCookie('"_token_GSI"')
+        const params = {
+            headers: {
+                'Authorization': `Bearer ${token}`
             }
-        });
-        return produtosUnicos;
-    };
+        }
 
-    const obterUsuarioUnicos = (pedidos) => {
-        const usuariosUnicos = [];
-        pedidos.forEach((pedido) => {
-            if (!usuariosUnicos.includes(pedido.Usuario.nome)) {
-                usuariosUnicos.push(pedido.Usuario.nome);
-            }
-        });
-        return usuariosUnicos;
-    };
+        fetch(`${process.env.REACT_APP_DOMAIN_API}/api/pedido/porFuncionario`, params)
+            .then(response => {
+                const { status } = response
+                response.json().then(data => {
+                    if (status === 401) {
+                    } else if (status === 200) {
 
-    const obterLocalUnicos = (pedidos) => {
-        const localUnico = [];
-        pedidos.forEach((pedido) => {
-            if (!localUnico.includes(pedido.Local.nome)) {
-                localUnico.push(pedido.Local.nome);
-            }
-        });
-        return localUnico;
-    };
+                        // alert(JSON.stringify(data.data))
 
-    const prod = obterProdutosUnicos(pedidos);
-    const user = obterUsuarioUnicos(pedidos);
-    const loc = obterLocalUnicos(pedidos);
+                        setPedidos2(data.data)
+
+                    }
+                })
+            })
 
 
-
-
-
-
-    const data3 = [
-        ["Local", "Quantidade", { role: 'style' }, { role: 'annotation' }],
-        ...loc.map((local, index) => {
-            const quantidade = pedidos.reduce((contador, item) => contador + (item.Local.nome === local && item.status === 'Entregue' ? 1 : 0), 0);
-            return [
-                local,
-                quantidade,
-                `color: ${getColor(index)}`, // Chamada para a função getColor para cores diferentes
-                quantidade.toString()
-            ];
-        }).sort((a, b) => b[1] - a[1]) // Ordena do maior para o menor com base na quantidade
-    ];
-
-
-
-    const data = [
-        ["Produto", "Quantidade", { role: 'style' }, { role: 'annotation' }],
-        ...prod.map((produto, index) => {
-            const quantidade = pedidos.reduce((contador, item) => contador + (item.Produto.nome === produto && item.status === 'Entregue' ? 1 : 0), 0);
-            return [
-                produto,
-                quantidade,
-                `color: ${getColor(index)}`, // Chamada para a função getColor para cores diferentes
-                quantidade.toString()
-            ];
-        }).sort((a, b) => b[1] - a[1]) // Ordena do maior para o menor com base na quantidade
-    ];
-
-
-    const data1 = [
-        ["Usuario", "Quantidade", { role: 'style' }, { role: 'annotation' }],
-        ...user.map((usuario, index) => {
-            const quantidade = pedidos.reduce((contador, item) => contador + (item.Usuario.nome === usuario && item.status === 'Entregue' ? 1 : 0), 0);
-            return [
-                usuario,
-                quantidade,
-                `color: ${getColor(index)}`, // Chamada para a função getColor para cores diferentes
-                quantidade.toString()
-            ];
-        }).sort((a, b) => b[1] - a[1]) // Ordena do maior para o menor com base na quantidade
-    ];
-
-
-
-
-    function getColor(index) {
-        const colors = [
-            '#3366cc', '#dc3912', '#ff9900', '#109618', '#990099', '#0099c6', '#dd4477', '#66aa00', '#b82e2e', '#316395',
-            '#994499', '#22aa99', '#aaaa11', '#6633cc', '#e67300', '#8b0707', '#651067', '#329262', '#5574a6', '#3b3eac',
-            // Adicione mais cores conforme necessário
-        ];
-        return colors[index % colors.length];
     }
+    function carregarPedidos3() {
+        const token = getCookie('"_token_GSI"')
+        const params = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
 
-    const options = {
-        title: 'Distribuição de Produtos',
-        fontSize: 12,
-        chartArea: { width: '50%' },
-        hAxis: {
-            title: 'Quantidade',
-            minValue: 0,
-        },
-        vAxis: {
-            title: 'Produto',
-        },
-        legend: { position: 'none' },
-    };
+        fetch(`${process.env.REACT_APP_DOMAIN_API}/api/pedido/porLocal`, params)
+            .then(response => {
+                const { status } = response
+                response.json().then(data => {
+                    if (status === 401) {
+                    } else if (status === 200) {
 
-    const options1 = {
-        title: 'Distribuição dos Funcionarios',
-        fontSize: 12,
-        chartArea: { width: '50%' },
-        hAxis: {
-            title: 'Quantidade',
-            minValue: 0,
-        },
-        vAxis: {
-            title: 'Usuario',
-        },
-        legend: { position: 'none' },
-    };
+                        // alert(JSON.stringify(data.data))
 
-    const options3 = {
-        title: 'Distribuição dos Locais',
-        fontSize: 12,
-        chartArea: { width: '50%' },
-        hAxis: {
-            title: 'Quantidade',
-            minValue: 0,
-        },
-        vAxis: {
-            title: 'Local',
-        },
-        legend: { position: 'none' },
-    };
+                        setPedidos3(data.data)
+
+                    }
+                })
+            })
 
 
-
-
-
+    }
 
 
 
@@ -297,50 +413,121 @@ const Graficos = (props) => {
 
             <div>
                 <div >
-                    {pedidos ?
+
+                    <div>
                         <div>
+                            <h3>Informe o mês</h3>
+                         
+                            <select
+        style={{
+          appearance: 'none',
+          padding: '10px 20px',
+          fontSize: '16px',
+          fontFamily: 'Arial, sans-serif',
+          border: '1px solid #ccc',
+          borderRadius: '4px',
+          backgroundColor: '#fff',
+          color: '#333',
+          outline: 'none',
+          cursor: 'pointer',
+          transition: 'all 0.3s ease',
+          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+        }}
+        onChange={e => setMesSelecionado(e.target.value)}
+        value={mesSelecionado}
+      >
+        {mesesUnicos.map((mes, index) => (
+          <option
+            key={index}
+            value={mes}
+            style={{
+              padding: '10px',
+              backgroundColor: '#fff',
+              color: '#333',
+            }}
+          >
+            {mes}
+          </option>
+        ))}
+      </select>
 
-                            <Chart
-                                chartType="BarChart"
-                                width="100%"
-                                height="1500px"
-                                data={data}
-                                options={options}
-                            />
+      <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        flexWrap: 'wrap',
+        padding: '05px',
+        gap: '20px',
+      }}
+    >
+      <div style={{ flex: '1', minWidth: '300px' }}>
+        <Chart
+          chartType="BarChart"
+          width="100%"
+          height="2200px"
+          data={data}
+          options={options}
+        />
+      </div>
+      
+      <div style={{ flex: '1', minWidth: '300px' }}>
+        <Chart
+          chartType="BarChart"
+          width="100%"
+          height="2200px"
+          data={data2}
+          options={options2}
+        />
+      </div>
 
-                            <Chart
-                                chartType="BarChart"
-                                width="100%"
-                                height="1500px"
-                                data={data1}
-                                options={options1}
-                            />
-
-                            <Chart
-                                chartType="BarChart"
-                                width="100%"
-                                height="1500px"
-                                data={data3}
-                                options={options3}
-                            />
-
-
-
-
-
+      <div style={{ flex: '1', minWidth: '300px' }}>
+        <Chart
+          chartType="BarChart"
+          width="100%"
+          height="2200px"
+          data={data3}
+          options={options3}
+        />
+      </div>
+    </div>
                         </div>
-                        : ''}
+                    </div>
+                    {/* <div>
+            
+                        {pedidos && pedidos.length?
+                         <div>
+                         <h2>Gráfico dor produto</h2>
+                         <Grafico pedidos={pedidos} />
+                       </div>
+                        
+                        
+                        :   ''}
+                    </div> */}
 
+                    {/* <div>
+                        <h2>Gráfico de Funcionario</h2>
+                        {pedidos2.length?
+                         <div>
+                         
+                         <Grafico pedidos={pedidos2} />
+                       </div>
+                        
+                        
+                        :   ''}
+                    </div>
 
-
-
-
-                    {/* {pedidos ?
-                        <div>
-                            {pedidos.map((item, index) => <u key={index}>{item.Produto.nome}</u>)}
-
-                        </div> : ''} */}
-
+                    <div>
+                        <h2>Gráfico de Local</h2>
+                        {pedidos3.length?
+                         <div>
+                         
+                         <Grafico pedidos={pedidos3} />
+                       </div>
+                        
+                        
+                        :   ''}
+                    </div> */}
 
 
 
@@ -356,11 +543,11 @@ const Graficos = (props) => {
 
 
 
-            <Dialog >
+            {/* <Dialog >
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: 120, height: 120 }}>
                     <CircularProgress />
                 </div>
-            </Dialog>
+            </Dialog> */}
 
 
 

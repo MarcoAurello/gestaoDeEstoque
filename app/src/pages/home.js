@@ -1,7 +1,7 @@
 import { CircularProgress, FormControl, InputLabel, MenuItem, Select, Chip } from "@mui/material";
 
 import EditIcon from '@mui/icons-material/Edit';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import moment from "moment";
 
@@ -591,6 +591,40 @@ const Home = (props) => {
 
   }
 
+  function excluir(id) {
+  
+    // alert(id)
+    setOpenLoadingDialog(true)
+    const token = getCookie("_token_GSI")
+    const params = {
+        method: 'POST',
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
+    fetch(`${process.env.REACT_APP_DOMAIN_API}/api/pedido/${id}/delete`, params)
+        .then(response => {
+
+            const { status } = response
+
+            response.json().then(data => {
+
+                if (status === 401) {
+                    alert('Alteração falhou, tente novamente')
+                    setOpenLoadingDialog(false)
+
+                } else if (status === 200) {
+                  pesquisar()
+                    alert(data.message)
+                    setOpenLoadingDialog(false)
+                   
+
+
+                }
+            })
+        })
+}
+
 
 
   return (
@@ -702,7 +736,8 @@ const Home = (props) => {
                       </td>
                       <td>
                         {item.status === "não retirado" ?
-                          <Button
+                        <div>
+                           <Button
                             style={{ marginLeft: '5px' }}
                             variant="contained"
                             size="small"
@@ -712,6 +747,19 @@ const Home = (props) => {
                           >
                             Entregar
                           </Button>
+                          <Button
+                          style={{ marginLeft: '5px', backgroundColor:'red' }}
+                          variant="error"
+                          size="small"
+                          onClick={() =>
+                            excluir(item.id)
+                          }
+                        >
+                          <DeleteIcon/> 
+                        </Button>
+
+                        </div>
+                         
 
                           :
                           <Button
@@ -816,13 +864,14 @@ const Home = (props) => {
                   
 
                   </td>
+                  <td>Estoque</td>
                   <td></td>
                 </tr>
 
                 {produtosFiltrados.map((item, index) => (
                   <tr key={index}>
                     <td style={{ wordBreak: "break-all", fontSize:'18px' }}><b>{item.nome }</b></td>
-                    {/* <td style={{ wordBreak: "break-all", color: item < 5 ? 'red' : 'inherit' }}><b>{item.qtdEstoque}</b></td> */}
+                    <td style={{ wordBreak: "break-all", color: item < 5 ? 'red' : 'inherit' }}><b>{item.qtdEstoque}</b></td>
                    
 
                     <td>
