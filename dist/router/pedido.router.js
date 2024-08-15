@@ -15,6 +15,9 @@ class PedidoRouter {
    routers () {
     this.router.get('/search/', _pedidocontroller2.default.search)
     this.router.get('/', _pedidocontroller2.default.all)
+    this.router.get('/porProduto', _pedidocontroller2.default.porProduto)
+    this.router.get('/porFuncionario', _pedidocontroller2.default.porFuncionario)
+    this.router.get('/porLocal', _pedidocontroller2.default.porLocal)
     this.router.post('/', _pedidocontroller2.default.create)
     this.router.get('/:id', _pedidocontroller2.default.find)
     this.router.get('/alter/:id', _pedidocontroller2.default.findAlter)
@@ -22,5 +25,7 @@ class PedidoRouter {
     this.router.post('/:id/delete', _pedidocontroller2.default.delete)
   }
 }
+
+
 
 exports. default = new PedidoRouter().router

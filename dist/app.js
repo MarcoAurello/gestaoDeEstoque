@@ -5,7 +5,7 @@ const PORT = 4003
 let blocked = require("blocked");
 
 blocked(ms => {
-  console.log("EVENT LOOP Blocked", ms);
+  // console.log("EVENT LOOP Blocked", ms);
 });
 
 

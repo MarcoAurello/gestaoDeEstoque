@@ -8,14 +8,16 @@ var _usuariomodel = require('../model/usuario.model'); var _usuariomodel2 = _int
 const { Op } = require('sequelize');
 
 class PedidoController  {
-  async all (req, res, next) {
+
+  async all(req, res, next) {
     try {
       const registros = await _pedidomodel2.default.findAll(
-        {include: [ _produtomodel2.default , _localmodel2.default, _usuariomodel2.default]
+        {
+          include: [_produtomodel2.default, _localmodel2.default, _usuariomodel2.default]
         }
       )
 
-      console.log(JSON.stringify('xx2'+JSON.stringify(registros)))
+      console.log(JSON.stringify('xx2' + JSON.stringify(registros)))
 
       res.status(200).json({ data: registros })
     } catch (err) {
@@ -23,10 +25,96 @@ class PedidoController  {
     }
   }
 
-  async create (req, res, next) {
+  async porProduto(req, res, next) {
+    try {
+      // SQL Query
+      let registro = []
+      registro = await _optionalChain([_pedidomodel2.default, 'access', _ => _.sequelize, 'optionalAccess', _2 => _2.query, 'call', _3 => _3(`
+       SELECT 
+    p.nome, 
+    FORMAT(pd.createdAt, 'yyyy-MM') AS mes,
+    COUNT(*) AS quantidade_pedidos
+FROM 
+    pedido pd
+JOIN 
+    produto p ON pd.fkProduto = p.id
+GROUP BY 
+    p.nome, FORMAT(pd.createdAt, 'yyyy-MM')
+ORDER BY 
+   p.nome;
+
+      `)]);
+
+      console.log(JSON.stringify('xx2' + JSON.stringify(registro)));
+
+      res.status(200).json({ data: registro });
+    } catch (err) {
+      res.status(401).json({ message: err.message || 'Erro ao consultar pedidos' });
+    }
+  }
+
+  async porFuncionario(req, res, next) {
+    try {
+      // SQL Query
+      let registro = []
+      registro = await _optionalChain([_pedidomodel2.default, 'access', _4 => _4.sequelize, 'optionalAccess', _5 => _5.query, 'call', _6 => _6(`
+      SELECT 
+    u.nome, 
+    FORMAT(pd.createdAt, 'yyyy-MM') AS mes,
+    COUNT(*) AS quantidade_pedidos
+FROM 
+    pedido pd
+JOIN 
+    usuario u ON pd.fkSolicitante = u.id
+GROUP BY 
+    u.nome, FORMAT(pd.createdAt, 'yyyy-MM')
+ORDER BY 
+     u.nome;
+
+      `)]);
+
+      console.log(JSON.stringify('xx2' + JSON.stringify(registro)));
+
+      res.status(200).json({ data: registro });
+    } catch (err) {
+      res.status(401).json({ message: err.message || 'Erro ao consultar pedidos' });
+    }
+  }
+
+  async porLocal(req, res, next) {
+    try {
+      // SQL Query
+      let registro = []
+      registro = await _optionalChain([_pedidomodel2.default, 'access', _7 => _7.sequelize, 'optionalAccess', _8 => _8.query, 'call', _9 => _9(`
+       SELECT 
+    l.nome, 
+    FORMAT(pd.createdAt, 'yyyy-MM') AS mes,
+    COUNT(*) AS quantidade_pedidos
+FROM 
+    pedido pd
+JOIN 
+    local l ON pd.fkLocal = l.id
+GROUP BY 
+    l.nome, FORMAT(pd.createdAt, 'yyyy-MM')
+ORDER BY 
+   l.nome;
+ 
+      `)]);
+
+      console.log(JSON.stringify('xx2' + JSON.stringify(registro)));
+
+      res.status(200).json({ data: registro });
+    } catch (err) {
+      res.status(401).json({ message: err.message || 'Erro ao consultar pedidos' });
+    }
+  }
+
+
+
+  async create(req, res, next) {
     try {
       // const { id } = req.params
-     
+
       const {
         fkLocal,
         fkPoduto,
@@ -36,48 +124,48 @@ class PedidoController  {
       } = req.body
       // console.log('qqqqqq'+senha)
 
-      console.log('lulu'+ fkPoduto)
+      console.log('lulu' + fkPoduto)
 
       // const registro = await Usuario.create({
       //   nome,
       //   chapa,
       //   senha
-    
+
 
       // });
 
       let registro = []
 
-      if(id){
+      if (id) {
         const user = await _usuariomodel2.default.findOne({ where: { cpf: id } })
-         
+
         registro = await _pedidomodel2.default.create({
-          quantidadeRetirada : quantidade,
-          status:"não retirado",
-          fkSolicitante: _optionalChain([user, 'optionalAccess', _ => _.id]),
+          quantidadeRetirada: quantidade,
+          status: "não retirado",
+          fkSolicitante: _optionalChain([user, 'optionalAccess', _10 => _10.id]),
           fkLocal,
-          fkProduto:fkPoduto
-         
+          fkProduto: fkPoduto
+
         });
 
-      }else{
+      } else {
 
-         registro = await _pedidomodel2.default.create({
-          quantidadeRetirada : quantidade,
-          status:"não retirado",
+        registro = await _pedidomodel2.default.create({
+          quantidadeRetirada: quantidade,
+          status: "não retirado",
           fkSolicitante: fkUsuario,
           fkLocal,
-          fkProduto:fkPoduto
-         
+          fkProduto: fkPoduto
+
         });
 
 
       }
 
-      
-       
-  
-        res.status(200).json({ data: registro, message: 'Produto solicitado.' })
+
+
+
+      res.status(200).json({ data: registro, message: 'Produto solicitado.' })
 
     } catch (err) {
       console.log(err)
@@ -85,21 +173,21 @@ class PedidoController  {
     }
   }
 
-  async find (req, res, next) {
+  async find(req, res, next) {
     try {
       const { id } = req.params
       console.log(id)
-    
 
-      const registro = await _pedidomodel2.default.findAll({ 
-        include: [ _produtomodel2.default , _localmodel2.default],
-        where: { 
+
+      const registro = await _pedidomodel2.default.findAll({
+        include: [_produtomodel2.default, _localmodel2.default],
+        where: {
           fkSolicitante: id,
-          Status:'não retirado'
+          Status: 'não retirado'
         },
-      
+
       });
-      console.log(JSON.stringify('xx1'+JSON.stringify(registro)))
+      console.log(JSON.stringify('xx1' + JSON.stringify(registro)))
 
       res.status(200).json({ data: registro })
     } catch (err) {
@@ -107,21 +195,21 @@ class PedidoController  {
     }
   }
 
-  async findAlter (req, res, next) {
+  async findAlter(req, res, next) {
     try {
       const { id } = req.params
       console.log(id)
-    
 
-      const registro = await _pedidomodel2.default.findOne({ 
-        include: [ _produtomodel2.default , _localmodel2.default],
-        where: { 
-         id,
-          
+
+      const registro = await _pedidomodel2.default.findOne({
+        include: [_produtomodel2.default, _localmodel2.default],
+        where: {
+          id,
+
         },
-      
+
       });
-      console.log(JSON.stringify('xx1'+JSON.stringify(registro)))
+      console.log(JSON.stringify('xx1' + JSON.stringify(registro)))
 
       res.status(200).json({ data: registro })
     } catch (err) {
@@ -130,33 +218,33 @@ class PedidoController  {
   }
 
 
-  async update (req, res, next) {
+  async update(req, res, next) {
     try {
       const { id } = req.params;
       const { quantidade } = req.body;
-  
+
       await _pedidomodel2.default.update({
         quantidade
-  
-      
+
+
       }, {
         where: {
           id
         },
         individualHooks: false
       })
-      
-  
+
+
       res.status(200).json({ data: null, message: 'pedido Alterado.' });
     } catch (err) {
       res.status(401).json({ message: err.errors[0].message });
     }
   }
-  
+
   async delete(req, res, next) {
     try {
       const { id } = req.params;
-      
+
       // console.log('2222')
 
       await _pedidomodel2.default.destroy({
@@ -173,11 +261,11 @@ class PedidoController  {
   }
 
 
-  
-  async search (req, res, next) {
+
+  async search(req, res, next) {
     try {
       const { pesquisa } = req.query
-   
+
 
       const registros = await _pedidomodel2.default.findAll({
         include: [
@@ -197,14 +285,14 @@ class PedidoController  {
           }
         ],
         where: {
-          status:  'não retirado' 
-          
+          status: 'não retirado'
+
         }
       })
 
-      
 
-  
+
+
 
       console.log(JSON.stringify(registros))
 
