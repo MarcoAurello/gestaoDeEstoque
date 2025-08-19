@@ -1,5 +1,5 @@
+import React, { useEffect, useState } from 'react';
 import { CircularProgress, FormControl, InputLabel, MenuItem, Select, SpeedDial } from "@mui/material";
-
 import EditIcon from '@mui/icons-material/Edit';
 import { Chart } from "react-google-charts";
 // import { Bar } from 'react-chartjs-2';
@@ -8,7 +8,7 @@ import Grafico from '../components/pedidosGrafico';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import moment from "moment";
 
-import React, { useEffect, useState } from 'react';
+
 import { Box } from "@mui/system";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -533,13 +533,8 @@ const Graficos = (props) => {
 
 
 
-
-
                 </div>
             </div>
-
-
-
 
 
 
@@ -548,16 +543,6 @@ const Graficos = (props) => {
                     <CircularProgress />
                 </div>
             </Dialog> */}
-
-
-
-
-
-
-
-
-
-
 
 
 

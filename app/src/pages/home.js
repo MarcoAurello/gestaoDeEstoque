@@ -688,6 +688,7 @@ const Home = (props) => {
 
                   </tr>
                   <tr style={{  color:'#fff'}}>
+                   <td>Data/hora</td>
                   <td>Funcionario</td>
                     <td>Produto</td>
                     
@@ -696,6 +697,11 @@ const Home = (props) => {
 
                   {pedidosDoFuncionario.map((item, index) => (
                     <tr key={index} style={{ border:'10px', color:'#fff'}}>
+                        <td>
+  {item.createdAt
+    ? moment(item.createdAt).format("DD/MM/YYYY HH:mm")
+    : ""}
+</td>
                        <td >{item.Usuario ? item.Usuario.nome : ''}<br></br>
                        <Button
                           style={{ marginLeft: '5px' ,color:'red'}}
@@ -709,16 +715,12 @@ const Home = (props) => {
                         </Button>
                        
                        </td>
+
+                      
+                       
                       <td >{item.Produto ? item.Produto.nome : ''}<Chip label= {'qtd: '+item.quantidadeRetirada} color="success" ></Chip>
                       
-                      {/* <Button
-                         
-                          onClick={() =>
-                            editarPedido(item.id)
-                          }
-                        >
-                          &#9997;
-                        </Button> */}
+  
                       </td>
                      
                       <td>{item.Local ? item.Local.nome : ''}<br></br>
